@@ -5,7 +5,6 @@ export default async function handler(req, res) {
     try {
         if (req.method === "POST") {
             const { titulo } = req.body;
-            console.log(titulo)
             const receita = await procurarReceita(titulo);
             if (receita) {
                 return res.status(200).json(receita);
