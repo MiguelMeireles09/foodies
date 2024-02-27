@@ -1,11 +1,11 @@
 const { getMongoCollection } = require('./mongodb');
 
-const collectionName = "receitas";
+const collectionName = "usuario";
 
-async function findReceitaTitulo(titulo) {
+async function findUser(user) {
     const collection = await getMongoCollection(collectionName);
     const result = await collection.findOne({ titulo: { $eq: titulo } });
     return result;
 }
 
-module.exports = { findReceitaTitulo };
+module.exports = { findUser };

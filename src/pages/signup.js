@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import { Router } from 'next/router'
+import { Router, useRouter } from 'next/router'
 
 export default function SignUp() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
+    nomeUsuario: '',
     email: '',
     password: '',
     confirmacaoPassword: ''
@@ -28,9 +30,9 @@ export default function SignUp() {
         body: JSON.stringify(formData)
       })
       if (response.ok) {
+        router.push('/homepage')
 
         console.log('Cadastro bem-sucedido')
-        router.push('/homepage')
 
       } else {
 
@@ -47,6 +49,17 @@ export default function SignUp() {
     <main className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold mb-4">Sign Up Now</h1>
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
+        <div className="mb-4">
+          <label htmlFor="nomeUsuario" className="block mb-1">Nome usuario</label>
+          <input
+            id="nomeUsuario"
+            name="nomeUsuario"
+            value={formData.nomeUsuario}
+            onChange={handleChange}
+            className="px-3 py-2 border rounded text-black" 
+            required
+          />
+        </div>
         <div className="mb-4">
           <label htmlFor="email" className="block mb-1">Email</label>
           <input
