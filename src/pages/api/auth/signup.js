@@ -13,7 +13,7 @@ export default async function handler(req, res) {
             const checkEmail1 = await checkEmailSignUp(email)
             if (checkEmail1 === null) {
                 if (checkPassword(password, confirmacaoPassword)) {
-                    await createUser(email, password)
+                    await createUser(email, password,nomeUsuario)
 
                     const id = await getId(email)
                     return res.status(201).json({

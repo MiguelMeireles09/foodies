@@ -24,8 +24,8 @@ async function getId(email){
    return res._id.toString()
 }
 
-async function createUser(email, password){
-   await insertUserDataBase(email,password)
+async function createUser(email, password,nomeUsuario){
+   await insertUserDataBase(email,password,nomeUsuario)
 }
 
 
