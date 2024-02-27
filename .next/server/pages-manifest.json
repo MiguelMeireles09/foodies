@@ -2,13 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
   "/": "pages/index.js",
+  "/login": "pages/login.js",
   "/signup": "pages/signup.js"
-=======
-  "/signup": "pages/signup.js",
-  "/homepage": "pages/homepage.js",
-  "/api/auth/login": "pages/api/auth/login.js",
-  "/": "pages/index.js"
->>>>>>> 7cf8abb0d104bdb9e0d021d47d588b8d3e67ac01
 }
