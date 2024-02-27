@@ -20,11 +20,11 @@ export default function Home() {
     fetchReceitas();
   }, []);
 
-  console.log(receitas)
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className='text-lg'>Todas as Receitas</h1>
+      <h1 className='text-red'>Todas as Receitas</h1>
       <ul>
         {receitas.map(receita => {
           console.log(receita);
