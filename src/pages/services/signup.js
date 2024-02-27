@@ -13,7 +13,6 @@ async function checkEmailSignUp(email) {
    if(!account){
       return null
    }
-
 }
 
 function checkPassword(password, confirmacaoPassword) {

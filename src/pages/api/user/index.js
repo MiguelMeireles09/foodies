@@ -4,7 +4,6 @@ import { findToken } from "@/pages/services/tokens";
 export default async function handler(req, res) {
     try {
         const token = req.headers.authorization
-      
         if (!token) {
             return res.status(403).json({ message: "Não foi enviado o token de autenticação!" })
         }

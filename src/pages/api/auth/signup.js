@@ -1,5 +1,4 @@
 import {
-  checkEmail,
   checkEmailSignUp,
   checkPassword,
   createUser,
