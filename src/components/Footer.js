@@ -6,7 +6,7 @@ export default function Footer() {
             <p>
             <span>Nome Projeto</span>
             &copy; 2024</p>
-            <Image src="/heart.png" width="40" height="40" />
+            <Image src="/images/heart.png" width="40" height="40" />
         </footer>
     )
 }
