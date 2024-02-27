@@ -6,7 +6,7 @@ export default function SignUp() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    passwordConfirmation: ''
+    confirmacaoPassword: ''
   })
 
   const handleChange = (e) => {
@@ -71,12 +71,12 @@ export default function SignUp() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="passwordConfirmation" className="block mb-1">Confirm Password</label>
+          <label htmlFor="confirmacaoPassword" className="block mb-1">Confirm Password</label>
           <input
             type="password"
-            id="passwordConfirmation"
-            name="passwordConfirmation"
-            value={formData.passwordConfirmation}
+            id="confirmacaoPassword"
+            name="confirmacaoPassword"
+            value={formData.confirmacaoPassword}
             onChange={handleChange}
             className="px-3 py-2 border rounded text-black"
             required

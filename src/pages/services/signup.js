@@ -9,14 +9,15 @@ async function checkEmail(email) {
 }
 async function checkEmailSignUp(email) {
    const account = await findAccount(email)
+
    if(!account){
       return null
    }
-   throw new Error( "Erro" )
+
 }
 
-function checkPassword(password, passwordConfirmation) {
-      return password === passwordConfirmation
+function checkPassword(password, confirmacaoPassword) {
+      return password === confirmacaoPassword
 }
 
 async function getId(email){
