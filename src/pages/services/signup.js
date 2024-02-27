@@ -12,7 +12,6 @@ async function checkEmailSignUp(email) {
    if(!account){
       return null
    }
-   throw new Error( "Erro" )
 }
 
 function checkPassword(password, passwordConfirmation) {
