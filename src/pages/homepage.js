@@ -1,47 +1,41 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react';
 
 export default function Home() {
-  const router = useRouter()
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
-  const [error, setError] = useState(null)
+  const [receitas, setReceitas] = useState([]);
 
-  const handleChange = (e) => { 
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-
+  const fetchReceitas = async () => {
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
-        router.push('/homepage')
-        console.log('Login successful')
-      } else {
-        setError('Login failed. Please check your credentials.');
+      const response = await fetch('/api/receitas/todasReceitas');
+      if (!response.ok) {
+        throw new Error('Falha ao buscar receitas');
       }
+      const data = await response.json();
+      setReceitas(data);
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Erro ao buscar receitas:', error);
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchReceitas();
+  }, []);
+
+  console.log(receitas)
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen">
-      
-    </main>
-  );
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <h1 className='text-lg'>Todas as Receitas</h1>
+      <ul>
+        {receitas.map(receita => {
+          console.log(receita);
+          return (
+            <li key={receita._id}>
+              <h1>{receita.titulo}</h1>
+              <h3>{receita.modoPreparo}</h3>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );  
 }
