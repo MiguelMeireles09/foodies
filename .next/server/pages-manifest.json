@@ -2,11 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/": "pages/index.js",
-  "/api/receitas/receitas": "pages/api/receitas/receitas.js",
-  "/homepage": "pages/homepage.js"
-=======
-  "/api/receitas/receitas": "pages/api/receitas/receitas.js"
->>>>>>> c6c535162bc6e6e2fa379ec10563bb666c31f962
+  "/api/auth/signup": "pages/api/auth/signup.js",
+  "/signup": "pages/signup.js"
 }

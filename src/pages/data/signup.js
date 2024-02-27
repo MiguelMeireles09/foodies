@@ -8,11 +8,12 @@ async function findAccount(email) {
     return result
 }
 
-async function insertUserDataBase(email,password){
+async function insertUserDataBase(email,password,nomeUsuario){
     const collection = await getMongoCollection(collectionName)
     const result = await collection.insertOne({
         email,
-        password
+        password,
+        nomeUsuario
     })
 }
 

@@ -8,8 +8,7 @@ import {
 /* POST /api/auth/signup */
 export default async function handler(req, res) {
     try {
-        const { email, password, confirmacaoPassword , nomeUsuario , fotoUrl , receitasFav} = req.body
-        
+        const { email, password, confirmacaoPassword , nomeUsuario } = req.body
         if (req.method === "POST") {
             const checkEmail1 = await checkEmailSignUp(email)
             if (checkEmail1 === null) {
@@ -19,7 +18,8 @@ export default async function handler(req, res) {
                     const id = await getId(email)
                     return res.status(201).json({
                         "message": "Utilizador Criado com Sucesso!",
-                        "_id": id
+                        "_id": id,
+                        nomeUsuario
                     });
                 } return res.status(400).json({
                     message: "Os dados introduzidos não são válidos.",
