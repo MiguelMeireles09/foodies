@@ -30,15 +30,13 @@ export default function Home() {
       })
 
       if (response.ok) {
-
         router.push('/homepage')
         console.log('Login successful')
       } else {
-
-        setError('Login failed. Please check your credentials.')
+        setError('Login failed. Please check your credentials.');
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error)
     }
   }
 
@@ -70,12 +68,12 @@ export default function Home() {
           />
         </div>
         <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded">Login</button>
-        {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </form>
       <p className="mb-1">No account?</p>
       <Link href="/signup" className="px-4 py-2 bg-green-500 text-white font-semibold rounded">
         Sign Up
       </Link>
     </main>
-  )
+  );
 }
