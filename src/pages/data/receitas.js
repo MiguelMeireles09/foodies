@@ -1,4 +1,3 @@
-
 const { getMongoCollection } = require('./mongodb');
 
 const collectionName = "receitas";
