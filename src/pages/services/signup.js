@@ -6,7 +6,13 @@ async function checkEmail(email) {
       return account
    }
    throw new Error( "O utilizador não foi encontrado!" )
-   
+}
+async function checkEmailSignUp(email) {
+   const account = await findAccount(email)
+   if(!account){
+      return null
+   }
+   throw new Error( "Erro" )
 }
 
 function checkPassword(password, passwordConfirmation) {
@@ -24,4 +30,4 @@ async function createUser(email, password){
 
 
 
-module.exports = { checkEmail, checkPassword , getId , createUser}
+module.exports = { checkEmail, checkPassword , getId , createUser , checkEmailSignUp}

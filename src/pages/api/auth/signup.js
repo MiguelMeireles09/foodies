@@ -1,4 +1,4 @@
-import { checkEmail, checkPassword, createUser, getId } from "@/pages/services/signup";
+import { checkEmail, checkEmailSignUp, checkPassword, createUser, getId } from "@/pages/services/signup";
 
 /* POST /api/auth/signup */
 export default async function handler(req, res) {
@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         const { email, password, passwordConfirmation } = req.body
         
         if (req.method === "POST") {
-            const checkEmail1 = await checkEmail(email)
+            const checkEmail1 = await checkEmailSignUp(email)
             if (checkEmail1 === null) {
                 if (checkPassword(password, passwordConfirmation)) {
                     await createUser(email, password)
