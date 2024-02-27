@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className='text-red'>Todas as Receitas</h1>
+      <h1 className='text-xl'>Todas as Receitas</h1>
       <ul>
         {receitas.map(receita => {
           console.log(receita);
@@ -33,7 +33,7 @@ export default function Home() {
               <h1>{receita.titulo}</h1>
               <h3>{receita.modoPreparo}</h3>
             </li>
-          );
+          )
         })}
       </ul>
     </div>
