@@ -1,14 +1,16 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-export default function Home() {
- 
-  return (
-    <main className="flex flex-col items-center justify-center min-h-screen w-full p-10">
-      <input placeholder='Qual o alimento que tem para hoje?' className='w-full text-black h-20'>
+const HomePage = () => {
+    const router = useRouter();
 
-      </input>
-    </main>
-  );
-}
+    useEffect(() => {
+        // Redirect to "/foodies" page
+        router.push("/foodies");
+    }, []);
+
+    // No need to return any content since the redirection is automatic
+    return null;
+};
+
+export default HomePage;

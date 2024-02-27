@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import { Router } from 'next/router'
+import { Router, useRouter } from 'next/router'
 
 export default function SignUp() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     nomeUsuario: '',
     email: '',
