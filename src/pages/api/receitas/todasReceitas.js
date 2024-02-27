@@ -1,13 +1,14 @@
 import { procurarReceita } from '@/pages/services/receitas';
+import { procurarReceitas } from '@/pages/services/todasReceitas';
+
 
 export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
-            const { titulo } = req.body;
-            console.log(titulo)
-            const receita = await procurarReceita(titulo);
+            const receita = await procurarReceitas();  
+            console.log(receita )
             if (receita) {
-                return res.status(200).json(receita.categoria);
+                return res.status(200).json(receita);
             } else {
                 return res.status(404).json({ message: "receita not found" });
             }
