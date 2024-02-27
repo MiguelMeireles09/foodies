@@ -3,7 +3,7 @@ const { getMongoCollection } = require("./mongodb");
 
 const collectionName = "sessions"
 
-async function insertSession(email,token , userId) {
+async function insertSession(email,token , userId ) {
     const collection = await getMongoCollection(collectionName);
     await collection.insertOne({ email , token , userId})
 
@@ -38,7 +38,6 @@ async function updateUserSession (userId,token){
 async function findUserSession(userId){
     const collection = await getMongoCollection(collectionName);
     const result = await collection.findOne({ userId: { $eq: userId } })
-
     return result
 }
 
