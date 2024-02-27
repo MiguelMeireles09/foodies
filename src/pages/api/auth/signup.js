@@ -1,4 +1,10 @@
-import { checkEmail, checkEmailSignUp, checkPassword, createUser, getId } from "@/pages/services/signup";
+import {
+  checkEmail,
+  checkEmailSignUp,
+  checkPassword,
+  createUser,
+  getId,
+} from "@/pages/services/signup";
 
 /* POST /api/auth/signup */
 export default async function handler(req, res) {
