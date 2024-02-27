@@ -1,18 +1,14 @@
 import Link from "next/link";
+import Image from "next/image"
+
 
 export default function NavBar() {
     return (
         <nav className="bg-white text-black flex justify-between">
             <div>
-                <h1 className="ml-10 p-3">Nome Projeto</h1>
-            </div>
-            <ul className="mr-10 p-3 flex gap-5">
-                <li>
-                    <Link href="/">Home</Link>
-                </li><li>
-                    <Link href="/">Coisas</Link>
-                </li>
-            </ul>
+          <Image src="/FOODIES.png" className="p-10" width="200" height="40" />
+              
+          </div>
         </nav>
     )
 }
