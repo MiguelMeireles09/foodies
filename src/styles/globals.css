@@ -8,3 +8,15 @@
 body {
   background-color: white; /* Example color */
 }
+
+.footer{
+  width: 390px;;
+}
+
+
+.bg-image {
+  background-image: url('/backgroundLoginSignUp.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

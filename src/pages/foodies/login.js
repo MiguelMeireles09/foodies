@@ -31,7 +31,7 @@ export default function Home() {
 
       if (response.ok) {
 
-        router.push('/homepage')
+        router.push('/foodies/paginaInicial')
         console.log('Login successful')
       } else {
 
@@ -43,11 +43,12 @@ export default function Home() {
   }
 
   return (
+    <div className="bg-image">
     <main className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-3xl font-bold mb-4">Login</h1>
       <form onSubmit={handleSubmit} className="flex flex-col items-center">
         <div className="mb-4">
-          <label htmlFor="email" className="block mb-1">Email</label>
+          <label htmlFor="email" className="block mb-1">E-mail</label>
           <input
             id="email"
             name="email"
@@ -58,7 +59,7 @@ export default function Home() {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block mb-1">Password</label>
+          <label htmlFor="password" className="block mb-1">Palvra-passe</label>
           <input
             type="password"
             id="password"
@@ -69,13 +70,15 @@ export default function Home() {
             required
           />
         </div>
-        <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded">Login</button>
+        <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded">Entrar</button>
         {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
       </form>
-      <p className="mb-1">No account?</p>
-      <Link href="/signup" className="px-4 py-2 bg-green-500 text-white font-semibold rounded">
-        Sign Up
+      <p className="mb-1 p-3">Nao tem conta? Registe-se aqui.</p>
+      <Link href="/foodies/signup" className="px-4 py-2 bg-green-500 text-white font-semibold rounded">
+        Registar
       </Link>
+      <p className="text-2xl text-center pt-10">"O segredo está na receita - descubra-o conosco."</p>
     </main>
+  </div>
   )
 }
