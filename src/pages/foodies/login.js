@@ -28,13 +28,10 @@ export default function Home() {
         },
         body: JSON.stringify(formData),
       })
-
       if (response.ok) {
-
         router.push('/foodies/paginaInicial')
         console.log('Login successful')
       } else {
-
         setError('Login failed. Please check your credentials.')
       }
     } catch (error) {
