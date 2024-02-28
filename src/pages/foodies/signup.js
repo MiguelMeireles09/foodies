@@ -108,7 +108,7 @@ export default function SignUp() {
           </button>
         </form>
         <p className="mt-4">
-          Já tem conta ?{" "}
+          Já tem conta?{" "}
           <Link href="/foodies/login" className="text-blue-500">
             Entrar
           </Link>
