@@ -6,8 +6,9 @@ export default function App({ Component, pageProps, router }) {
   const isLocalHost = router.pathname === '/';
   const isSignUp = router.pathname === '/foodies/signup';
   const islogin = router.pathname === '/foodies/login'
+  const is404 = router.pathname === '/404'
 
-  if (isHomePage || isSignUp || islogin || isLocalHost) {
+  if (isHomePage || isSignUp || islogin || isLocalHost || is404) {
     return <Component {...pageProps} />
   }
 
