@@ -1,12 +1,13 @@
-import Image from "next/image"
+import Image from "next/image";
 
 export default function Footer() {
-    return (
-        <footer className="bg-black text-white fixed w-full bottom-0">
-            <p>
-            <span>Nome Projeto</span>
-            &copy; 2024</p>
-            <Image src="/heart.png" width="40" height="40" />
-        </footer>
-    )
+  return (
+    <footer className="grid justify-center fixed w-full bottom-0">
+      <div className="flex gap-11 justify-center footer pt-2 border-grey ">
+        <Image src="/logofooter.png" width="60" height="60" />
+        <Image src="/heart.png" width="50" height="50" />
+        <Image src="/person1.png" width="50" height="50" />
+      </div>
+    </footer>
+  );
 }
