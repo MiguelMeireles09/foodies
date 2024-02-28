@@ -63,7 +63,7 @@ export default function Home() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border border-cinzaBorder rounded text-black  px-4 py-2 "
+              className="w-full border  border-cinzaBorder rounded text-black  px-4 py-2"
               required
             />
           </div>

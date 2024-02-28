@@ -43,7 +43,7 @@ export default function SignUp() {
 
   return (
     <div className="bg-image">
-      <main className="p-24 flex flex-col items-center justify-center min-h-screen">
+      <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <h1 className="text-3xl font-bold mb-4">LOGO</h1>
         <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
           <div className="mb-4 w-full">
@@ -53,22 +53,22 @@ export default function SignUp() {
               name="nomeUsuario"
               value={formData.nomeUsuario}
               onChange={handleChange}
-              className="px-3 py-2 border rounded text-black"
+              className="w-full border  border-cinzaBorder rounded text-black  px-4 py-2"
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 w-full">
             <input
               placeholder="E-mail"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="px-3 py-2 border rounded text-black"
+              className="w-full border  border-cinzaBorder rounded text-black  px-4 py-2"
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 w-full">
             <input
               placeholder="Palavra Passe"
               type="password"
@@ -76,11 +76,11 @@ export default function SignUp() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="px-3 py-2 border rounded text-black"
+              className="w-full border  border-cinzaBorder rounded text-black  px-4 py-2"
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 w-full">
             <input
               placeholder="Confirmar palavra-passe"
               type="password"
@@ -88,7 +88,7 @@ export default function SignUp() {
               name="confirmacaoPassword"
               value={formData.confirmacaoPassword}
               onChange={handleChange}
-              className="px-3 py-2 border rounded text-black"
+              className="w-full border  border-cinzaBorder rounded text-black  px-4 py-2"
               required
             />
           </div>
