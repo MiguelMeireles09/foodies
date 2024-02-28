@@ -15,13 +15,16 @@ module.exports = {
             "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         },
         colors: {
-          cinza: "#868686",
-        cinzaClaro: "#D9D9D9",
-        verde: "#306754", 
-        butãoInicial: "#252525", 
-        cinzaBorder: "#979797",
+          grey: "#868686",
         },
       },
+      colors: {
+        cinza: "#868686",
+        cinzaClaro: "#D9D9D9",
+        verde: "#306754", 
+        botãoInicial: "#252525", 
+        cinzaBorder: "#979797"
+      }
     },
 
     plugins: [],
