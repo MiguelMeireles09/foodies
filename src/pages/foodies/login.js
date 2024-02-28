@@ -70,11 +70,8 @@ export default function Home() {
         <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded">Entrar</button>
         {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
       </form>
-      <p className="mb-1 p-3">Nao tem conta? Registe-se aqui.</p>
-      <Link href="/foodies/signup" className="px-4 py-2 bg-green-500 text-white font-semibold rounded">
-        Registar
-      </Link>
-      <p className="text-2xl text-center pt-10">"O segredo está na receita - descubra-o conosco."</p>
+      <p className="mb-1 p-3">Nao tem conta? <Link href="/foodies/signup" className="text-blue-500">Registe-se aqui.</Link></p>
+      <p className="text-2xl text-center pt-10">"O segredo está na receita -<br /> descubra-o conosco."</p>
     </main>
   </div>
   )

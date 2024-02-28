@@ -4,11 +4,10 @@
 
 body {
   background-color: white; /* Example color */
-  
+  font-family: "Rufina", serif;
+  font-weight: 400;
+  font-style: normal
 }
-
-
-
 
 .bg-image {
   background-image: url('/backgroundLoginSignUp.png');
