@@ -17,7 +17,7 @@ export default function Home() {
         <Card imagem="/images/ReceitasBaratas.png" nomeComida="Receitas Baratas" href="/foodies/homepage/maisBaratas" />
         <Card imagem="/images/PratosPrincipais.png" nomeComida="Pratos Principais" href="/foodies/homepage/pratosPrincipais" />
         <Card imagem="/images/Sobremesa.png" nomeComida="Sobremesas" href="/foodies/homepage/sobremesas" />
-        <Card imagem="/images/PratosPrincipais.png" nomeComida="CATEGORIA NOVA"  href="/foodies/homepage/novaCategoria" />
+        <Card imagem="/images/Mole.png" nomeComida="Mole"  href="/foodies/homepage/Mole" />
       </div>
     </div>
   );   
