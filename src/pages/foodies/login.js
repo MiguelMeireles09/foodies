@@ -41,38 +41,38 @@ export default function Home() {
 
   return (
     <div className="bg-image">
-    <main className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-3xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col items-center">
-        <div className="mb-4">
-          <label htmlFor="email" className="block mb-1">E-mail</label>
-          <input
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="px-3 py-2 border rounded text-black"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block mb-1">Palvra-passe</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="px-3 py-2 border rounded text-black"
-            required
-          />
-        </div>
-        <button type="submit" className="bg-blue-500 text-white font-semibold py-2 px-4 rounded">Entrar</button>
-        {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
-      </form>
-      <p className="mb-1 p-3">Nao tem conta? <Link href="/foodies/signup" className="text-blue-500">Registe-se aqui.</Link></p>
-      <p className="text-2xl text-center pt-10">"O segredo está na receita -<br /> descubra-o conosco."</p>
-    </main>
-  </div>
+      <main className="flex flex-col items-center justify-center min-h-screen p-24">
+        <h1 className="text-3xl font-bold mb-4">LOGO</h1>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
+          <div className="mb-4 w-full">
+            <input
+              placeholder='Email'
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border  border-cinzaBorder rounded text-black  px-4 py-2"
+              required
+            />
+          </div>
+          <div className="mb-4 w-full">
+            <input
+              placeholder='Password'
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full border border-cinzaBorder rounded text-black  px-4 py-2 "
+              required
+            />
+          </div>
+          <button type="submit" className="bg-verde text-white font-semibold mt-3 py-2 text-bold px-10 rounded">Entrar</button>
+          {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
+        </form>
+        <Link href="/foodies/signup" className="text-verde mt-4">Ou registar</Link>
+        <p className="text-xl font-semibold text-center pt-10 ">"O segredo está na receita -<br /> descubra-o conosco."</p>
+      </main>
+    </div>
   )
 }

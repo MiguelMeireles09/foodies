@@ -43,14 +43,12 @@ export default function SignUp() {
 
   return (
     <div className="bg-image">
-      <main className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-3xl font-bold mb-4">Sign Up Now</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col items-center">
-          <div className="mb-4">
-            <label htmlFor="nomeUsuario" className="block mb-1">
-              Nome usuário
-            </label>
+      <main className="p-24 flex flex-col items-center justify-center min-h-screen">
+        <h1 className="text-3xl font-bold mb-4">LOGO</h1>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
+          <div className="mb-4 w-full">
             <input
+              placeholder="Nome de usuário"
               id="nomeUsuario"
               name="nomeUsuario"
               value={formData.nomeUsuario}
@@ -60,10 +58,8 @@ export default function SignUp() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block mb-1">
-              E-mail
-            </label>
             <input
+              placeholder="E-mail"
               id="email"
               name="email"
               value={formData.email}
@@ -73,10 +69,8 @@ export default function SignUp() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block mb-1">
-              Palvra-passe
-            </label>
             <input
+              placeholder="Palavra Passe"
               type="password"
               id="password"
               name="password"
@@ -87,10 +81,8 @@ export default function SignUp() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="confirmacaoPassword" className="block mb-1">
-              Confirmar palavra-passe
-            </label>
             <input
+              placeholder="Confirmar palavra-passe"
               type="password"
               id="confirmacaoPassword"
               name="confirmacaoPassword"
@@ -100,19 +92,11 @@ export default function SignUp() {
               required
             />
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white font-semibold py-2 px-4 rounded"
-          >
-            Registar
-          </button>
+          <button type="submit" className="bg-verde text-white font-semibold mt-3 py-2 text-bold px-10 rounded">Registar</button>
         </form>
-        <p className="mt-4">
-          Já tem conta?{" "}
-          <Link href="/foodies/login" className="text-blue-500">
-            Entrar
-          </Link>
-        </p>
+        <Link href="/foodies/login" className="text-verde mt-4">
+          Ou entrar
+        </Link>
       </main>
     </div>
   );
