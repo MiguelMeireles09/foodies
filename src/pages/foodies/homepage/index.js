@@ -1,40 +1,23 @@
 // pages/foodies/homepage/index.js
 
+import Card from '@/components/CardPaginaInicial';
 import Link from 'next/link';
 
 export default function Home() {
 
   return (
-    <div className="min-h-screen">
-      <div className='text-3xl text-center py-5'>
-        <Link href="/foodies/homepage/top10">
-          Top 10 Receitas
-        </Link>
-      </div>
-      <div className='text-3xl text-center py-5'>
-        <Link href="/foodies/homepage/maisRapidas">
-          Receitas Rápidas
-        </Link>
-      </div>
-      <div className='text-3xl text-center py-5'>
-        <Link href="/foodies/homepage/maisFaceis">
-          Receitas Fáceis
-        </Link>
-      </div>
-      <div className='text-3xl text-center py-5'>
-        <Link href="/foodies/homepage/maisSaudaveis">
-          Receitas Saudáveis
-        </Link>
-      </div>
-      <div className='text-3xl text-center py-5'>
-        <Link href="/foodies/homepage/maisBaratas">
-          Receitas Baratas
-        </Link>
-      </div>
-      <div className='text-3xl text-center py-5'>
-        <Link href="/foodies/homepage/pratosPrincipais">
-          Pratos Principais
-        </Link>
+    
+    <div className="min-h-screen p-6 ">
+      <p className='font-bold text-center'>“O segredo está na receita - descubra-a connosco.”</p>
+      <div className='flex flex-wrap justify-around pb-4'>
+        <Card imagem="/images/Top10Receitas.png" nomeComida="Top 10 Receitas" href="/foodies/homepage/top10" />
+        <Card imagem="/images/ReceitasRapidas.png" nomeComida="Receitas Rápidas" href="/foodies/homepage/maisRapidas" />
+        <Card imagem="/images/ReceitasFaceis.png" nomeComida="Receitas Fáceis" href="/foodies/homepage/maisFaceis" />
+        <Card imagem="/images/ReceitasSaudaveis.png" nomeComida="Receitas Saudáveis" href="/foodies/homepage/maisSaudaveis" />
+        <Card imagem="/images/ReceitasBaratas.png" nomeComida="Receitas Baratas" href="/foodies/homepage/maisBaratas" />
+        <Card imagem="/images/PratosPrincipais.png" nomeComida="Pratos Principais" href="/foodies/homepage/pratosPrincipais" />
+        <Card imagem="/images/Sobremesa.png" nomeComida="Sobremesas" href="/foodies/homepage/sobremesas" />
+        <Card imagem="/images/PratosPrincipais.png" nomeComida="CATEGORIA NOVA"  href="/foodies/homepage/novaCategoria" />
       </div>
     </div>
   );   

@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div className="bg-image">
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
-        <h1 className="text-3xl font-bold mb-4">LOGO</h1>
+        <img src="https://www.worten.pt/i/9003eef21262369126b8809cfd147315a26e9c96"/>
         <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
           <div className="mb-4 w-full">
             <input
@@ -51,7 +51,7 @@ export default function Home() {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full border  border-cinzaBorder rounded text-black  px-4 py-2"
+              className="w-full border   border-cinzaBorder rounded-lg text-black  px-4 py-2"
               required
             />
           </div>
@@ -63,15 +63,17 @@ export default function Home() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border  border-cinzaBorder rounded text-black  px-4 py-2"
+              className="w-full border  border-cinzaBorder rounded-lg text-black  px-4 py-2"
               required
             />
           </div>
-          <button type="submit" className="bg-verde text-white font-semibold mt-3 py-2 text-bold px-10 rounded">Entrar</button>
+          <button type="submit" className="bg-verde text-white font-semibold mt-3 py-2 text-bold px-10 rounded-lg">Entrar</button>
           {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
         </form>
-        <Link href="/foodies/signup" className="text-verde mt-4">Ou registar</Link>
-        <p className="text-xl font-semibold text-center pt-10 ">"O segredo está na receita -<br /> descubra-o conosco."</p>
+        <Link href="/foodies/signup" className="text-verde  mt-4">Ou registar</Link>
+        <p className="text-xl font-semibold text-center pt-10">"O segredo está na receita -<br /> descubra-o conosco."</p>
+
+        <Link href="/foodies/paginaInicial" className='inset-x-0 bottom-0'>Fazer mais tarde. </Link>
       </main>
     </div>
   )
