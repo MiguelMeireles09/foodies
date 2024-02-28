@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 export default function Card({ imagem, nomeComida , href }) {
@@ -14,5 +13,5 @@ export default function Card({ imagem, nomeComida , href }) {
         <p className='font-sans font-normal text-center p-3 border-t-2 border-cinza text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-black'>{nomeComida}</p>
       </div>
     </div>
-  );
+  )
 }
