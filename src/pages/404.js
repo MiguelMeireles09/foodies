@@ -2,7 +2,7 @@ export default function Custom404() {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center">
         <img src="/images/FOODIES.svg" className="pb-20"/>
-        <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzBtOHBvcnNwOG5vemt2ZXh1aDNzZnZieHRpdmNseWxlbmN2Y3E3aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/rbMDQym45okqt3ZQg0/giphy.gif" className="rounded-xl"/>
+        <img src="https://media2.giphy.com/media/AoA3knwBhBp9c6SUHE/giphy.gif?cid=ecf05e474c1bst1jj1bj90xysob0av9s0g76lhgs09wo9eog&ep=v1_gifs_related&rid=giphy.gif&ct=g" className="rounded-xl"/>
         <h1 className="mb-4 text-6xl font-semibold text-black">404</h1>
         <p className="mb-4 text-lg text-gray-600">Oops! Pareces perdido!</p>
         <div className="animate-bounce">
