@@ -15,5 +15,5 @@ export default function App({ Component, pageProps, router }) {
     <Layout>
       <Component {...pageProps} />
     </Layout>
-  );
+  )
 }
