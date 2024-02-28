@@ -36,17 +36,31 @@ export default function Home() {
   const pratosPrincipais = receitas.filter((e) => e.categoria == "Prato Principal");
 
   return (
-    <div className="min-h-screen ">
-
-      
-      <div className='flex w-full p-8 gap-14'> {/* div a deixar ficar ao criar o card, cards devem ser criados aqui dentro, ver como definir limite para que n sejam criados sempre em linha */}
-        <div className='bg-black rounded-2xl'>
-          <img src="/images/Top10Receitas.png" className='rounded-t-2xl'/>
-          <p className='text-center p-4  border-t-2'>Top 10 Receitas</p> {/* Criar cores que iremos usar no tailwind, exemplo este fundo.  Criar o componente card com este layout */}
+    <div className="min-h-screen p-6 ">
+      <div className='flex flex-wrap justify-around'>
+        <div className='w-full md:w-auto max-w-[calc(40%-1rem)] py-8'> {/* Setting maximum width for each card */}
+          <div className='bg-black rounded-2xl'>
+            <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
+            <p className='text-center p-3 border-t-2'>Top 10 Receitas</p>
+          </div>
         </div>
-        <div className='bg-black rounded-2xl'>
-          <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
-          <p className='text-center p-4 border-t-2 '>Top 10 Receitas</p>
+        <div className='w-full md:w-auto max-w-[calc(40%-1rem)]  py-8'> {/* Setting maximum width for each card */}
+          <div className='bg-black rounded-2xl'>
+            <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
+            <p className='text-center p-3 border-t-2'>Top 10 Receitas</p>
+          </div>
+        </div>
+        <div className='w-full md:w-auto max-w-[calc(40%-1rem)]  py-8'> {/* Setting maximum width for each card */}
+          <div className='bg-black rounded-2xl'>
+            <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
+            <p className='text-center p-3 border-t-2'>Top 10 Receitas</p>
+          </div>
+        </div>
+        <div className='w-full md:w-auto max-w-[calc(40%-1rem)]  py-8'> {/* Setting maximum width for each card */}
+          <div className='bg-black rounded-2xl'>
+            <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
+            <p className='text-center p-3 border-t-2'>Top 10 Receitas</p>
+          </div>
         </div>
       </div>
 
