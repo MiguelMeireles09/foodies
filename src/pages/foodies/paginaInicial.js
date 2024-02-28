@@ -38,28 +38,10 @@ export default function Home() {
   return (
     <div className="min-h-screen p-6 ">
       <div className='flex flex-wrap justify-around'>
-        <div className='w-full md:w-auto max-w-[calc(40%-1rem)] py-8'> {/* Setting maximum width for each card */}
+        <div className='w-full md:w-auto max-w-[calc(45%-1rem)] py-8'> {/* Setting maximum width for each card */}
           <div className='bg-black rounded-2xl'>
             <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
-            <p className='text-center p-3 border-t-2'>Top 10 Receitas</p>
-          </div>
-        </div>
-        <div className='w-full md:w-auto max-w-[calc(40%-1rem)]  py-8'> {/* Setting maximum width for each card */}
-          <div className='bg-black rounded-2xl'>
-            <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
-            <p className='text-center p-3 border-t-2'>Top 10 Receitas</p>
-          </div>
-        </div>
-        <div className='w-full md:w-auto max-w-[calc(40%-1rem)]  py-8'> {/* Setting maximum width for each card */}
-          <div className='bg-black rounded-2xl'>
-            <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
-            <p className='text-center p-3 border-t-2'>Top 10 Receitas</p>
-          </div>
-        </div>
-        <div className='w-full md:w-auto max-w-[calc(40%-1rem)]  py-8'> {/* Setting maximum width for each card */}
-          <div className='bg-black rounded-2xl'>
-            <img src="/images/Top10Receitas.png" className='rounded-t-2xl' />
-            <p className='text-center p-3 border-t-2'>Top 10 Receitas</p>
+            <p className='text-center p-3 border-t-2 font-bold text-sm text-white'>Top 10 Receitas</p>
           </div>
         </div>
       </div>
