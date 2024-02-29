@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function PerfilPage() {
+  const token = localStorage.getItem("token");
+  console.log("token:", token);
+
   return (
     <div className="">
       <div className="flex justify-center perfilImagem">
@@ -14,6 +16,7 @@ export default function PerfilPage() {
             width={200}
             height={200}
           />
+          <div>Nome do utilizador:{`token:${token}`}</div>
         </div>
       </div>
       <Link href="/foodies/login">Terminar Sessao</Link>

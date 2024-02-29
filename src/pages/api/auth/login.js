@@ -7,13 +7,14 @@ import { createTokens } from '@/pages/services/tokens';
 
 export default async function handler(req, res) {
     try {
+        console.log("req.body:", req.body)
         const { email, password } = req.body
+        console.log("email:", email, "password:", password)
         if (req.method === "POST") {
             const account = await checkEmail(email)
             if (await checkEmailPassword(account, password)) {
                 const tokenId = await createTokens(email)
-                console.log(tokenId)
-                return res.status(200).json({token : tokenId })
+                return res.status(200).json({ tokenId, email })
             } else {
                 return res.status(401).json({ message: "A password introduzida é inválida!" });
             }
