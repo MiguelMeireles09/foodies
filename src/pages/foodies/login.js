@@ -1,26 +1,29 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Home() {
-
- const [login, setLogin] = useState(false)
-  const router = useRouter()
+  const [token, setToken] = useState(null);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-  })
-  const [error, setError] = useState(null)
+  });
+  const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   console.log("UserEffect:", token);
+  // }, [token]); // Run this effect whenever `user` state changes
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
       const response = await fetch('/api/auth/login', {
@@ -29,18 +32,24 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      })
+      }); 
       if (response.ok) {
-        setLogin(true)
-        router.push('/foodies/paginaInicial')
-        console.log('Login successful')
+        const userData = await response.json(); // Assuming the response contains user data
+        console.log("userData:",userData)
+        // setToken(userData); // Set user data after successful login
+        router.push({
+          pathname:"/foodies/homepage",
+          query:{token: userData} 
+        });
+
+        console.log('Login successful');
       } else {
-        setError('Login failed. Please check your credentials.')
+        setError('Login failed. Please check your credentials.');
       }
     } catch (error) {
       console.error('Error:', error);
     }
-  }
+  };
 
   return (
     <div className="bg-image min-h-screen ">
@@ -79,5 +88,5 @@ export default function Home() {
         <Link href="/foodies/homepage" className="absolute bottom-0 mb-4 underline underline-offset-2">Fazer mais tarde.</Link>
       </main>
     </div>
-  )
+  );
 }
