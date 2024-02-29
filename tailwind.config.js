@@ -16,7 +16,9 @@ module.exports = {
         cinza: "#868686",
         cinzaClaro: "#D9D9D9",
         verde: "#306754", 
+        verdeClaro:"#7BB197",
         butãoInicial: "#252525"
+
       }
     },
   },
