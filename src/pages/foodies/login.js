@@ -41,8 +41,8 @@ export default function Home() {
 
   return (
     <div className="bg-image">
-      <main className="flex flex-col items-center justify-center min-h-screen p-24">
-        <img src="https://www.worten.pt/i/9003eef21262369126b8809cfd147315a26e9c96"/>
+      <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
+        <img src="/images/FoodiesLogo.svg" className='pb-2'/>
         <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
           <div className="mb-4 w-full">
             <input
@@ -70,10 +70,10 @@ export default function Home() {
           <button type="submit" className="bg-verde text-white font-semibold mt-3 py-2 text-bold px-10 rounded-lg">Entrar</button>
           {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
         </form>
-        <Link href="/foodies/signup" className="text-verde  mt-4">Ou registar</Link>
+        <Link href="/foodies/signup" className="text-verde mt-4">Ou registar</Link>
         <p className="text-xl font-semibold text-center pt-10">"O segredo está na receita -<br /> descubra-o conosco."</p>
 
-        <Link href="/foodies/paginaInicial" className='inset-x-0 bottom-0'>Fazer mais tarde. </Link>
+        <Link href="/foodies/homepage" className="absolute bottom-0 mb-4 underline underline-offset-2">Fazer mais tarde.</Link>
       </main>
     </div>
   )

@@ -44,7 +44,7 @@ export default function SignUp() {
   return (
     <div className="bg-image">
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
-        <h1 className="text-3xl font-bold mb-4">LOGO</h1>
+      <img src="/images/FoodiesLogo.svg" className='pb-2'/>
         <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
           <div className="mb-4 w-full">
             <input
@@ -97,6 +97,7 @@ export default function SignUp() {
         <Link href="/foodies/login" className="text-verde mt-4">
           Ou entrar
         </Link>
+        <Link href="/foodies/homepage" className="absolute bottom-0 mb-4 underline underline-offset-2">Fazer mais tarde.</Link>
       </main>
     </div>
   );
