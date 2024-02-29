@@ -9,10 +9,10 @@ export default function SearchPage() {
   const [alimentosQueNaoQuer, setAlimentosQueNaoQuer] = useState(new Set());
   const [erroIncluir, setErroIncluir] = useState("");
   const [erroExcluir, setErroExcluir] = useState("");
-  
-  //calling function to protect the page 
+
+  //calling function to protect the page
   // to redirect if token not exist
-  protectPage()
+  protectPage();
 
   // Fetch para obter as receitas
   const fetchReceitas = async () => {

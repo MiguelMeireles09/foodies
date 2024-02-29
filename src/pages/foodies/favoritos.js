@@ -1,19 +1,17 @@
 import CardFavoritos from "@/components/CardFavoritos";
-import protectPage from "@/utils/hooks/protectPagesHook";
-import { Router } from "next/router";
-import { useEffect } from "react";
+import  protectPage  from "@/utils/hooks/protectPagesHook";
 
 export default function FavoritosPage() {
-  
-  //calling function to protect the page 
+  //calling function to protect the page
   // to redirect if token not exist
-  protectPage()
-
+  protectPage();
 
   return (
     <div>
-      <div>favoritos</div>
-      <CardFavoritos />
+      <div>
+        <div>favoritos</div>
+        <CardFavoritos />
+      </div>
     </div>
   );
 }
