@@ -1,9 +1,9 @@
 import CardFavoritos from "@/components/CardFavoritos";
 
-const token = localStorage.getItem("token");
-console.log("token:", token);
-
 export default function FavoritosPage() {
+  const token = localStorage.getItem("token");
+  console.log("token:", token);
+
   return (
     <div>
       <div>favoritos{`token:${token}`}</div>

@@ -35,7 +35,7 @@ export default function Home() {
         router.push({
           pathname: "/foodies/perfil",
           query: { token: userData.tokenId },
-        });
+        }, "/foodies/perfil");
 
         console.log("Login successful");
       } else {
