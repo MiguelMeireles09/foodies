@@ -39,8 +39,8 @@ export default function Home() {
       })
       if (response.ok) {
         /* router.push('/foodies/paginaInicial') */
-        const espera = response.json()
-        setToken(espera.tokenId)
+        const espera = await response.json()
+        const token = espera.token
         console.log("token: ",token)
         router.push({pathname:`/foodies/homepage`, query:{token}})
         console.log(setToken)
