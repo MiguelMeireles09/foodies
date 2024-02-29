@@ -2,48 +2,14 @@ import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 
 export default function Home() {
-  const DropdownButton = ({ options, defaultOption }) => {
-    const [selectedOption, setSelectedOption] = useState(defaultOption);
-
-    const handleOptionChange = (event) => {
-      setSelectedOption(event.target.value);
-      // Aqui você pode colocar a lógica para lidar com a mudança de seleção
-      console.log("Opção selecionada:", event.target.value);
-    };
-
-    return (
-      <div className="dropdown">
-        <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-          Dropdown radio
-          <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-          </svg>
-        </button>
-        <div className="dropdown-menu">
-          <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioBgHoverButton">
-            {options.map(option => (
-              <li key={option.value}>
-                <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                  <input id={`option-radio-${option.value}`} type="radio" value={option.value} name="filter-option" checked={selectedOption === option.value} onChange={handleOptionChange} />
-                  <label htmlFor={`option-radio-${option.value}`} className="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{option.label}</label>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    );
-  };
-  
   const [receitas, setReceitas] = useState([]);
-
   const [alimentoQueQuer, setAlimentoQueQuer] = useState("");
   const [alimentoQueNaoQuer, setAlimentoQueNaoQuer] = useState("");
   const [alimentosQueQuer, setAlimentosQueQuer] = useState(new Set());
-  const [alimentosQueNaoQuer, setAlimentosQueNaoQuer] = useState(new Set());
-  
+  const [alimentosQueNaoQuer, setAlimentosQueNaoQuer] = useState(new Set()); 
   const [erroIncluir, setErroIncluir] = useState("");
   const [erroExcluir, setErroExcluir] = useState("");
+
 
   // Fetch para obter as receitas
   const fetchReceitas = async () => {
@@ -74,11 +40,10 @@ export default function Home() {
 
 
   // 'receitasPretendidas' = array com receitas com alimentos que quer e sem os alimentos que não quer
-  const receitasPretendidas = receitas.filter(receita =>
+  let receitasPretendidas = receitas.filter(receita =>
     Array.from(alimentosQueQuer).every(alimento => receita.ingredientes.includes(alimento)) &&
     !Array.from(alimentosQueNaoQuer).some(alimento => receita.ingredientes.includes(alimento))
   );
-
 
 
   // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
@@ -107,6 +72,7 @@ export default function Home() {
     setAlimentoQueQuer("");                                                                  // Limpa o campo de entrada
   };
 
+
   // Função que é executada quando o form 'EXCLUIR' é submetido (carregando no enter)
   const handleExcluir = (e) => {
     e.preventDefault();                                                         // Evita o comportamento padrão de recarregar a página ao enviar o formulário
@@ -132,12 +98,14 @@ export default function Home() {
     setAlimentoQueNaoQuer("");                                                                     // Limpa o campo de entrada
   };
 
+
   // Função para remover um alimento da lista de alimentos que quer
   const handleRemoverAlimentoQueQuer = (alimento) => {
     const newAlimentosQueQuer = new Set(alimentosQueQuer);
     newAlimentosQueQuer.delete(alimento);
     setAlimentosQueQuer(newAlimentosQueQuer);
   };
+
 
   // Função para remover um alimento da lista de alimentos que não quer
   const handleRemoverAlimentoQueNaoQuer = (alimento) => {
@@ -146,53 +114,105 @@ export default function Home() {
     setAlimentosQueNaoQuer(newAlimentosQueNaoQuer);
   };
 
-  // Opções para cada botão de filtragem
-  const difficultyOptions = [
-    { label: "Fácil", value: "easy" },
-    { label: "Média", value: "medium" },
-    { label: "Difícil", value: "hard" },
-  ];
 
-  const categoryOptions = [
-    { label: "Entrada", value: "appetizer" },
-    { label: "Sobremesa", value: "dessert" },
-    { label: "Prato Principal", value: "mainCourse" },
-    { label: "Lanches", value: "snacks" },
-  ];
+  // Funções para filtrar consoante opções nos botões
+  const handleDificuldadeChange = (event) => {
+    const dificuldadeSelecionada = event.target.value;
+    if (dificuldadeSelecionada == "Médio") {
+      const dificuldade = receitas.filter(e => e.dificuldade === dificuldadeSelecionada || e.dificuldade === "Média");
+      setReceitas(dificuldade);
+    }
+    else {
+      const dificuldade = receitas.filter(e => e.dificuldade === dificuldadeSelecionada);
+      setReceitas(dificuldade);
+    }
+  };
 
-  const caloriesOptions = [
-    { label: "Mais calorias primeiro", value: "highToLow" },
-    { label: "Menos calorias primeiro", value: "lowToHigh" },
-  ];
+  const handleCategoriaChange = (event) => {
+    const categoriaSelecionada = event.target.value;
+    if (categoriaSelecionada == "Entradas") {
+      const categoria = receitas.filter(e => e.categoria === "Entrada");
+      setReceitas(categoria);
+    }
+    if (categoriaSelecionada == "Pratos Principais") {
+      const categoria = receitas.filter(e => e.categoria === "Prato Principal");
+      setReceitas(categoria);
+    }
+    if (categoriaSelecionada == "Sobremesas") {
+      const categoria = receitas.filter(e => e.categoria === "Sobremesa");
+      setReceitas(categoria);
+    }
+    else if (categoriaSelecionada == "Lanches") {
+      const categoria = receitas.filter(e => e.categoria === "Lanche");
+      setReceitas(categoria);
+    }
+  };
 
-  const priceOptions = [
-    { label: "Mais baratas primeiro", value: "lowToHigh" },
-    { label: "Mais caras primeiro", value: "highToLow" },
-  ];
+  const handleCaloriasChange = (event) => {
+    const caloriasSelecionadas = event.target.value;
+    console.log(caloriasSelecionadas)
+    if (caloriasSelecionadas == "Mais caloricas primeiro") { 
+      const calorias = receitas.sort((a, b) => b.calorias - a.calorias)
+      setReceitas(calorias);
+    }
+    console.log(calorias);
+    if (caloriasSelecionadas == "Menos caloricas primeiro") { 
+      const calorias = receitas.sort((a, b) => a.calorias - b.calorias)
+      setReceitas(calorias);
+    }
+  };
 
+  const handlePrecoChange = (event) => {
+    const precoSelecionado = event.target.value;
+    if (precoSelecionado == "Mais caras primeiro") { 
+      const preco = receitas.sort((a, b) => b.preco - a.preco)
+      setReceitas(preco);
+    }
+    else if (precoSelecionado == "Mais baratas primeiro") { 
+      const preco = receitas.sort((a, b) => a.preco - b.preco)
+      setReceitas(preco);
+    }
+  };
 
 
   return (
     <main className="flex flex-col items-center justify-center text-center min-h-screen w-full p-10" >
-      {/* Botão de filtragem por dificuldade */}
-      <div className="text-3xl text-center py-5">
-        <DropdownButton options={difficultyOptions} defaultOption="easy" />
-      </div>
-      
-      {/* Botão de filtragem por categoria */}
-      <div className="text-3xl text-center py-5">
-        <DropdownButton options={categoryOptions} defaultOption="appetizer" />
-      </div>
-      
-      {/* Botão de filtragem por calorias */}
-      <div className="text-3xl text-center py-5">
-        <DropdownButton options={caloriesOptions} defaultOption="highToLow" />
-      </div>
-      
-      {/* Botão de filtragem por preço */}
-      <div className="text-3xl text-center py-5">
-        <DropdownButton options={priceOptions} defaultOption="lowToHigh" />
-      </div>
+
+    {/* Botões de filtragem */}
+    <button>
+        <select onChange={handleDificuldadeChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+            <option disabled selected>Dificuldade</option>
+            <option>Fácil</option>
+            <option>Média</option>
+            <option>Difícil</option>
+        </select>
+    </button>
+
+    <button>
+        <select onChange={handleCategoriaChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+            <option disabled selected>Categoria</option>
+            <option>Entradas</option>
+            <option>Pratos Principais</option>
+            <option>Sobremesas</option>
+            <option>Lanches</option>
+        </select>
+    </button>
+
+    <button>
+        <select onChange={handleCaloriasChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+            <option disabled selected>Calorias</option>
+            <option>Mais caloricas primeiro</option>
+            <option>Menos caloricas primeiro</option>
+        </select>
+    </button>
+
+    <button>
+        <select onChange={handlePrecoChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+            <option disabled selected>Preço</option>
+            <option>Mais baratas primeiro</option>
+            <option>Mais caras primeiro</option>
+        </select>
+    </button>
 
 
       {/* Mostra a mensagem de erro do incluir alimento, se houver */}
@@ -248,11 +268,15 @@ export default function Home() {
       {/* Cards de receitas pretendidas */}
       <p className='text-3xl text-center py-5'>Receitas:</p>
 
-      {receitasPretendidas.map(e => 
+      {receitas.map(e => 
       <div>
         <img src={e.fotoReceita}></img>
         <p className='text-2xl py-2'>{e.titulo}</p>
         <p>{e.ingredientes}</p>
+        <p>{e.dificuldade}</p>
+        <p>{e.categoria}</p>
+        <p>{e.calorias}</p>
+        <p>{e.preco}</p>
       </div>
       )}
       
