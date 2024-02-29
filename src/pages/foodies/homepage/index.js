@@ -6,8 +6,7 @@ import Link from 'next/link';
 export default function Home() {
 
   return (
-    
-    <div className="min-h-screen p-6  ">
+    <div className="py-6 min-h-screen px-8 md:px-14 lg:px-20 xl:px-28 ">
       <p className=' text-center font-bold  text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl'>“O segredo está na receita - descubra-a connosco.”</p>
       <div className='flex flex-wrap justify-around pb-4'>
         <Card imagem="/images/Top10Receitas.png" nomeComida="Top 10 Receitas" href="/foodies/homepage/top10" />
