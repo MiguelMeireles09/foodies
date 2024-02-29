@@ -3,6 +3,8 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 export default function Home() {
+
+ const [login, setLogin] = useState(false)
   const router = useRouter()
   const [formData, setFormData] = useState({
     email: '',
@@ -29,6 +31,7 @@ export default function Home() {
         body: JSON.stringify(formData),
       })
       if (response.ok) {
+        setLogin(true)
         router.push('/foodies/paginaInicial')
         console.log('Login successful')
       } else {
