@@ -3,6 +3,7 @@
 import Card from '@/components/CardPaginaInicial';
 
 
+
 export default function Home() {
   
   return (

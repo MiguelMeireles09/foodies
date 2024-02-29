@@ -1,14 +1,13 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-import CardFavoritos from '@/components/CardFavoritos';
+import CardFavoritos from "@/components/CardFavoritos";
+
+const token = localStorage.getItem("token");
+console.log("token:", token);
 
 export default function FavoritosPage() {
- 
   return (
     <div>
-    <h1>Os teus favoritos</h1>
-        <CardFavoritos/>
+      <div>favoritos{`token:${token}`}</div>
+      <CardFavoritos />
     </div>
   );
 }

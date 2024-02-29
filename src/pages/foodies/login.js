@@ -1,19 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Home() {
-  const [token, setToken] = useState(null);
   const router = useRouter();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
   const [error, setError] = useState(null);
-
-  // useEffect(() => {
-  //   console.log("UserEffect:", token);
-  // }, [token]); // Run this effect whenever `user` state changes
 
   const handleChange = (e) => {
     setFormData({
@@ -26,39 +21,42 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      }); 
+      });
       if (response.ok) {
-        const userData = await response.json(); // Assuming the response contains user data
-        console.log("userData:",userData)
-        // setToken(userData); // Set user data after successful login
+        const userData = await response.json();
+        localStorage.setItem("token", userData.tokenId);
+        // console.log("userData:", userData);
         router.push({
-          pathname:"/foodies/homepage",
-          query:{token: userData} 
+          pathname: "/foodies/perfil",
+          query: { token: userData.tokenId },
         });
 
-        console.log('Login successful');
+        console.log("Login successful");
       } else {
-        setError('Login failed. Please check your credentials.');
+        setError("Login failed. Please check your credentials.");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
   return (
     <div className="bg-image min-h-screen ">
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
-        <img src="/images/FoodiesLogo.svg" className='pb-2'/>
-        <form onSubmit={handleSubmit} className="flex md:px-14 lg:px-20 xl:px-40 flex-col items-center w-full">
+        <img src="/images/FoodiesLogo.svg" className="pb-2" />
+        <form
+          onSubmit={handleSubmit}
+          className="flex md:px-14 lg:px-20 xl:px-40 flex-col items-center w-full"
+        >
           <div className="mb-4 w-full">
             <input
-              placeholder='Email'
+              placeholder="Email"
               id="email"
               name="email"
               value={formData.email}
@@ -69,7 +67,7 @@ export default function Home() {
           </div>
           <div className="mb-4 w-full">
             <input
-              placeholder='Password'
+              placeholder="Password"
               type="password"
               id="password"
               name="password"
@@ -79,13 +77,28 @@ export default function Home() {
               required
             />
           </div>
-          <button type="submit" className="bg-verde text-white font-semibold mt-3 py-2 text-bold px-10 rounded-lg">Entrar</button>
-          {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
+          <button
+            type="submit"
+            className="bg-verde text-white font-semibold mt-3 py-2 text-bold px-10 rounded-lg"
+          >
+            Entrar
+          </button>
+          {error && <p className="text-red-500 mt-2">{error}</p>}{" "}
+          {/* Exibir mensagem de erro se houver */}
         </form>
-        <Link href="/foodies/signup" className="text-verde mt-4">Ou registar</Link>
-        <p className="text-xl font-semibold text-center pt-10">"O segredo está na receita -<br /> descubra-o conosco."</p>
+        <Link href="/foodies/signup" className="text-verde mt-4">
+          Ou registar
+        </Link>
+        <p className="text-xl font-semibold text-center pt-10">
+          "O segredo está na receita -<br /> descubra-o conosco."
+        </p>
 
-        <Link href="/foodies/homepage" className="absolute bottom-0 mb-4 underline underline-offset-2">Fazer mais tarde.</Link>
+        <Link
+          href="/foodies/homepage"
+          className="absolute bottom-0 mb-4 underline underline-offset-2"
+        >
+          Fazer mais tarde.
+        </Link>
       </main>
     </div>
   );
