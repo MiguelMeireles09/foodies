@@ -8,9 +8,13 @@ export default function App({ Component, pageProps, router }) {
   const islogin = router.pathname === '/foodies/login'
   const is404 = router.pathname === '/404'
 
+ 
+
+
   if (isHomePage || isSignUp || islogin || isLocalHost || is404) {
     return <Component {...pageProps} />
   }
+
 
   return (
     <Layout>

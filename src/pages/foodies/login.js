@@ -1,27 +1,34 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 export default function Home() {
 
- const [login, setLogin] = useState(false)
+ 
   const router = useRouter()
+  
+  
+  const [token, setToken] = useState("")
+  
+  useEffect(()=>{
+  },[token])
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
   const [error, setError] = useState(null)
-
+  
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
   }
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
-
+    
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -31,8 +38,12 @@ export default function Home() {
         body: JSON.stringify(formData),
       })
       if (response.ok) {
-        setLogin(true)
-        router.push('/foodies/paginaInicial')
+        /* router.push('/foodies/paginaInicial') */
+        const espera = response.json()
+        setToken(espera.tokenId)
+        console.log("token: ",token)
+        router.push({pathname:`/foodies/homepage`, query:{token}})
+        console.log(setToken)
         console.log('Login successful')
       } else {
         setError('Login failed. Please check your credentials.')
@@ -41,7 +52,7 @@ export default function Home() {
       console.error('Error:', error);
     }
   }
-
+  
   return (
     <div className="bg-image min-h-screen ">
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
@@ -70,12 +81,13 @@ export default function Home() {
               required
             />
           </div>
+         {/*  <Link href={`/foodies/homepage?token=${token}`} > */}
           <button type="submit" className="bg-verde text-white font-semibold mt-3 py-2 text-bold px-10 rounded-lg">Entrar</button>
+         {/*  </Link> */}
           {error && <p className="text-red-500 mt-2">{error}</p>} {/* Exibir mensagem de erro se houver */}
         </form>
         <Link href="/foodies/signup" className="text-verde mt-4">Ou registar</Link>
         <p className="text-xl font-semibold text-center pt-10">"O segredo está na receita -<br /> descubra-o conosco."</p>
-
         <Link href="/foodies/homepage" className="absolute bottom-0 mb-4 underline underline-offset-2">Fazer mais tarde.</Link>
       </main>
     </div>

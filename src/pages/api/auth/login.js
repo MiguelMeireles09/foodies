@@ -12,7 +12,8 @@ export default async function handler(req, res) {
             const account = await checkEmail(email)
             if (await checkEmailPassword(account, password)) {
                 const tokenId = await createTokens(email)
-                return res.status(200).json({ tokenId })
+                console.log(tokenId)
+                return res.status(200).json({token : tokenId })
             } else {
                 return res.status(401).json({ message: "A password introduzida é inválida!" });
             }

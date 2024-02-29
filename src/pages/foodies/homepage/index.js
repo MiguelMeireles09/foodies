@@ -1,9 +1,14 @@
 // pages/foodies/homepage/index.js
 
 import Card from '@/components/CardPaginaInicial';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter()
+  const {token}= router.query
 
+  
+  console.log(token)
   return (
     <div className="py-6 min-h-screen px-8 md:px-14 lg:px-20 xl:px-28 ">
       <p className=' text-center font-bold  text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl'>“O segredo está na receita - descubra-a connosco.”</p>
