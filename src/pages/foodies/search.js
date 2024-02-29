@@ -1,3 +1,4 @@
+import protectPage from "@/utils/hooks/protectPagesHook";
 import React, { useEffect, useState } from "react";
 
 export default function SearchPage() {
@@ -9,8 +10,9 @@ export default function SearchPage() {
   const [erroIncluir, setErroIncluir] = useState("");
   const [erroExcluir, setErroExcluir] = useState("");
   
-  const token = localStorage.getItem("token");
-  console.log("token:", token);
+  //calling function to protect the page 
+  // to redirect if token not exist
+  protectPage()
 
   // Fetch para obter as receitas
   const fetchReceitas = async () => {
