@@ -142,7 +142,7 @@ export default function Home() {
       const categoria = receitas.filter(e => e.categoria === "Sobremesa");
       setReceitas(categoria);
     }
-    else if (categoriaSelecionada == "Lanches") {
+    if (categoriaSelecionada == "Lanches") {
       const categoria = receitas.filter(e => e.categoria === "Lanche");
       setReceitas(categoria);
     }
@@ -150,14 +150,12 @@ export default function Home() {
 
   const handleCaloriasChange = (event) => {
     const caloriasSelecionadas = event.target.value;
-    console.log(caloriasSelecionadas)
     if (caloriasSelecionadas == "Mais caloricas primeiro") { 
-      const calorias = receitas.sort((a, b) => b.calorias - a.calorias)
+      const calorias = [...receitas].sort((a, b) => b.calorias - a.calorias)
       setReceitas(calorias);
     }
-    console.log(calorias);
     if (caloriasSelecionadas == "Menos caloricas primeiro") { 
-      const calorias = receitas.sort((a, b) => a.calorias - b.calorias)
+      const calorias = [...receitas].sort((a, b) => a.calorias - b.calorias)
       setReceitas(calorias);
     }
   };
@@ -165,11 +163,11 @@ export default function Home() {
   const handlePrecoChange = (event) => {
     const precoSelecionado = event.target.value;
     if (precoSelecionado == "Mais caras primeiro") { 
-      const preco = receitas.sort((a, b) => b.preco - a.preco)
+      const preco = [...receitas].sort((a, b) => b.preco - a.preco)
       setReceitas(preco);
     }
-    else if (precoSelecionado == "Mais baratas primeiro") { 
-      const preco = receitas.sort((a, b) => a.preco - b.preco)
+    if (precoSelecionado == "Mais baratas primeiro") { 
+      const preco = [...receitas].sort((a, b) => a.preco - b.preco)
       setReceitas(preco);
     }
   };
@@ -179,107 +177,99 @@ export default function Home() {
     <main className="flex flex-col items-center justify-center text-center min-h-screen w-full p-10" >
 
     {/* Botões de filtragem */}
-    <button>
-        <select onChange={handleDificuldadeChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-            <option disabled selected>Dificuldade</option>
-            <option>Fácil</option>
-            <option>Média</option>
-            <option>Difícil</option>
-        </select>
-    </button>
+    <select onChange={handleDificuldadeChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+        <option disabled selected>Dificuldade</option>
+        <option>Fácil</option>
+        <option>Média</option>
+        <option>Difícil</option>
+    </select>
 
-    <button>
-        <select onChange={handleCategoriaChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-            <option disabled selected>Categoria</option>
-            <option>Entradas</option>
-            <option>Pratos Principais</option>
-            <option>Sobremesas</option>
-            <option>Lanches</option>
-        </select>
-    </button>
+    <select onChange={handleCategoriaChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+        <option disabled selected>Categoria</option>
+        <option>Entradas</option>
+        <option>Pratos Principais</option>
+        <option>Sobremesas</option>
+        <option>Lanches</option>
+    </select>
 
-    <button>
-        <select onChange={handleCaloriasChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-            <option disabled selected>Calorias</option>
-            <option>Mais caloricas primeiro</option>
-            <option>Menos caloricas primeiro</option>
-        </select>
-    </button>
+    <select onChange={handleCaloriasChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+        <option disabled selected>Calorias</option>
+        <option>Mais caloricas primeiro</option>
+        <option>Menos caloricas primeiro</option>
+    </select>
 
-    <button>
-        <select onChange={handlePrecoChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-            <option disabled selected>Preço</option>
-            <option>Mais baratas primeiro</option>
-            <option>Mais caras primeiro</option>
-        </select>
-    </button>
+    <select onChange={handlePrecoChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
+        <option disabled selected>Preço</option>
+        <option>Mais baratas primeiro</option>
+        <option>Mais caras primeiro</option>
+    </select>
 
 
-      {/* Mostra a mensagem de erro do incluir alimento, se houver */}
-      {erroIncluir && <p className="text-red-500">{erroIncluir}</p>}
+    {/* Mostra a mensagem de erro do incluir alimento, se houver */}
+    {erroIncluir && <p className="text-red-500">{erroIncluir}</p>}
 
-      {/* Barra de pesquisa para incluir alimento */}
-      <form onSubmit={handleIncluir}>
-          <input list="alimentoQueQuer" type="text" placeholder="INCLUIR" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
-          <datalist id="alimentoQueQuer">
-              {alimentosUnicosArray.map((e, index) => (
-                  <option key={index} value={e} />
-              ))}
-          </datalist>
-      </form>
+    {/* Barra de pesquisa para incluir alimento */}
+    <form onSubmit={handleIncluir}>
+        <input list="alimentoQueQuer" type="text" placeholder="INCLUIR" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
+        <datalist id="alimentoQueQuer">
+            {alimentosUnicosArray.map((e, index) => (
+                <option key={index} value={e} />
+            ))}
+        </datalist>
+    </form>
 
-      {/* Lista de alimentos a incluir */}
-      <p className='text-xl pt-5'>Lista de Alimentos a INCLUIR:</p>
-      <ul className="flex flex-wrap gap-4">
-        {Array.from(alimentosQueQuer).map((alimento, index) => (
-          <li key={index} className="flex items-center">
-            <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
-            <span className="ml-2">{alimento}</span>
-          </li>
-        ))}
-      </ul>
-
-
-      {/* Mostra a mensagem de erro do excluir alimento, se houver */}
-      {erroExcluir && <p className="text-red-500">{erroExcluir}</p>}
-
-      {/* Barra de pesquisa para excluir alimento*/}
-      <form onSubmit={handleExcluir}>
-          <input list="alimentoQueNaoQuer" type="text" placeholder="EXCLUIR" value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
-          <datalist id="alimentoQueNaoQuer">
-              {alimentosUnicosArray.map((e, index) => (
-                  <option key={index} value={e} />
-              ))}
-          </datalist>
-      </form>
-
-      {/* Lista de alimentos a excluir */}
-      <p className='text-xl pt-5'>Lista de Alimentos a EXCLUIR:</p>
-      <ul className="flex flex-wrap gap-4">
-        {Array.from(alimentosQueNaoQuer).map((alimento, index) => (
-          <li key={index} className="flex items-center">
-            <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
-            <span className="ml-2">{alimento}</span>
-          </li>
-        ))}
-      </ul>
+    {/* Lista de alimentos a incluir */}
+    <p className='text-xl pt-5'>Lista de Alimentos a INCLUIR:</p>
+    <ul className="flex flex-wrap gap-4">
+      {Array.from(alimentosQueQuer).map((alimento, index) => (
+        <li key={index} className="flex items-center">
+          <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
+          <span className="ml-2">{alimento}</span>
+        </li>
+      ))}
+    </ul>
 
 
-      {/* Cards de receitas pretendidas */}
-      <p className='text-3xl text-center py-5'>Receitas:</p>
+    {/* Mostra a mensagem de erro do excluir alimento, se houver */}
+    {erroExcluir && <p className="text-red-500">{erroExcluir}</p>}
 
-      {receitas.map(e => 
-      <div>
-        <img src={e.fotoReceita}></img>
-        <p className='text-2xl py-2'>{e.titulo}</p>
-        <p>{e.ingredientes}</p>
-        <p>{e.dificuldade}</p>
-        <p>{e.categoria}</p>
-        <p>{e.calorias}</p>
-        <p>{e.preco}</p>
-      </div>
-      )}
+    {/* Barra de pesquisa para excluir alimento*/}
+    <form onSubmit={handleExcluir}>
+        <input list="alimentoQueNaoQuer" type="text" placeholder="EXCLUIR" value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
+        <datalist id="alimentoQueNaoQuer">
+            {alimentosUnicosArray.map((e, index) => (
+                <option key={index} value={e} />
+            ))}
+        </datalist>
+    </form>
+
+    {/* Lista de alimentos a excluir */}
+    <p className='text-xl pt-5'>Lista de Alimentos a EXCLUIR:</p>
+    <ul className="flex flex-wrap gap-4">
+      {Array.from(alimentosQueNaoQuer).map((alimento, index) => (
+        <li key={index} className="flex items-center">
+          <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
+          <span className="ml-2">{alimento}</span>
+        </li>
+      ))}
+    </ul>
+
+
+    {/* Cards de receitas pretendidas */}
+    <p className='text-3xl text-center py-5'>Receitas:</p>
+
+    {receitas.map(e => 
+    <div>
+      <img src={e.fotoReceita}></img>
+      <p className='text-2xl py-2'>{e.titulo}</p>
+      <p>{e.ingredientes}</p>
+      <p>{e.dificuldade}</p>
+      <p>{e.categoria}</p>
+      <p>{e.calorias}</p>
+      <p>{e.preco}</p>
+    </div>
+    )}
       
-    </main>
+  </main>
   );
 }
