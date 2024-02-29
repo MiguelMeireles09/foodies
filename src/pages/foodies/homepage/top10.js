@@ -22,7 +22,7 @@ export default function Top10() {
     fetchReceitas();
   }, []);
 
-  const receitasOrdenadasPorLikes = receitas.sort((a, b) => b.likes - a.likes);
+  const receitasOrdenadasPorLikes = [...receitas].sort((a, b) => b.likes - a.likes);
   const top10Receitas = receitasOrdenadasPorLikes.slice(0, 10);
 
   return (
