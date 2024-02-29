@@ -1,15 +1,17 @@
-import { router, useRouter } from "next/router";
+import { router } from "next/router";
 import { useEffect } from "react";
-import { isAuthenticated } from "../auth";
 
 export default function protectPage() {
-  const router = useRouter();
   useEffect(() => {
-    const isAuth = isAuthenticated;
-    console.log("isAuth:", isAuth)
-    if (!isAuth) {
-      router.push("/foodies/login");
+    // Check if localStorage is available (client-side only)
+    if (typeof window !== "undefined") {
+      // Check if token exists in localStorage
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.log("tokenperfil:", token);
+        // If token doesn't exist, redirect to login page
+        router.push("/foodies/login");
+      }
     }
   }, []);
 }
-
