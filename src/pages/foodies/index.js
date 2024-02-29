@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Link from 'next/link';
 
 export default function Home() {
   const [receitas, setReceitas] = useState([]);
@@ -174,43 +173,45 @@ export default function Home() {
 
 
   return (
-    <main className="flex flex-col items-center justify-center text-center min-h-screen w-full p-10" >
+    <main className="flex flex-col items-center justify-center text-center w-full overflow-hidden min-h-screen px-8 md:px-14 lg:px-20 xl:px-28" >
 
     {/* Botões de filtragem */}
-    <select onChange={handleDificuldadeChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-        <option disabled selected>Dificuldade</option>
-        <option>Fácil</option>
-        <option>Média</option>
-        <option>Difícil</option>
-    </select>
+    <div className="flex space-x-2">
+      <select onChange={handleDificuldadeChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+          <option disabled selected>Dificuldade ▿</option>
+          <option>Fácil</option>
+          <option>Média</option>
+          <option>Difícil</option>
+      </select>
 
-    <select onChange={handleCategoriaChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-        <option disabled selected>Categoria</option>
-        <option>Entradas</option>
-        <option>Pratos Principais</option>
-        <option>Sobremesas</option>
-        <option>Lanches</option>
-    </select>
+      <select onChange={handleCategoriaChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+          <option disabled selected>Categoria ▿</option>
+          <option>Entradas</option>
+          <option>Pratos Principais</option>
+          <option>Sobremesas</option>
+          <option>Lanches</option>
+      </select>
 
-    <select onChange={handleCaloriasChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-        <option disabled selected>Calorias</option>
-        <option>Mais caloricas primeiro</option>
-        <option>Menos caloricas primeiro</option>
-    </select>
+      <select onChange={handleCaloriasChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro  border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+          <option disabled selected>Calorias ▿</option>
+          <option>Mais caloricas primeiro</option>
+          <option>Menos caloricas primeiro</option>
+      </select>
 
-    <select onChange={handlePrecoChange} className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-indigo-600">
-        <option disabled selected>Preço</option>
-        <option>Mais baratas primeiro</option>
-        <option>Mais caras primeiro</option>
-    </select>
+      <select onChange={handlePrecoChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+          <option disabled selected>Preço ▿</option>
+          <option>Mais baratas primeiro</option>
+          <option>Mais caras primeiro</option>
+      </select>
+    </div>
 
 
     {/* Mostra a mensagem de erro do incluir alimento, se houver */}
     {erroIncluir && <p className="text-red-500">{erroIncluir}</p>}
 
     {/* Barra de pesquisa para incluir alimento */}
-    <form onSubmit={handleIncluir}>
-        <input list="alimentoQueQuer" type="text" placeholder="INCLUIR" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
+    <form onSubmit={handleIncluir} className="flex w-full my-3">
+        <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
         <datalist id="alimentoQueQuer">
             {alimentosUnicosArray.map((e, index) => (
                 <option key={index} value={e} />
