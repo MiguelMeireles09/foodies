@@ -1,7 +1,6 @@
 // pages/foodies/homepage/index.js
 
 import Card from '@/components/CardPaginaInicial';
-import Link from 'next/link';
 
 export default function Home() {
 

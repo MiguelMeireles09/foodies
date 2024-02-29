@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
             const receita = await procurarReceitas();  
-            console.log(receita )
+     
             if (receita) {
                 return res.status(200).json(receita);
             } else {

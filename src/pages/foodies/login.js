@@ -40,10 +40,10 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-image">
+    <div className="bg-image min-h-screen ">
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
         <img src="/images/FoodiesLogo.svg" className='pb-2'/>
-        <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
+        <form onSubmit={handleSubmit} className="flex md:px-14 lg:px-20 xl:px-40 flex-col items-center w-full">
           <div className="mb-4 w-full">
             <input
               placeholder='Email'
