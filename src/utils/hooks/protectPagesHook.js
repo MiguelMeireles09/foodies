@@ -17,7 +17,6 @@ export default function protectPage( children ) {
           router.push("/foodies/login");
           return;
         }
-
         // Fetch user data using the token
         try {
           const response = await fetch("/api/user/verificaToken", {
