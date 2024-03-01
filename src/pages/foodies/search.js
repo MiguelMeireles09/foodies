@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 export default function SearchPage() {
   const [receitas, setReceitas] = useState([]);
+  const [receitasOriginais, setReceitasOriginais] = useState([]);
   const [alimentoQueQuer, setAlimentoQueQuer] = useState("");
   const [alimentoQueNaoQuer, setAlimentoQueNaoQuer] = useState("");
   const [alimentosQueQuer, setAlimentosQueQuer] = useState(new Set());
@@ -13,6 +14,9 @@ export default function SearchPage() {
   //calling function to protect the page 
   // to redirect if token not exist
   protectPage()
+  const [filtroDificuldade, setFiltroDificuldade] = useState(null);
+  const [filtroCategoria, setFiltroCategoria] = useState(null);
+  // outros estados e funções de filtro
 
   // Fetch para obter as receitas
   const fetchReceitas = async () => {
@@ -22,6 +26,7 @@ export default function SearchPage() {
         throw new Error("Falha ao buscar receitas");
       }
       const data = await response.json();
+      setReceitasOriginais(data);
       setReceitas(data);
     } catch (error) {
       console.error("Erro ao buscar receitas:", error);
@@ -32,6 +37,57 @@ export default function SearchPage() {
     fetchReceitas();
   }, []);
 
+  // Funções para aplicar filtros
+  const aplicarFiltros = () => {
+    let receitasFiltradas = [...receitasOriginais];
+
+    // Aplicar filtro de dificuldade
+    if (filtroDificuldade) {
+      receitasFiltradas = receitasFiltradas.filter(receita => receita.dificuldade === filtroDificuldade);
+    }
+
+    // Aplicar filtro de categoria
+    if (filtroCategoria == "Entradas") {
+      receitasFiltradas = receitasFiltradas.filter(receita => receita.categoria === "Entrada");
+    }
+
+    if (filtroCategoria == "Pratos Principais") {
+      receitasFiltradas = receitasFiltradas.filter(receita => receita.categoria === "Prato Principal");
+    }
+
+    if (filtroCategoria == "Sobremesas") {
+      receitasFiltradas = receitasFiltradas.filter(receita => receita.categoria === "Sobremesa");
+    }
+
+    if (filtroCategoria == "Lanches") {
+      receitasFiltradas = receitasFiltradas.filter(receita => receita.categoria === "Lanche");
+    }
+
+    // Aplicar filtro de alimentos que quer e que não quer
+    receitasFiltradas = receitasFiltradas.filter(receita =>
+      Array.from(alimentosQueQuer).every(alimento => receita.ingredientes.includes(alimento)) &&
+      !Array.from(alimentosQueNaoQuer).some(alimento => receita.ingredientes.includes(alimento))
+    );
+
+    setReceitas(receitasFiltradas);
+  };
+
+  useEffect(() => {
+    aplicarFiltros();
+  }, [filtroDificuldade, filtroCategoria, alimentosQueQuer, alimentosQueNaoQuer]);
+
+  // Handlers dos eventos de filtro
+  const handleDificuldadeChange = (event) => {
+    const dificuldadeSelecionada = event.target.value;
+    setFiltroDificuldade(dificuldadeSelecionada);
+  };
+
+  const handleCategoriaChange = (event) => {
+    const categoriaSelecionada = event.target.value;
+    setFiltroCategoria(categoriaSelecionada);
+  };
+
+
   // 'alimentosUnicosArray' = array com todos os alimentos das receitas sem repetidos
   const alimentosArray = receitas.reduce((accumulator, current) => {
     accumulator.push(...current.ingredientes);
@@ -40,16 +96,6 @@ export default function SearchPage() {
 
   const alimentosUnicosArray = Array.from(new Set(alimentosArray));
 
-  // 'receitasPretendidas' = array com receitas com alimentos que quer e sem os alimentos que não quer
-  let receitasPretendidas = receitas.filter(
-    (receita) =>
-      Array.from(alimentosQueQuer).every((alimento) =>
-        receita.ingredientes.includes(alimento)
-      ) &&
-      !Array.from(alimentosQueNaoQuer).some((alimento) =>
-        receita.ingredientes.includes(alimento)
-      )
-  );
 
   // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
   const handleIncluir = (e) => {
@@ -130,44 +176,6 @@ export default function SearchPage() {
   };
 
   // Funções para filtrar consoante opções nos botões
-  const handleDificuldadeChange = (event) => {
-    const dificuldadeSelecionada = event.target.value;
-    if (dificuldadeSelecionada == "Médio") {
-      const dificuldade = receitas.filter(
-        (e) =>
-          e.dificuldade === dificuldadeSelecionada || e.dificuldade === "Média"
-      );
-      setReceitas(dificuldade);
-    } else {
-      const dificuldade = receitas.filter(
-        (e) => e.dificuldade === dificuldadeSelecionada
-      );
-      setReceitas(dificuldade);
-    }
-  };
-
-  const handleCategoriaChange = (event) => {
-    const categoriaSelecionada = event.target.value;
-    if (categoriaSelecionada == "Entradas") {
-      const categoria = receitas.filter((e) => e.categoria === "Entrada");
-      setReceitas(categoria);
-    }
-    if (categoriaSelecionada == "Pratos Principais") {
-      const categoria = receitas.filter(
-        (e) => e.categoria === "Prato Principal"
-      );
-      setReceitas(categoria);
-    }
-    if (categoriaSelecionada == "Sobremesas") {
-      const categoria = receitas.filter((e) => e.categoria === "Sobremesa");
-      setReceitas(categoria);
-    }
-    if (categoriaSelecionada == "Lanches") {
-      const categoria = receitas.filter((e) => e.categoria === "Lanche");
-      setReceitas(categoria);
-    }
-  };
-
   const handleCaloriasChange = (event) => {
     const caloriasSelecionadas = event.target.value;
     if (caloriasSelecionadas == "Mais caloricas primeiro") {
@@ -193,16 +201,12 @@ export default function SearchPage() {
   };
 
   return (
-    <main className="flex flex-col items-center text-center w-full overflow-hidden min-h-screen px-8 md:px-14 lg:px-20 xl:px-28">
-      {/* Botões de filtragem */}
-      <div className="flex space-x-2">
-        <select
-          onChange={handleDificuldadeChange}
-          className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde"
-        >
-          <option disabled selected>
-            Dificuldade ▿
-          </option>
+    <main className="flex flex-col items-center text-center w-full overflow-hidden min-h-screen px-8 md:px-14 lg:px-20 xl:px-28 pt-2" >
+
+    {/* Botões de filtragem */}
+    <div className="flex space-x-2">
+      <select onChange={handleDificuldadeChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+          <option disabled selected>Dificuldade ▿</option>
           <option>Fácil</option>
           <option>Média</option>
           <option>Difícil</option>
