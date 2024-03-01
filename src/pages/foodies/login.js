@@ -31,11 +31,26 @@ export default function Home() {
       if (response.ok) {
         const userData = await response.json();
         localStorage.setItem("token", userData.tokenId);
-       
+        
+        const getResponse = await fetch("/api/user/verificaToken", {
+          method: "GET",
+          headers: {
+            // Include token for authorization if required
+            "Authorization": `Bearer ${userData.tokenId}` 
+          }
+        });
+
+        if (getResponse.ok) {
+          const responseData = await getResponse.json();
+          console.log("GET request successful:", responseData);
+        } else {
+          console.error("GET request failed");
+        }
+
         router.push({
-          pathname: "/foodies/perfil",
+          pathname: "/foodies/homepage",
           query: { token: userData.tokenId },
-        }, "/foodies/perfil");
+        }, );
 
         console.log("Login successful");
       } else {
@@ -47,7 +62,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-image min-h-screen ">
+    <div className="bg-image-login-signup min-h-screen ">
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
         <img src="/images/LogoInicial.png" className="pb-2" />
         <form

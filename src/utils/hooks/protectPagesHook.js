@@ -7,6 +7,7 @@ export default function protectPage() {
     if (typeof window !== "undefined") {
       // Check if token exists in localStorage
       const token = localStorage.getItem("token");
+      console.log("tokenperfil:", token);
       if (!token) {
         console.log("tokenperfil:", token);
         // If token doesn't exist, redirect to login page
