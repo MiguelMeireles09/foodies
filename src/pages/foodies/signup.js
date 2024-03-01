@@ -10,17 +10,18 @@ export default function SignUp() {
     email: "",
     password: "",
     confirmacaoPassword: "",
-  });
+  })
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
 
     try {
       const response = await fetch("/api/auth/signup", {
@@ -39,16 +40,16 @@ export default function SignUp() {
     } catch (error) {
       console.error("Erro:", error);
     }
-  };
+  }
 
   return (
     <div className="bg-image">
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
-      <img src="/images/LogoInicial.png" className='pb-2'/>
+        <img src="/images/LogoInicial.png" className='pb-2' />
         <form onSubmit={handleSubmit} className="flex md:px-40 lg:px-40 xl:px-96  flex-col items-center w-full">
           <div className="mb-4 w-full">
             <input
-              placeholder="Nome de usuário"
+              placeholder="Nome de utilizador"
               id="nomeUsuario"
               name="nomeUsuario"
               value={formData.nomeUsuario}
