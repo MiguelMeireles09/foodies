@@ -1,5 +1,6 @@
 const { getMongoCollection } = require('./mongodb');
 
+//faz o get de uma receita atraves do titulo passado
 const collectionName = "receitas";
 
 async function findReceitaTitulo(titulo) {

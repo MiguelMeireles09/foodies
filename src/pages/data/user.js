@@ -1,5 +1,7 @@
 const { getMongoCollection } = require('./mongodb');
 
+
+//inutil?
 const collectionName = "usuario";
 
 async function findUser(user) {

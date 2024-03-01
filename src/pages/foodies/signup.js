@@ -32,7 +32,7 @@ export default function SignUp() {
       });
       if (response.ok) {
         console.log("Cadastro bem-sucedido");
-        router.push("/homepage");
+        router.push("/homepage/login");
       } else {
         console.error("Erro ao cadastrar usuário");
       }

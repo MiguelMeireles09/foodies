@@ -1,10 +1,10 @@
 // criacao tokens  
-
 const { v4: uuidv4 } = require('uuid');
 const { insertSession, findSession, updateUserSession, findSessionByUser, findUserSession } = require('../data/sessions');
 const { getId } = require('./signup');
 
 
+//cria token, se user tiver token muda token para o novo senao cria um session para o user
 async function createTokens(email) {
     const tokenId = uuidv4()
     const userSession = await findSessionByUser(email)
@@ -13,6 +13,8 @@ async function createTokens(email) {
     return tokenId
 }
 
+
+// 
 async function findToken(token) {
     const user = await findSession(token)
     return user.email
@@ -20,13 +22,12 @@ async function findToken(token) {
 
 
 async function getUserToken(userId) {
-
     const session = await findUserSession(userId)
-
     const userToken = session.token
-
     return userToken
 }
+
+
 
 
 module.exports = { createTokens, findToken, getUserToken }
