@@ -31,12 +31,12 @@ export default function Home() {
       if (response.ok) {
         const userData = await response.json();
         localStorage.setItem("token", userData.tokenId);
-        
+
         const getResponse = await fetch("/api/user/verificaToken", {
           method: "GET",
           headers: {
             // Include token for authorization if required
-            "Authorization": `Bearer ${userData.tokenId}` 
+            "Authorization": `Bearer ${userData.tokenId}`
           }
         });
 
@@ -50,7 +50,7 @@ export default function Home() {
         router.push({
           pathname: "/foodies/perfil",
           query: { token: userData.tokenId },
-        }, "/foodies/perfil" );
+        }, "/foodies/perfil");
 
         console.log("Login successful");
       } else {
