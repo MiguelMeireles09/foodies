@@ -44,13 +44,13 @@ export default function Home() {
           const responseData = await getResponse.json();
           console.log("GET request successful:", responseData);
         } else {
-          console.error("GET request failed");
+          console.error("GET request failed:", getResponse.status, getResponse.statusText);
         }
 
         router.push({
-          pathname: "/foodies/homepage",
+          pathname: "/foodies/perfil",
           query: { token: userData.tokenId },
-        }, );
+        }, "/foodies/perfil" );
 
         console.log("Login successful");
       } else {

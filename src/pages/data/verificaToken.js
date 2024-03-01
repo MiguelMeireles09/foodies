@@ -15,7 +15,7 @@ async function verificaTokenLogado(token) {
 const collectionNameSignUp = "signupform"
 async function dadosAtravesToken(pegaId){
     const collection = await getMongoCollection(collectionNameSignUp)
-    const result = await collection.findOne({_id : {$eq: new ObjectId(pegaId)}})
+    const result = await collection.findOne({_id : new ObjectId(pegaId)})
     return result
 }
 

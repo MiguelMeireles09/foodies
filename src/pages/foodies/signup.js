@@ -41,9 +41,9 @@ export default function SignUp() {
       console.error("Erro:", error);
     }
   }
-
+  
   return (
-    <div className="bg-image">
+    <div className="bg-image-login-signup min-h-screen">
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <img src="/images/LogoInicial.png" className='pb-2' />
         <form onSubmit={handleSubmit} className="flex md:px-40 lg:px-40 xl:px-96  flex-col items-center w-full">

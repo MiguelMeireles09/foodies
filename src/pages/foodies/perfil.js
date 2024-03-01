@@ -4,20 +4,17 @@ import protectPage from "@/utils/hooks/protectPagesHook";
 import { router } from "next/router";
 
 export default function PerfilPage() {
-
-  //calling function to protect the page 
+  //calling function to protect the page
   // to redirect if token not exist
-  protectPage()
+  protectPage();
+  console.log(protectPage())
 
   const handleLogout = () => {
     // Clear the token from localStorage
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     // Additional logout logic (e.g., redirecting to login page)
     router.push("/foodies/login");
   };
-
-
-
 
   return (
     <div className="">
@@ -29,9 +26,9 @@ export default function PerfilPage() {
             width={200}
             height={200}
           />
-          <div>Nome do utilizador:</div>
         </div>
       </div>
+      <div>Nome do utilizador:</div>
       <button onClick={handleLogout}>Terminar Sessao</button>
     </div>
   );
