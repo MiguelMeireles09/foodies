@@ -1,15 +1,17 @@
 import CardFavoritos from "@/components/CardFavoritos";
-import  protectPage  from "@/utils/hooks/protectPagesHook";
+import ProtectPage from "@/utils/hooks/protectPagesHook";
+// Ensure path is correct
 
 export default function FavoritosPage() {
-  //calling function to protect the page
-  // to redirect if token not exist
-  protectPage();
+  const { loading, userData } = ProtectPage();
+
+  if (loading) return <div>Loading...</div>; // Or any loading indicator
 
   return (
     <div>
       <div>
-        <div>favoritos</div>
+        <h1>Nome Utilizador: {userData.nomeUsuario}</h1>
+        <h1>Email Utilizador: {userData.email}</h1>
         <CardFavoritos />
       </div>
     </div>
