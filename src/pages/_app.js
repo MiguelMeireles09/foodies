@@ -1,6 +1,8 @@
 import Layout from "@/components/Layout";
 import "@/styles/globals.css";
 
+
+// Nao mostrar nem footer nem layout
 export default function App({ Component, pageProps, router }) {
   const isHomePage = router.pathname === '/foodies';
   const isLocalHost = router.pathname === '/';
@@ -8,10 +10,9 @@ export default function App({ Component, pageProps, router }) {
   const islogin = router.pathname === '/foodies/login'
   const is404 = router.pathname === '/404'
 
- 
 
 
-  if (isHomePage || isSignUp || islogin || isLocalHost || is404) {
+  if (isHomePage || isSignUp || islogin || isLocalHost || is404 ) {
     return <Component {...pageProps} />
   }
 

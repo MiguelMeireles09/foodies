@@ -7,7 +7,6 @@ export default function PerfilPage() {
   //calling function to protect the page
   // to redirect if token not exist
   protectPage();
-  console.log(protectPage())
 
   const handleLogout = () => {
     // Clear the token from localStorage
