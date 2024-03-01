@@ -13,7 +13,8 @@ export default function SearchPage() {
 
   //calling function to protect the page
   // to redirect if token not exist
-  protectPage()
+  protectPage() // ---> n vamos utilizar protect no page
+
   const [filtroDificuldade, setFiltroDificuldade] = useState(null);
   const [filtroCategoria, setFiltroCategoria] = useState(null);
   // outros estados e funções de filtro
