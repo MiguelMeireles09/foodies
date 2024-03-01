@@ -7,9 +7,9 @@ import { createTokens } from '@/pages/services/tokens';
 
 export default async function handler(req, res) {
     try {
-        console.log("req.body:", req.body)
+        
         const { email, password } = req.body
-        console.log("email:", email, "password:", password)
+        
         if (req.method === "POST") {
             const account = await checkEmail(email)
             if (await checkEmailPassword(account, password)) {
