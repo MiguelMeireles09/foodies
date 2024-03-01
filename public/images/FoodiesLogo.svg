@@ -1,9 +1,1 @@
-<svg width="129" height="96" viewBox="0 0 129 96" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect width="129" height="96" fill="url(#pattern0)"/>
-<defs>
-<pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_68_319" transform="matrix(0.00826873 0 0 0.0111111 0.127907 0)"/>
-</pattern>
-<image id="image0_68_319" width="90" height="90" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJklEQVR4nO3bsWoUQRzH8a9CFE2jhYiPID6Bj2CrVr6HvoQQRIPRJ1CxT+rYCCKk0yqtaHMRjZWakQmzQcyuuVt3Zse97wf+zTHFze/m/nv/WxYkSZIkSZIkaR6n51ql3s4B68DnVI/SaxrYAyD8UWumPLyPLUF/MujhhY6SQf+fgifaoCcleKLLDCChZ9BLP+AsOoCEBYN2wOk5gIQFg3bA6TmAhAWDdsDpGVzIvH6yDLoQgy7EoAsx6EIMuhCDLsSgCzHoQvZawp6NuH6y1luCeDji+smK/649Ab6l2jjh37vc6yfvVKpa1vd1CbgLbAMfgJ9/uQ79Xnvp27fUh2Ae8UO8B3yZM9iuit8+dTgLvPzHgJuK7U0dIW8OFLJBFwo5pIu1MoY8Sz87Dy+GZ9I9uNnAn+IU6zVwHVihh7YbnRbHMthMJ743TzL5QzZoyoQcvbBV0BXyq6FCjm4bNF1B32JA54F9w6ZtmltlYLYPjgX9nAxsH+RtGw3bB/nbRsP2wVHQz8jI9sFR0DdzBm374DDk/Zxto2H7IG/baNg+yNs2GsvePr6WvJH6tIINh5HqMQVdA35UsOlQuL4DVylsrYKNh8J1nxHEnzdvK9h8KFRv0vVpFFeA9xWEEDLXO+AyI7sIbFUQRsh49+QCFbkD7FYQTBiodtOeqhQfcL+RnuveSU/CHlQQWjihDtJ73UnvPe5h6R/WlyRJkiRJkiRJkiSm6Be1JrHFH4vW+wAAAABJRU5ErkJggg=="/>
-</defs>
-</svg>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="172" height="128" viewBox="0 0 129 96"><path d="M52.7 16.6c-.4.4-.7 5.8-.7 11.9 0 8.8.3 11.5 1.5 12.5s1.8 1 3 0c1.3-1.1 1.5-3.5 1.3-12.9-.3-10.8-.4-11.6-2.3-11.9-1.2-.2-2.4 0-2.8.4zM39.7 26.6c-.4.4-.7 3.5-.7 6.9 0 7 1.7 9.8 4.5 7.5 1.2-1 1.5-2.9 1.3-7.9-.3-5.8-.6-6.6-2.3-6.9-1.2-.2-2.4 0-2.8.4zM65.7 26.6c-.4.4-.7 3.8-.7 7.5 0 5.2.3 6.8 1.6 7.3 3.2 1.2 4.5-1.3 4.2-8.3-.3-5.8-.6-6.6-2.3-6.9-1.2-.2-2.4 0-2.8.4zM91.9 45l-3.7 3-35.3.2-35.4.3-.3 2.2c-.4 2.7 4.3 16.1 6.6 18.7 3.7 4.1 7.1 4.6 31.1 4.6 13.8 0 24.1-.4 25.8-1.1 4.8-1.8 7.1-4.9 9.8-12.9 3.4-10.1 4.8-11.4 13.9-12 6.8-.5 7.1-.6 7.1-3s-.2-2.5-8-2.8c-7.6-.2-8.2-.1-11.6 2.8z"/></svg>
