@@ -284,33 +284,18 @@ export default function SearchPage() {
 
       {/* Cards de receitas pretendidas */}
       <p className="text-3xl text-center py-5">Receitas:</p>
-
-      {/* {receitas.map((e) => (
-        <div>
-          <img src={e.fotoReceita}></img>
-          <p className="text-2xl py-2">{e.titulo}</p>
-          <p>{e.ingredientes}</p>
-          <p>{e.dificuldade}</p>
-          <p>{e.categoria}</p>
-          <p>{e.calorias}</p>
-          <p>{e.preco}</p>
-        </div>
-      ))} */}
-
-{/* Cards de receitas pretendidas */}
-<div className="flex flex-wrap">
-  {receitas.map((e) => (
-    <div key={e.id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
-      <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
-        <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
-        <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
-          <p className="font-sans font-normal text-center p-3 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
-        </div>
+      <div className="flex flex-wrap">
+        {receitas.map((e) => (
+          <div key={e.id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
+            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
+              <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
+              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
+                <p className="font-sans font-normal text-center p-3 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
-  ))}
-</div>
-
 
     </main>
   );
