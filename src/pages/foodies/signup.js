@@ -44,8 +44,8 @@ export default function SignUp() {
   return (
     <div className="bg-image">
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
-      <img src="/images/FoodiesLogo.svg" className='pb-2'/>
-        <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
+      <img src="/images/LogoInicial.png" className='pb-2'/>
+        <form onSubmit={handleSubmit} className="flex md:px-40 lg:px-40 xl:px-96  flex-col items-center w-full">
           <div className="mb-4 w-full">
             <input
               placeholder="Nome de usuário"
