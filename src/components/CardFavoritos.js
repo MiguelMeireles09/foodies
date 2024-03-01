@@ -9,7 +9,7 @@ export default function CardFavoritos({ imagem, nomeComida, href }) {
 
 
 
-    /* Coracao deve mudar de cor caso tenha like/retire like isto possibilita que o card possa ser usado no pesquisas.
+    /* icon coracao deve mudar de cor caso tenha like/retire like isto possibilita que o card possa ser usado no pesquisas.
     pagina só deve recarregar no prox fetch  */
     return (
         <div className="w-full md:w-auto max-w-[calc(45%-1rem)] py-6 cursor-pointer">
