@@ -214,7 +214,7 @@ export default function SearchPage() {
 
 
   return (
-    <main className="flex flex-wrap justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
+    <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
     {/* Botões de filtragem */}
     <div className="flex space-x-2 pb-9">
@@ -304,7 +304,7 @@ export default function SearchPage() {
       <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
           <div key={e.id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
-            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
+            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
               <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
