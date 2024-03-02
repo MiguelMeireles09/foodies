@@ -197,18 +197,18 @@ export default function SearchPage() {
 
 
   return (
-    <main className="flex flex-wrap justify-center items-start text-center w-full overflow-hidden min-h-screen px-8 md:px-14 lg:px-20 xl:px-28 pt-5" >
+    <main className="items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
     {/* Botões de filtragem */}
-    <div className="flex space-x-2">
-      <select onChange={handleDificuldadeChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+    <div className="flex space-x-2 pb-9">
+      <select onChange={handleDificuldadeChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
           <option disabled selected>Dificuldade ▿</option>
           <option>Fácil</option>
           <option>Média</option>
           <option>Difícil</option>
         </select>
 
-        <select onChange={handleCategoriaChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+        <select onChange={handleCategoriaChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
           <option disabled selected>Categoria ▿</option>
           <option>Entradas</option>
           <option>Pratos Principais</option>
@@ -216,13 +216,13 @@ export default function SearchPage() {
           <option>Lanches</option>
         </select>
 
-        <select onChange={handleCaloriasChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro  border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+        <select onChange={handleCaloriasChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro  border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
           <option disabled selected>Calorias ▿</option>
           <option>Mais caloricas primeiro</option>
           <option>Menos caloricas primeiro</option>
         </select>
 
-        <select onChange={handlePrecoChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde">
+        <select onChange={handlePrecoChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
           <option disabled selected>Preço ▿</option>
           <option>Mais baratas primeiro</option>
           <option>Mais caras primeiro</option>
@@ -231,10 +231,10 @@ export default function SearchPage() {
 
 
       {/* Mostra a mensagem de erro do incluir alimento, se houver */}
-      {erroIncluir && <p className="text-red-500">{erroIncluir}</p>}
+      {erroIncluir && <p className="text-red-500 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{erroIncluir}</p>}
 
       {/* Barra de pesquisa para incluir alimento */}
-      <form onSubmit={handleIncluir} className="flex w-full pt-9">
+      <form onSubmit={handleIncluir} className="flex w-full text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
         <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
         <datalist id="alimentoQueQuer">
           {alimentosUnicosArray.map((e, index) => (
@@ -244,7 +244,7 @@ export default function SearchPage() {
       </form>
 
       {/* Lista de alimentos a incluir */}
-      <div className="bg-cinzaClaro rounded-xl w-full m-3 p-4">
+      <div className="bg-cinzaClaro rounded-xl w-full m-3 p-4 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
         <p className="text-md text-left">Lista de Alimentos a INCLUIR:</p>
         <ul className="flex flex-wrap gap-4">
           {Array.from(alimentosQueQuer).map((alimento, index) => (
@@ -257,10 +257,10 @@ export default function SearchPage() {
       </div>
 
       {/* Mostra a mensagem de erro do excluir alimento, se houver */}
-      {erroExcluir && <p className="text-red-500">{erroExcluir}</p>}
+      {erroExcluir && <p className="text-red-500 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{erroExcluir}</p>}
 
       {/* Barra de pesquisa para excluir alimento*/}
-      <form onSubmit={handleExcluir} className="flex w-full pt-3">
+      <form onSubmit={handleExcluir} className="flex w-full pt-3 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
         <input list="alimentoQueNaoQuer" type="text" placeholder="Não quero cozinhar com..." value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
         <datalist id="alimentoQueNaoQuer">
           {alimentosUnicosArray.map((e, index) => (
@@ -270,7 +270,7 @@ export default function SearchPage() {
       </form>
 
       {/* Lista de alimentos a excluir */}
-      <div className="bg-cinzaClaro rounded-xl w-full m-3 p-4">
+      <div className="bg-cinzaClaro rounded-xl w-full m-3 p-4 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
         <p className="text-md text-left">Lista de Alimentos a EXCLUIR:</p>
         <ul className="flex flex-wrap gap-4">
           {Array.from(alimentosQueNaoQuer).map((alimento, index) => (
@@ -283,14 +283,14 @@ export default function SearchPage() {
       </div>
 
       {/* Cards de receitas pretendidas */}
-      <p className="text-3xl text-center py-5">Receitas:</p>
-      <div className="flex flex-wrap">
+      <p className="text-center py-5 text-2xl 2xl:text-4xl">Receitas:</p>
+      <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
           <div key={e.id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
             <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
               <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
-                <p className="font-sans font-normal text-center p-3 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
+                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
               </div>
             </div>
           </div>
