@@ -1,4 +1,4 @@
-import { buscarDadosToken, buscarToken, tokenLogado } from "@/pages/services/verificaToken";
+import { buscarDadosToken, buscarToken, tokenLogado } from "@/pages/services/user/verificaToken";
 
 export default async function handler(req, res) {
     try {

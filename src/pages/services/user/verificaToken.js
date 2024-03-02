@@ -1,4 +1,4 @@
-const { verificaTokenLogado, dadosAtravesToken } = require("../data/verificaToken")
+const { verificaTokenLogado, dadosAtravesToken } = require("../../data/user/verificaToken")
 
 
 

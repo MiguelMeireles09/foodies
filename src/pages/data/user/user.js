@@ -1,4 +1,4 @@
-const { getMongoCollection } = require('./mongodb');
+const { getMongoCollection } = require('../mongodb/mongodb');
 
 
 //inutil?

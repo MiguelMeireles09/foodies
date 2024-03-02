@@ -1,6 +1,6 @@
-import { checkEmailPassword } from '@/pages/services/login';
-import { checkEmail } from '@/pages/services/signup';
-import { createTokens } from '@/pages/services/tokens';
+import { checkEmailPassword } from '@/pages/services/auth/login';
+import { checkEmail } from '@/pages/services/auth/signup';
+import { createTokens } from '@/pages/services/user/tokens';
 
 /* POST /api/auth/login */
 

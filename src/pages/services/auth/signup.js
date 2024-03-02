@@ -1,4 +1,4 @@
-const { findAccount, insertUserDataBase } = require("../data/signup")
+const { findAccount, insertUserDataBase } = require("../../data/auth/signup")
 
 async function checkEmail(email) {
    const account = await findAccount(email)

@@ -1,5 +1,5 @@
 
-const { getMongoCollection } = require('./mongodb');
+const { getMongoCollection } = require('../mongodb/mongodb');
 
 const collectionName = "receitas";
 

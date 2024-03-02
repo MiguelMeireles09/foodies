@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <div className="bg-image min-h-screen">
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
-        <img src="/images/LogoInicial.png" className="pb-2" />
+        <img src="/images/LogoInicial.svg" className="pb-2" />
         
         <form onSubmit={handleSubmit} className="flex flex-col justify-center align-middle">
           <input
