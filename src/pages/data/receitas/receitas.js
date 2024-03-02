@@ -1,4 +1,4 @@
-const { getMongoCollection } = require('./mongodb');
+const { getMongoCollection } = require('../mongodb/mongodb');
 
 //faz o get de uma receita atraves do titulo passado
 const collectionName = "receitas";

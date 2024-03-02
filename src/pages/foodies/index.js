@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  const [receitas, setReceitas] = useState([]);
   const [alimentoQueQuer, setAlimentoQueQuer] = useState("");
-  const [alimentoQueNaoQuer, setAlimentoQueNaoQuer] = useState("");
-  const [alimentosQueQuer, setAlimentosQueQuer] = useState(new Set());
-  const [alimentosQueNaoQuer, setAlimentosQueNaoQuer] = useState(new Set());
+  const [receitas, setReceitas] = useState([]); // State for recipe suggestions
   const [erroIncluir, setErroIncluir] = useState("");
-  const [erroExcluir, setErroExcluir] = useState("");
+  const router = useRouter();
 
-  
-
-  // Fetch para obter as receitas
   const fetchReceitas = async () => {
     try {
       const response = await fetch("/api/receitas/todasReceitas");
@@ -19,15 +15,16 @@ export default function Home() {
         throw new Error("Falha ao buscar receitas");
       }
       const data = await response.json();
-      setReceitas(data);
+      setReceitas(data); // Correctly set the fetched recipes to the state
     } catch (error) {
       console.error("Erro ao buscar receitas:", error);
     }
   };
-
+  
   useEffect(() => {
     fetchReceitas();
   }, []);
+
 
   // 'alimentosUnicosArray' = array com todos os alimentos das receitas sem repetidos
   const alimentosArray = receitas.reduce((accumulator, current) => {
@@ -37,22 +34,11 @@ export default function Home() {
 
   const alimentosUnicosArray = Array.from(new Set(alimentosArray));
 
-  // 'receitasPretendidas' = array com receitas com alimentos que quer e sem os alimentos que não quer
-  let receitasPretendidas = receitas.filter(
-    (receita) =>
-      Array.from(alimentosQueQuer).every((alimento) =>
-        receita.ingredientes.includes(alimento)
-      ) &&
-      !Array.from(alimentosQueNaoQuer).some((alimento) =>
-        receita.ingredientes.includes(alimento)
-      )
-  );
 
   // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
   const handleIncluir = (e) => {
     e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao enviar o formulário
-    const novoAlimento =
-      alimentoQueQuer.charAt(0).toUpperCase() + alimentoQueQuer.slice(1); // Passa a primeira letra do nome submetido para maiúscula caso não seja
+    const novoAlimento = alimentoQueQuer.charAt(0).toUpperCase() + alimentoQueQuer.slice(1); // Passa a primeira letra do nome submetido para maiúscula caso não seja
 
     if (!alimentosUnicosArray.includes(novoAlimento)) {
       setErroIncluir("Alimento não encontrado");
@@ -62,137 +48,39 @@ export default function Home() {
       return;
     }
 
-    if (alimentosQueQuer.has(novoAlimento)) {
-      setErroIncluir("Alimento já está na lista");
-      setTimeout(() => {
-        setErroIncluir("");
-      }, 1000);
-      return;
-    }
-
-    if (alimentosQueNaoQuer.has(novoAlimento)) {
-      alimentosQueNaoQuer.delete(novoAlimento);
-    }
-
-    setAlimentosQueQuer(
-      (prevAlimentos) => new Set([...prevAlimentos, novoAlimento])
-    ); // Adiciona o novo alimento ao conjunto de alimentos que quer
-    setAlimentoQueQuer(""); // Limpa o campo de entrada
+    router.push({
+      pathname: '/foodies/search',
+      query: { query: novoAlimento }
+    },"/foodies/search");
   };
 
-  // Função que é executada quando o form 'EXCLUIR' é submetido (carregando no enter)
-  const handleExcluir = (e) => {
-    e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao enviar o formulário
-    const novoAlimento =
-      alimentoQueNaoQuer.charAt(0).toUpperCase() + alimentoQueNaoQuer.slice(1); // Passa a primeira letra do nome submetido para maiúscula caso não seja
 
-    if (!alimentosUnicosArray.includes(novoAlimento)) {
-      setErroExcluir("Alimento não encontrado");
-      setTimeout(() => {
-        setErroExcluir("");
-      }, 1000);
-      return;
-    }
-
-    if (alimentosQueNaoQuer.has(novoAlimento)) {
-      setErroExcluir("Alimento já está na lista");
-      setTimeout(() => {
-        setErroExcluir("");
-      }, 1000);
-      return;
-    }
-
-    if (alimentosQueQuer.has(novoAlimento)) {
-      alimentosQueQuer.delete(novoAlimento);
-    }
-
-    setAlimentosQueNaoQuer(
-      (prevAlimentos) => new Set([...prevAlimentos, novoAlimento])
-    ); // Adiciona o novo alimento ao conjunto de alimentos que quer
-    setAlimentoQueNaoQuer(""); // Limpa o campo de entrada
-  };
-
-  // Função para remover um alimento da lista de alimentos que quer
-  const handleRemoverAlimentoQueQuer = (alimento) => {
-    const newAlimentosQueQuer = new Set(alimentosQueQuer);
-    newAlimentosQueQuer.delete(alimento);
-    setAlimentosQueQuer(newAlimentosQueQuer);
-  };
-
-  // Função para remover um alimento da lista de alimentos que não quer
-  const handleRemoverAlimentoQueNaoQuer = (alimento) => {
-    const newAlimentosQueNaoQuer = new Set(alimentosQueNaoQuer);
-    newAlimentosQueNaoQuer.delete(alimento);
-    setAlimentosQueNaoQuer(newAlimentosQueNaoQuer);
-  };
-
-  // Funções para filtrar consoante opções nos botões
-  const handleDificuldadeChange = (event) => {
-    const dificuldadeSelecionada = event.target.value;
-    if (dificuldadeSelecionada == "Médio") {
-      const dificuldade = receitas.filter(
-        (e) =>
-          e.dificuldade === dificuldadeSelecionada || e.dificuldade === "Média"
-      );
-      setReceitas(dificuldade);
-    } else {
-      const dificuldade = receitas.filter(
-        (e) => e.dificuldade === dificuldadeSelecionada
-      );
-      setReceitas(dificuldade);
-    }
-  };
-
-  const handleCategoriaChange = (event) => {
-    const categoriaSelecionada = event.target.value;
-    if (categoriaSelecionada == "Entradas") {
-      const categoria = receitas.filter((e) => e.categoria === "Entrada");
-      setReceitas(categoria);
-    }
-    if (categoriaSelecionada == "Pratos Principais") {
-      const categoria = receitas.filter(
-        (e) => e.categoria === "Prato Principal"
-      );
-      setReceitas(categoria);
-    }
-    if (categoriaSelecionada == "Sobremesas") {
-      const categoria = receitas.filter((e) => e.categoria === "Sobremesa");
-      setReceitas(categoria);
-    }
-    if (categoriaSelecionada == "Lanches") {
-      const categoria = receitas.filter((e) => e.categoria === "Lanche");
-      setReceitas(categoria);
-    }
-  };
-
-  const handleCaloriasChange = (event) => {
-    const caloriasSelecionadas = event.target.value;
-    if (caloriasSelecionadas == "Mais caloricas primeiro") {
-      const calorias = [...receitas].sort((a, b) => b.calorias - a.calorias);
-      setReceitas(calorias);
-    }
-    if (caloriasSelecionadas == "Menos caloricas primeiro") {
-      const calorias = [...receitas].sort((a, b) => a.calorias - b.calorias);
-      setReceitas(calorias);
-    }
-  };
-
-  const handlePrecoChange = (event) => {
-    const precoSelecionado = event.target.value;
-    if (precoSelecionado == "Mais caras primeiro") {
-      const preco = [...receitas].sort((a, b) => b.preco - a.preco);
-      setReceitas(preco);
-    }
-    if (precoSelecionado == "Mais baratas primeiro") {
-      const preco = [...receitas].sort((a, b) => a.preco - b.preco);
-      setReceitas(preco);
-    }
-  };
 
   return (
-    
-    <main className="bg-image min-h-screen">
-      fwedsifsdsdfs
-    </main>
+    <div className="bg-image min-h-screen">
+      <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
+        <img src="/images/LogoInicial.svg" className="pb-2" />
+
+        {/* Mostra a mensagem de erro do incluir alimento, se houver */}
+        {erroIncluir && <p className="text-red-500 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{erroIncluir}</p>}
+
+        {/* Barra de pesquisa para incluir alimento */}
+        <form onSubmit={handleIncluir} className="flex flex-col justify-center align-middle text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+          <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="bg-cinzaClaro border-verde border-2 placeholder-verde p-5 mb-2 rounded-3xl h-20 w-50 text-center"/>
+          <datalist id="alimentoQueQuer">
+            {alimentosUnicosArray.map((e, index) => (
+              <option key={index} value={e} />
+            ))}
+          </datalist>
+          <div className="align-center text-center justify-center flex flex-col px-28">
+            <button type="submit" className="bg-verde p-2 rounded-xl flex align-middle justify-center text-center text-white">
+              Procurar
+            </button>
+          </div>
+        </form>
+
+        <Link href="/foodies/search">Ver Todas.</Link>
+      </main> 
+    </div>
   );
 }

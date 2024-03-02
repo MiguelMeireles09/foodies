@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
@@ -31,12 +31,11 @@ export default function Home() {
       if (response.ok) {
         const userData = await response.json();
         localStorage.setItem("token", userData.tokenId);
-        
+
         const getResponse = await fetch("/api/user/verificaToken", {
           method: "GET",
           headers: {
-            // Include token for authorization if required
-            "Authorization": `Bearer ${userData.tokenId}` 
+            "Authorization": `Bearer ${userData.tokenId}`
           }
         });
 

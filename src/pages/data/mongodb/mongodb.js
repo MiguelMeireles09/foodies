@@ -23,5 +23,26 @@ async function getMongoCollection(collectionName, dbName = DEFAULT_DB_NAME) {
   return client.db(dbName).collection(collectionName)
 }
 
+async function closeMongoConnection() {
+  try {
+    if (client) {
+      await client.close()
+      client = null
+      console.log("MongoDB connection closed.")
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+process.on('SIGINT', async () => {
+  await closeMongoConnection()
+  process.exit(0)
+})
+
+process.on('exit', async () => {
+  await closeMongoConnection()
+})
+
 
 module.exports = { getMongoCollection }

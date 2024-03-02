@@ -1,7 +1,7 @@
 // criacao tokens  
 const { v4: uuidv4 } = require('uuid');
-const { insertSession, findSession, updateUserSession, findSessionByUser, findUserSession } = require('../data/sessions');
-const { getId } = require('./signup');
+const { insertSession, findSession, updateUserSession, findSessionByUser, findUserSession } = require('../../data/user/sessions');
+const { getId } = require('../auth/signup');
 
 
 //cria token, se user tiver token muda token para o novo senao cria um session para o user

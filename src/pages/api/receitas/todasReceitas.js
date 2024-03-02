@@ -1,5 +1,5 @@
-import { procurarReceita } from '@/pages/services/receitas';
-import { procurarReceitas } from '@/pages/services/todasReceitas';
+import { procurarReceita } from '@/pages/services/receitas/receitas';
+import { procurarReceitas } from '@/pages/services/receitas/todasReceitas';
 
 
 export default async function handler(req, res) {
