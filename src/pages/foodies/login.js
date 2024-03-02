@@ -44,12 +44,12 @@ export default function Home() {
           console.log("GET request successful:", responseData);
         } else {
           console.error("GET request failed:", getResponse.status, getResponse.statusText);
-        }
+        } 
 
         router.push({
-          pathname: "/foodies/perfil",
+          pathname: "/foodies/homepage",
           query: { token: userData.tokenId },
-        }, "/foodies/perfil");
+        }, "/foodies/homepage" );
 
         console.log("Login successful");
       } else {
