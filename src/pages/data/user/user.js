@@ -1,6 +1,4 @@
 const { getMongoCollection } = require('../mongodb/mongodb');
-
-
 //inutil?
 const collectionName = "usuario";
 

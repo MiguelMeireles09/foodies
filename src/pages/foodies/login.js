@@ -35,7 +35,6 @@ export default function Home() {
         const getResponse = await fetch("/api/user/verificaToken", {
           method: "GET",
           headers: {
-            // Include token for authorization if required
             "Authorization": `Bearer ${userData.tokenId}`
           }
         });
