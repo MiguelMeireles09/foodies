@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const [inputValue, setInputValue] = useState("");
+  const [alimentoQueQuer, setAlimentoQueQuer] = useState("");
   const [receitas, setReceitas] = useState([]); // State for recipe suggestions
+  const [erroIncluir, setErroIncluir] = useState("");
   const router = useRouter();
 
   const fetchReceitas = async () => {
@@ -25,31 +26,50 @@ export default function Home() {
   }, []);
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // 'alimentosUnicosArray' = array com todos os alimentos das receitas sem repetidos
+  const alimentosArray = receitas.reduce((accumulator, current) => {
+    accumulator.push(...current.ingredientes);
+    return accumulator;
+  }, []);
+
+  const alimentosUnicosArray = Array.from(new Set(alimentosArray));
+
+
+  // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
+  const handleIncluir = (e) => {
+    e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao enviar o formulário
+    const novoAlimento = alimentoQueQuer.charAt(0).toUpperCase() + alimentoQueQuer.slice(1); // Passa a primeira letra do nome submetido para maiúscula caso não seja
+
+    if (!alimentosUnicosArray.includes(novoAlimento)) {
+      setErroIncluir("Alimento não encontrado");
+      setTimeout(() => {
+        setErroIncluir("");
+      }, 1000);
+      return;
+    }
+
     router.push({
       pathname: '/foodies/search',
-      query: { query: inputValue },
+      query: { query: novoAlimento }
     },"/foodies/search");
   };
+
+
 
   return (
     <div className="bg-image min-h-screen">
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
         <img src="/images/LogoInicial.svg" className="pb-2" />
-        
-        <form onSubmit={handleSubmit} className="flex flex-col justify-center align-middle">
-          <input
-            list="receitas-list" 
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Qual o alimento que tem para hoje?"
-            className="bg-cinzaClaro border-verde border-2 placeholder-verde p-5 mb-2 rounded-3xl h-20 w-50 text-center "
-          />
-          <datalist id="receitas-list"> 
-            {receitas.map((receita, index) => (
-              <option key={index} value={receita.nome} /> 
+
+        {/* Mostra a mensagem de erro do incluir alimento, se houver */}
+        {erroIncluir && <p className="text-red-500 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{erroIncluir}</p>}
+
+        {/* Barra de pesquisa para incluir alimento */}
+        <form onSubmit={handleIncluir} className="flex flex-col justify-center align-middle text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+          <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="bg-cinzaClaro border-verde border-2 placeholder-verde p-5 mb-2 rounded-3xl h-20 w-50 text-center"/>
+          <datalist id="alimentoQueQuer">
+            {alimentosUnicosArray.map((e, index) => (
+              <option key={index} value={e} />
             ))}
           </datalist>
           <div className="align-center text-center justify-center flex flex-col px-28">
@@ -58,7 +78,8 @@ export default function Home() {
             </button>
           </div>
         </form>
-        <Link href="/foodies/homepage">Ver Todas.</Link>
+
+        <Link href="/foodies/search">Ver Todas.</Link>
       </main> 
     </div>
   );
