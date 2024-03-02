@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+import CardFavoritos from "@/components/CardFavoritos";
 import ProtectPage from "@/utils/hooks/protectPagesHook";
 import ReceitaInfo from './receita';
 import Link from 'next/link';
@@ -33,29 +35,8 @@ export default function FavoritosPage() {
     }
   };
 
-  const removeFavorite = async (recipeId) => {
-    try {
-      const response = await fetch(`/api/user/receitasFav/${recipeId}`, {
-        method: 'DELETE', // Assuming DELETE method is used to remove a recipe from favorites
-        headers: {
-          'Content-Type': 'application/json', 
-          
-        },
-        body: JSON.stringify({ idDoUsuario: userData._id })
-      });
+  if (loading) return <div>Loading...</div>;
 
-      if (!response.ok) {
-        throw new Error('Failed to remove favorite recipe');
-      }
-
-      // Filter out the unfavorited recipe from the local state to update the UI
-      setFavoritos(favoritos.filter(recipe => recipe._id !== recipeId));
-    } catch (error) {
-      console.error('Error removing favorite recipe:', error);
-    }
-  };
-
-  // Render your favorite recipes here
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
@@ -78,3 +59,4 @@ export default function FavoritosPage() {
     </main>
   );
 }
+
