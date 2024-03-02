@@ -23,4 +23,5 @@ async function getMongoCollection(collectionName, dbName = DEFAULT_DB_NAME) {
   return client.db(dbName).collection(collectionName)
 }
 
+
 module.exports = { getMongoCollection }
