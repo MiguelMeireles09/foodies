@@ -3,7 +3,7 @@ import { procurarReceita } from '@/pages/services/receitas/receitas';
 export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
-            const { titulo } = req.body;
+            const { titulo } = req.quey;
             const receita = await procurarReceita(titulo);
             if (receita) {
                 return res.status(200).json(receita.categoria);

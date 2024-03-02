@@ -8,8 +8,7 @@ export default function PerfilPage() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(userData);
-  }, [userData]); // Logging userData whenever it changes
+  }, [userData])
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -31,9 +30,11 @@ export default function PerfilPage() {
           height={200}
         />
       </div>
-      <h1>Nome Utilizador: {userData.nomeUsuario}</h1>
-      <h1>Email do Utilizador: {userData.email}</h1>
-      <button onClick={handleLogout}>Terminar Sessão</button>
+      <div className="w-40 flex flex-col align-middle justify-center">
+      <h1 className="justify-center flex">Nome Utilizador: {userData.nomeUsuario}</h1>
+      <h1 className="justify-center flex">Email do Utilizador: {userData.email}</h1>
+      <button className=" bg-verde rounded-xl p-4 " onClick={handleLogout}>Terminar Sessão</button>
+      </div>
     </div>
   );
 }

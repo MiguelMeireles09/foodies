@@ -9,7 +9,7 @@ export default function App({ Component, pageProps, router }) {
   const is404 = router.pathname === '/404'
 
  
-
+  
 
   if (isHomePage || isSignUp || islogin || isLocalHost || is404) {
     return <Component {...pageProps} />

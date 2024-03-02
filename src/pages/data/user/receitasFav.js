@@ -12,3 +12,6 @@ async function findReceitasFavUser(idDoUsuario) {
 }
 
 module.exports = { findReceitasFavUser };
+
+
+

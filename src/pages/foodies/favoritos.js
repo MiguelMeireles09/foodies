@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import CardFavoritos from "@/components/CardFavoritos";
 import ProtectPage from "@/utils/hooks/protectPagesHook";
+import { useEffect, useState } from "react";
 
 export default function FavoritosPage() {
   const { loading, userData } = ProtectPage();
@@ -33,27 +32,38 @@ export default function FavoritosPage() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  const removeFavorite = async (recipeId) => {
+    try {
+      const response = await fetch(`/api/user/receitasFav/${recipeId}`, {
+        method: 'DELETE', // Assuming DELETE method is used to remove a recipe from favorites
+        headers: {
+          'Content-Type': 'application/json', 
+          
+        },
+        body: JSON.stringify({ idDoUsuario: userData._id })
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to remove favorite recipe');
+      }
+
+      // Filter out the unfavorited recipe from the local state to update the UI
+      setFavoritos(favoritos.filter(recipe => recipe._id !== recipeId));
+    } catch (error) {
+      console.error('Error removing favorite recipe:', error);
+    }
+  };
+
+  // Render your favorite recipes here
   return (
-    <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
-
-
-        {/* mesmo card do search , fica meio estragado quando apenas temos uma receita */}
-        <p className="text-center py-5 text-2xl 2xl:text-4xl">Os teus favoritos:</p>
-        <div className="flex flex-wrap mb-10 pb-10">
-        {favoritos.map((recipe) => ( // Changed 'e' to 'recipe' for clarity
-          <div key={recipe._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4"> {/* Ensure recipe._id is the correct key */}
-            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
-              <img src={recipe.fotoReceita} alt="Favorite Recipe" className="rounded-t-2xl w-full h-40 object-cover" /> {/* Added alt attribute for accessibility */}
-              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
-                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{recipe.titulo}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
+    <div>
+      {favoritos.map((recipe) => (
+        <div key={recipe._id}>
+          <h3>{recipe.titulo}</h3>
+          {/* Additional recipe details */}
+          <button onClick={() => removeFavorite(recipe._id)}>Remove Favorite</button>
+        </div>
+      ))}
+    </div>
   );
 }
-

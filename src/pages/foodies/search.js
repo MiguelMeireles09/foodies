@@ -89,6 +89,7 @@ export default function SearchPage() {
   useEffect(() => {
     aplicarFiltros();
   }, [filtroDificuldade, filtroCategoria, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
+  
 
 
   // Handlers dos botões de filtro
@@ -223,10 +224,6 @@ export default function SearchPage() {
     async function fetchData() {
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
-        if (!token) {
-          router.push("/foodies/login");
-          return;
-        }
         try {
           const response = await fetch("/api/user/verificaToken", {
             method: "GET",
@@ -234,42 +231,22 @@ export default function SearchPage() {
               Authorization: `Bearer ${token}`,
             },
           });
-          if (!response.ok) throw new Error('Token verification failed');
           const data = await response.json();
-          setUserData(data); // Set user data on success
-          setLoading(false);
-          fetchFavoritos(data._id); // Fetch liked recipes
+          if (response.ok) {
+            setUserData(data); // Set user data on success
+            setLoading(false);
+            console.log(data)
+          }
         } catch (error) {
-          console.error("Error:", error);
+          console.error("Error fetching user data:", error);
           router.push("/foodies/login");
         }
       }
     }
+
     fetchData();
   }, []);
 
-  // Function to fetch liked recipes
-  const fetchFavoritos = async (idDoUsuario) => {
-    try {
-      const response = await fetch(`/api/user/receitasFav`, {
-        method: 'POST', 
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idDoUsuario })
-      });
-      if (!response.ok) throw new Error('Failed to fetch favorite recipes');
-      const data = await response.json();
-      setFavoritos(data.map(recipe => recipe.id)); // Assuming the API returns an array of recipe objects
-    } catch (error) {
-      console.error('Error fetching favorite recipes:', error);
-    }
-  };
-
-  // Check if a recipe is liked by the user
-  const isRecipeLiked = (recipeId) => favoritos.includes(recipeId);
-
-  if (loading) return <div>Loading...</div>;
 
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
