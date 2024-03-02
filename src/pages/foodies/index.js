@@ -24,12 +24,13 @@ export default function Home() {
     fetchReceitas();
   }, []);
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     router.push({
       pathname: '/foodies/search',
       query: { query: inputValue },
-    });
+    },"/foodies/search");
   };
 
   return (
