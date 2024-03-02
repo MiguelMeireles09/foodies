@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import Layout from "@/components/Layout";
 import "@/styles/globals.css";
 
@@ -9,11 +10,20 @@ export default function App({ Component, pageProps, router }) {
   const isSignUp = router.pathname === '/foodies/signup';
   const islogin = router.pathname === '/foodies/login'
   const is404 = router.pathname === '/404'
-
+  const isReceita = router.pathname === '/foodies/receita'
 
 
   if (isHomePage || isSignUp || islogin || isLocalHost || is404 ) {
     return <Component {...pageProps} />
+  }
+
+  if (isReceita) {
+    return (
+      <>
+        <Component {...pageProps } />
+        <Footer />
+      </>
+    );
   }
 
 

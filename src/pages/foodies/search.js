@@ -114,6 +114,16 @@ export default function SearchPage() {
     }
   };
 
+  const handleReceitaInfo = (e) => {
+    const receitaSelecionada = e.titulo;
+    console.log("Receita clicada:", receitaSelecionada);
+    router.push({
+      pathname: '/foodies/receita',
+      query: { query: receitaSelecionada }
+    });
+  };
+
+
   const handlePrecoChange = (event) => {
     const precoSelecionado = event.target.value;
     if (precoSelecionado == "Mais caras primeiro") {
@@ -359,6 +369,8 @@ export default function SearchPage() {
 
 
 
+            
+
 
 
       {/* Cards de receitas pretendidas */}
@@ -366,8 +378,8 @@ export default function SearchPage() {
       <p className="text-center py-5 text-2xl 2xl:text-4xl">Receitas:</p>
       <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
-          <div key={e.id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
-            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
+          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
+            <div onClick={() => handleReceitaInfo(e)} key={e.id} className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
               <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>

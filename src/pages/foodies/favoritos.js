@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CardFavoritos from "@/components/CardFavoritos";
 import ProtectPage from "@/utils/hooks/protectPagesHook";
+import ReceitaInfo from './receita';
+import Link from 'next/link';
 
 export default function FavoritosPage() {
   const { loading, userData } = ProtectPage();
@@ -41,6 +43,7 @@ export default function FavoritosPage() {
 
         {/* mesmo card do search , fica meio estragado quando apenas temos uma receita */}
         <p className="text-center py-5 text-2xl 2xl:text-4xl">Os teus favoritos:</p>
+        <Link href="/foodies/receita">Receita</Link>
         <div className="flex flex-wrap mb-10 pb-10">
         {favoritos.map((recipe) => ( // Changed 'e' to 'recipe' for clarity
           <div key={recipe._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4"> {/* Ensure recipe._id is the correct key */}
