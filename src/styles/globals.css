@@ -9,9 +9,17 @@ body {
   font-style: normal
 }
 
-.bg-image {
+.bg-image-login-signup {
   background-image: url('/backgroundLoginSignUp.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.bg-image {
+  background-image: url('/bg-image.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
 }

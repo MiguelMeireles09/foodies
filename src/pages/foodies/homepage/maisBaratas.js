@@ -20,7 +20,7 @@ export default function MaisBaratas() {
 
   useEffect(() => {
     fetchReceitas();
-  }, []);
+  }, [])
 
   const receitasBaratas = receitas.filter((e) => e.preco < 2);
 

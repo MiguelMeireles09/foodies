@@ -1,5 +1,6 @@
 import protectPage from "@/utils/hooks/protectPagesHook";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function SearchPage() {
   const [receitas, setReceitas] = useState([]);
@@ -12,6 +13,7 @@ export default function SearchPage() {
   const [erroExcluir, setErroExcluir] = useState("");
   const [filtroDificuldade, setFiltroDificuldade] = useState(null);
   const [filtroCategoria, setFiltroCategoria] = useState(null);
+  const router = useRouter()
 
   // Fetch para obter as receitas
   const fetchReceitas = async () => {
@@ -32,9 +34,22 @@ export default function SearchPage() {
     fetchReceitas();
   }, []);
 
+
+  useEffect(() => {
+    if (router.isReady) {
+      // Access the correct query parameter 'query', not 'food'
+      const foodName = router.query.query; // 'Ovo' in this case
+      console.log("Query parameter foodName:", foodName); // This should log 'Ovo'
+      if (foodName) {
+        setAlimentosQueQuer(new Set([foodName]));
+        aplicarFiltros();
+      }
+    }
+  }, [router.isReady, router.query.query]);
+
   // Funções para aplicar filtros
   const aplicarFiltros = () => {
-    let receitasFiltradas = [...receitasOriginais];
+    let receitasFiltradas = [...receitasOriginais]
 
     if (filtroDificuldade == "Média") {
       receitasFiltradas = receitasFiltradas.filter(receita => receita.dificuldade === filtroDificuldade || receita.dificuldade === "Médio");
@@ -57,16 +72,18 @@ export default function SearchPage() {
     }
 
     receitasFiltradas = receitasFiltradas.filter(receita =>
-      Array.from(alimentosQueQuer).every(alimento => receita.ingredientes.includes(alimento)) &&
-      !Array.from(alimentosQueNaoQuer).some(alimento => receita.ingredientes.includes(alimento))
-    );
+      Array.from(alimentosQueQuer).every(alimento => 
+          receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase())) &&
+      !Array.from(alimentosQueNaoQuer).some(alimento => 
+          receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase()))
+  )
 
     setReceitas(receitasFiltradas);
   };
 
   useEffect(() => {
     aplicarFiltros();
-  }, [filtroDificuldade, filtroCategoria, alimentosQueQuer, alimentosQueNaoQuer]);
+  }, [filtroDificuldade, filtroCategoria, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
 
 
   // Handlers dos botões de filtro
@@ -197,7 +214,7 @@ export default function SearchPage() {
 
 
   return (
-    <main className="items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
+    <main className="flex flex-wrap justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
     {/* Botões de filtragem */}
     <div className="flex space-x-2 pb-9">

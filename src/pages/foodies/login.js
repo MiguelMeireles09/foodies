@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
@@ -31,7 +31,21 @@ export default function Home() {
       if (response.ok) {
         const userData = await response.json();
         localStorage.setItem("token", userData.tokenId);
-       
+
+        const getResponse = await fetch("/api/user/verificaToken", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${userData.tokenId}`
+          }
+        });
+
+        if (getResponse.ok) {
+          const responseData = await getResponse.json();
+          console.log("GET request successful:", responseData);
+        } else {
+          console.error("GET request failed:", getResponse.status, getResponse.statusText);
+        }
+
         router.push({
           pathname: "/foodies/perfil",
           query: { token: userData.tokenId },
@@ -47,7 +61,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-image min-h-screen ">
+    <div className="bg-image-login-signup min-h-screen ">
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
         <img src="/images/LogoInicial.png" className="pb-2" />
         <form

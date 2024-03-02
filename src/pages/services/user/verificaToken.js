@@ -1,4 +1,4 @@
-const { verificaTokenLogado, dadosAtravesToken } = require("../data/verificaToken")
+const { verificaTokenLogado, dadosAtravesToken } = require("../../data/user/verificaToken")
 
 
 
@@ -13,4 +13,4 @@ async function buscarDadosToken(pegaId){
     return user
 }
 
-module.exports = { tokenLogado , buscarDadosToken}
+module.exports = { tokenLogado , buscarDadosToken }

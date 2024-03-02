@@ -3,7 +3,7 @@ import {
   checkPassword,
   createUser,
   getId,
-} from "@/pages/services/signup";
+} from "@/pages/services/auth/signup";
 
 /* POST /api/auth/signup */
 export default async function handler(req, res) {

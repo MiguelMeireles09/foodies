@@ -17,7 +17,7 @@ module.exports = {
         cinzaClaro: "#D9D9D9",
         verde: "#306754", 
         verdeClaro:"#7BB197",
-        butãoInicial: "#252525"
+        botaoInicial: "#252525"
 
       }
     },
