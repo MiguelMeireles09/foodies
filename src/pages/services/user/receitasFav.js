@@ -6,3 +6,5 @@ async function procurarReceitasFavoritas(idDoUsuario) {
 }
 
 module.exports = { procurarReceitasFavoritas }
+
+

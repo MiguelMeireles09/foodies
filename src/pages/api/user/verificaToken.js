@@ -17,7 +17,6 @@ export default async function handler(req, res) {
                 return res.status(404).json({ message: "Token not found" })
             }
         } else {
-
             res.setHeader('Allow', ['GET']);
             return res.status(405).end(`Method ${req.method} Not Allowed`)
         }

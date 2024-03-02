@@ -36,7 +36,7 @@ export default function FavoritosPage() {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <main className="flex flex-wrap justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
+    <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
 
         {/* mesmo card do search , fica meio estragado quando apenas temos uma receita */}

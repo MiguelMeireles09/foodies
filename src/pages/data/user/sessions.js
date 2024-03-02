@@ -15,7 +15,7 @@ async function findSession (token){
     return result
 }
 
-//procura uma associada a um email
+//procura uma session associada a um email
 async function findSessionByUser (email){
     const collection = await getMongoCollection(collectionName);
     const result = await collection.findOne({ email: { $eq: email } })

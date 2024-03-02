@@ -1,4 +1,3 @@
-import protectPage from "@/utils/hooks/protectPagesHook";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -14,6 +13,12 @@ export default function SearchPage() {
   const [filtroDificuldade, setFiltroDificuldade] = useState(null);
   const [filtroCategoria, setFiltroCategoria] = useState(null);
   const router = useRouter()
+
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const [favoritos, setFavoritos] = useState([]);
+
+
 
   // Fetch para obter as receitas
   const fetchReceitas = async () => {
@@ -72,11 +77,11 @@ export default function SearchPage() {
     }
 
     receitasFiltradas = receitasFiltradas.filter(receita =>
-      Array.from(alimentosQueQuer).every(alimento => 
-          receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase())) &&
-      !Array.from(alimentosQueNaoQuer).some(alimento => 
-          receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase()))
-  )
+      Array.from(alimentosQueQuer).every(alimento =>
+        receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase())) &&
+      !Array.from(alimentosQueNaoQuer).some(alimento =>
+        receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase()))
+    )
 
     setReceitas(receitasFiltradas);
   };
@@ -213,12 +218,65 @@ export default function SearchPage() {
   };
 
 
+  {/* verificar se user token é valido e se sim obter dados de user. Com os dados daqui -> fazer (colocar ou tirar like)*/ }
+  useEffect(() => {
+    async function fetchData() {
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          router.push("/foodies/login");
+          return;
+        }
+        try {
+          const response = await fetch("/api/user/verificaToken", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (!response.ok) throw new Error('Token verification failed');
+          const data = await response.json();
+          setUserData(data); // Set user data on success
+          setLoading(false);
+          fetchFavoritos(data._id); // Fetch liked recipes
+        } catch (error) {
+          console.error("Error:", error);
+          router.push("/foodies/login");
+        }
+      }
+    }
+    fetchData();
+  }, []);
+
+  // Function to fetch liked recipes
+  const fetchFavoritos = async (idDoUsuario) => {
+    try {
+      const response = await fetch(`/api/user/receitasFav`, {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ idDoUsuario })
+      });
+      if (!response.ok) throw new Error('Failed to fetch favorite recipes');
+      const data = await response.json();
+      setFavoritos(data.map(recipe => recipe.id)); // Assuming the API returns an array of recipe objects
+    } catch (error) {
+      console.error('Error fetching favorite recipes:', error);
+    }
+  };
+
+  // Check if a recipe is liked by the user
+  const isRecipeLiked = (recipeId) => favoritos.includes(recipeId);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
-    {/* Botões de filtragem */}
-    <div className="flex space-x-2 pb-9">
-      <select onChange={handleDificuldadeChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+      {/* Botões de filtragem */}
+      <div className="flex space-x-2 pb-9">
+        <select onChange={handleDificuldadeChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
           <option disabled selected>Dificuldade ▿</option>
           <option>Fácil</option>
           <option>Média</option>
@@ -252,7 +310,7 @@ export default function SearchPage() {
 
       {/* Barra de pesquisa para incluir alimento */}
       <form onSubmit={handleIncluir} className="flex w-full text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-        <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
+        <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full" />
         <datalist id="alimentoQueQuer">
           {alimentosUnicosArray.map((e, index) => (
             <option key={index} value={e} />
@@ -266,7 +324,7 @@ export default function SearchPage() {
         <ul className="flex flex-wrap gap-4">
           {Array.from(alimentosQueQuer).map((alimento, index) => (
             <li key={index} className="flex items-center">
-              <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)}/>
+              <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
               <span className="ml-2">{alimento}</span><span className="ps-2"> | </span>
             </li>
           ))}
@@ -278,7 +336,7 @@ export default function SearchPage() {
 
       {/* Barra de pesquisa para excluir alimento*/}
       <form onSubmit={handleExcluir} className="flex w-full pt-3 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-        <input list="alimentoQueNaoQuer" type="text" placeholder="Não quero cozinhar com..." value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
+        <input list="alimentoQueNaoQuer" type="text" placeholder="Não quero cozinhar com..." value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full" />
         <datalist id="alimentoQueNaoQuer">
           {alimentosUnicosArray.map((e, index) => (
             <option key={index} value={e} />
@@ -292,14 +350,19 @@ export default function SearchPage() {
         <ul className="flex flex-wrap gap-4">
           {Array.from(alimentosQueNaoQuer).map((alimento, index) => (
             <li key={index} className="flex items-center">
-              <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)}/>
+              <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
               <span className="ml-2">{alimento}</span><span className="ps-2"> | </span>
             </li>
           ))}
         </ul>
       </div>
 
+
+
+
+
       {/* Cards de receitas pretendidas */}
+
       <p className="text-center py-5 text-2xl 2xl:text-4xl">Receitas:</p>
       <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
@@ -308,6 +371,10 @@ export default function SearchPage() {
               <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
+                {/* se n tiver like  */}
+                {userData ?
+                    (<button className="mt-2 text-center">Like</button>) :
+                    null}
               </div>
             </div>
           </div>
