@@ -11,11 +11,7 @@ async function connectToMongo() {
   try {
     if (!client) {
       client = await MongoClient.connect(URL);
-
-      // Clear any existing timeout
       clearTimeout(connectionTimeout);
-
-      // Set a new timeout to close the connection after 5 minutes (300000 milliseconds)
       connectionTimeout = setTimeout(closeMongoConnection, 10000);
     }
 
