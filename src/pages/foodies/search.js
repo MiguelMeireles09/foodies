@@ -1,4 +1,3 @@
-import protectPage from "@/utils/hooks/protectPagesHook";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
@@ -17,9 +16,11 @@ export default function SearchPage() {
   const [filtroCategoria, setFiltroCategoria] = useState(null);
   const [filtroOrdem, setFiltroOrdem] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+  const [favoritos, setFavoritos] = useState([]);
 
   const router = useRouter()
-
   // Arrays
   const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator;}, []);
   const alimentosUnicosArray = Array.from(new Set(alimentosArray));
@@ -120,7 +121,7 @@ export default function SearchPage() {
     
   };
   
-  
+
 
   // Fetch para obter as receitas
   const fetchReceitas = async () => {
@@ -192,15 +193,68 @@ export default function SearchPage() {
           receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase())) &&
       !Array.from(alimentosQueNaoQuer).some(alimento => 
           receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase()))
-    )
+      )
 
     setReceitas(receitasFiltradas);
   };
 
   useEffect(() => {
     aplicarFiltros();
-  }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
+  }, [filtroDificuldade, filtroCategoria,  filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
 
+
+  // Handlers dos botões de filtro
+  const handleDificuldadeChange = (event) => {
+    const dificuldadeSelecionada = event.target.value;
+    setFiltroDificuldade(dificuldadeSelecionada);
+  };
+
+  const handleCategoriaChange = (event) => {
+    const categoriaSelecionada = event.target.value;
+    setFiltroCategoria(categoriaSelecionada);
+  };
+
+  const handleCaloriasChange = (event) => {
+    const caloriasSelecionadas = event.target.value;
+    if (caloriasSelecionadas == "Mais caloricas primeiro") {
+      const calorias = [...receitas].sort((a, b) => b.calorias - a.calorias);
+      setReceitas(calorias);
+    }
+    if (caloriasSelecionadas == "Menos caloricas primeiro") {
+      const calorias = [...receitas].sort((a, b) => a.calorias - b.calorias);
+      setReceitas(calorias);
+    }
+  };
+
+  const handlePrecoChange = (event) => {
+    const precoSelecionado = event.target.value;
+    if (precoSelecionado == "Mais caras primeiro") {
+      const preco = [...receitas].sort((a, b) => b.preco - a.preco);
+      setReceitas(preco);
+    }
+    if (precoSelecionado == "Mais baratas primeiro") {
+      const preco = [...receitas].sort((a, b) => a.preco - b.preco);
+      setReceitas(preco);
+    }
+  };
+
+  const handleReceitaInfo = (e) => {
+    const receitaSelecionada = e.titulo;
+    console.log("Receita clicada:", receitaSelecionada);
+    router.push({
+      pathname: '/foodies/receita',
+      query: { query: receitaSelecionada }
+    });
+  };
+
+
+  // 'alimentosUnicosArray' = array com todos os alimentos das receitas sem repetidos
+  const alimentosArray = receitas.reduce((accumulator, current) => {
+    accumulator.push(...current.ingredientes);
+    return accumulator;
+  }, []);
+
+  const alimentosUnicosArray = Array.from(new Set(alimentosArray));
 
 
   // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
@@ -281,17 +335,46 @@ export default function SearchPage() {
   };
 
 
+  {/* verificar se user token é valido e se sim obter dados de user. Com os dados daqui -> fazer (colocar ou tirar like)*/ }
+  useEffect(() => {
+    async function fetchData() {
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await fetch("/api/user/verificaToken", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setUserData(data); // Set user data on success
+            setLoading(false);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          router.push("/foodies/login");
+        }
+      }
+    }
+
+    fetchData();
+  }, []);
+
+
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
-      <Dropdown />
+    <Dropdown />
+
 
       {/* Mostra a mensagem de erro do incluir alimento, se houver */}
       {erroIncluir && <p className="text-red-500 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{erroIncluir}</p>}
 
       {/* Barra de pesquisa para incluir alimento */}
       <form onSubmit={handleIncluir} className="flex w-full text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-        <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
+        <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full" />
         <datalist id="alimentoQueQuer">
           {alimentosUnicosArray.map((e, index) => (
             <option key={index} value={e} />
@@ -305,7 +388,7 @@ export default function SearchPage() {
         <ul className="flex flex-wrap gap-4">
           {Array.from(alimentosQueQuer).map((alimento, index) => (
             <li key={index} className="flex items-center">
-              <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)}/>
+              <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
               <span className="ml-2">{alimento}</span><span className="ps-2"> | </span>
             </li>
           ))}
@@ -317,7 +400,7 @@ export default function SearchPage() {
 
       {/* Barra de pesquisa para excluir alimento*/}
       <form onSubmit={handleExcluir} className="flex w-full pt-3 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-        <input list="alimentoQueNaoQuer" type="text" placeholder="Não quero cozinhar com..." value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full"/>
+        <input list="alimentoQueNaoQuer" type="text" placeholder="Não quero cozinhar com..." value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} className="border border-gray-400 rounded-xl p-2 w-full" />
         <datalist id="alimentoQueNaoQuer">
           {alimentosUnicosArray.map((e, index) => (
             <option key={index} value={e} />
@@ -331,24 +414,35 @@ export default function SearchPage() {
         <ul className="flex flex-wrap gap-4">
           {Array.from(alimentosQueNaoQuer).map((alimento, index) => (
             <li key={index} className="flex items-center">
-              <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)}/>
+              <input type="checkbox" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
               <span className="ml-2">{alimento}</span><span className="ps-2"> | </span>
             </li>
           ))}
         </ul>
       </div>
 
+
+
+            
+
+
+
       {/* Cards de receitas pretendidas */}
+
       <p className="text-center py-5 text-2xl 2xl:text-4xl">Receitas:</p>
       <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
-          <div key={e.id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
-            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
+          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
+            <div onClick={() => handleReceitaInfo(e)} key={e.id} className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
               <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.dificuldade}</p>
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.categoria}</p>
+                {/* se n tiver like  */}
+                {userData ?
+                    (<button className="mt-2 text-center">Like</button>) :
+                    null}
               </div>
             </div>
           </div>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import CardFavoritos from "@/components/CardFavoritos";
 import ProtectPage from "@/utils/hooks/protectPagesHook";
+import ReceitaInfo from './receita';
+import Link from 'next/link';
 
 export default function FavoritosPage() {
   const { loading, userData } = ProtectPage();
@@ -15,12 +17,11 @@ export default function FavoritosPage() {
   const fetchFavoritos = async (idDoUsuario) => {
     try {
       const response = await fetch(`/api/user/receitasFav`, {
-        method: 'POST', // Using POST to send data in the body
+        method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
-          // Include other headers as necessary, such as Authorization headers
         },
-        body: JSON.stringify({ idDoUsuario }) // Sending the user ID in the body
+        body: JSON.stringify({ idDoUsuario })
       });
 
       if (!response.ok) {
@@ -31,23 +32,31 @@ export default function FavoritosPage() {
       setFavoritos(data); // Assuming the API returns an array of favorite recipes
     } catch (error) {
       console.error('Error fetching favorite recipes:', error);
-      // Handle error appropriately
     }
   };
 
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h1>Nome Utilizador: {userData.nomeUsuario}</h1>
-      <h1>Id: {userData._id}</h1>
-      <h1>Email Utilizador: {userData.email}</h1>
-      {favoritos.map((recipe) => (
-        <h1> 
-         Id Receita = {recipe._id} Nome Receita = {recipe.titulo} Imagem Receita = {recipe.fotoReceita}
-        </h1>
-          
-      ))}
-    </div>
+    <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
+
+
+        {/* mesmo card do search , fica meio estragado quando apenas temos uma receita */}
+        <p className="text-center py-5 text-2xl 2xl:text-4xl">Os teus favoritos:</p>
+        <Link href="/foodies/receita">Receita</Link>
+        <div className="flex flex-wrap mb-10 pb-10">
+        {favoritos.map((recipe) => ( // Changed 'e' to 'recipe' for clarity
+          <div key={recipe._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4"> {/* Ensure recipe._id is the correct key */}
+            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
+              <img src={recipe.fotoReceita} alt="Favorite Recipe" className="rounded-t-2xl w-full h-40 object-cover" /> {/* Added alt attribute for accessibility */}
+              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
+                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{recipe.titulo}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
   );
 }
+

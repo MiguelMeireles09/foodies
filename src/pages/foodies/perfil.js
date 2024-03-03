@@ -8,8 +8,7 @@ export default function PerfilPage() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(userData);
-  }, [userData]); // Logging userData whenever it changes
+  }, [userData])
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,19 +20,33 @@ export default function PerfilPage() {
   }
 
   return (
-    <div>
-      <div className="flex justify-center perfilImagem">
-        <Image
-          src="/images/BottomBackgroundFoodies.png"
-          alt="Perfil Imagem"
-          className="rounded-full"
-          width={200}
-          height={200}
-        />
+    <div className="flex flex-col  min-h-screen pt-12">
+      <div className="relative mb-4 pb-16">
+        <div className=" flex justify-center">
+          <Image
+            src="/images/chapeuPerfil.svg"
+            alt="Chapeu Chef"
+            className="rounded-full"
+            width={200}
+            height={200}
+          />
+        </div>
+        <div className="flex justify-center">
+          <Image
+            src="/images/BottomBackgroundFoodies.png"
+            alt="Perfil Imagem"
+            className="rounded-full"
+            width={350}
+            height={400}
+          />
+        </div>
       </div>
-      <h1>Nome Utilizador: {userData.nomeUsuario}</h1>
-      <h1>Email do Utilizador: {userData.email}</h1>
-      <button onClick={handleLogout}>Terminar Sessão</button>
+      <div className="w-full flex flex-col items-center justify-center ">
+        <h1>Nome Utilizador:</h1>
+        <h1>{userData.nomeUsuario}</h1>
+        <h1>Email do Utilizador:</h1><h1> {userData.email}</h1>
+        <button className="bg-verde rounded-xl p-4 mt-32" onClick={handleLogout}>Terminar Sessão</button>
+      </div>
     </div>
   );
 }

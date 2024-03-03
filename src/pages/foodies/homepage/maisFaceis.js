@@ -7,7 +7,7 @@ export default function maisFaceis() {
 
   const fetchReceitas = async () => {
     try {
-      const response = await fetch('/api/receitas/todasReceitas');
+      const response = await fetch('/api/receitas/filtrosPagInicial/maisFaceis');
       if (!response.ok) {
         throw new Error('Falha ao buscar receitas');
       }
@@ -22,24 +22,15 @@ export default function maisFaceis() {
     fetchReceitas();
   }, []);
 
-  const receitasFaceis = receitas.filter((e) => e.dificuldade == "Fácil");
-
   return (
     <div className="min-h-screen">
-      <p className='text-3xl text-center py-5'>Receitas Fáceis:</p>
+      <p className='text-3xl text-center py-5'>Receitas Baratas:</p>
        <ul>
-         {receitasFaceis.map(e => {
+         {receitas.map(e => {
           return (
-            <li key={e._id}>
+            <li>
+              <img src={e.fotoReceita}/>
               <p className='text-2xl py-2'>{e.titulo}</p>
-              <p>Ingredientes: {e.ingredientes}</p>
-              <p>Quantidades: {e.quantidades}</p>
-              <p>Dificuldade: {e.dificuldade}</p>
-              <p>TempoPreparo: {e.tempoPreparo}</p>
-              <p>Calorias: {e.calorias}</p>
-              <p>Preco: {e.preco}</p>
-              <p>Likes: {e.likes}</p>
-              <p>Categoria: {e.categoria}</p>
             </li>
           );
         })}

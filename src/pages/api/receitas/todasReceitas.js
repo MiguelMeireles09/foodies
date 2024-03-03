@@ -1,4 +1,3 @@
-import { procurarReceita } from '@/pages/services/receitas/receitas';
 import { procurarReceitas } from '@/pages/services/receitas/todasReceitas';
 
 

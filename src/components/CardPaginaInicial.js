@@ -6,6 +6,7 @@ export default function Card({ imagem, nomeComida , href }) {
   const handleCardClick = () => {
     router.push(href);
   };
+  
   return (
     <div className='w-full md:w-auto max-w-[calc(45%-1rem)] py-6 cursor-pointer' onClick={handleCardClick}> 
       <div className='bg-cinzaClaro rounded-2xl'>
