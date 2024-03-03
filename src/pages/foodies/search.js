@@ -21,6 +21,7 @@ export default function SearchPage() {
   const [favoritos, setFavoritos] = useState([]);
 
   const router = useRouter()
+
   // Arrays
   const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator;}, []);
   const alimentosUnicosArray = Array.from(new Set(alimentosArray));
@@ -28,7 +29,7 @@ export default function SearchPage() {
   const categorias = ["Entrada", "Prato principal", "Sobremesa", "Lanche"];
   const ordens = ["Mais caloricas primeiro", "Menos caloricas primeiro", "Mais baratas primeiro", "Mais caras primeiro"];
 
-
+  
   const toggleDropdown = () => {
     setShowMenu(!showMenu);
   };
@@ -203,40 +204,6 @@ export default function SearchPage() {
   }, [filtroDificuldade, filtroCategoria,  filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
 
 
-  // Handlers dos botões de filtro
-  const handleDificuldadeChange = (event) => {
-    const dificuldadeSelecionada = event.target.value;
-    setFiltroDificuldade(dificuldadeSelecionada);
-  };
-
-  const handleCategoriaChange = (event) => {
-    const categoriaSelecionada = event.target.value;
-    setFiltroCategoria(categoriaSelecionada);
-  };
-
-  const handleCaloriasChange = (event) => {
-    const caloriasSelecionadas = event.target.value;
-    if (caloriasSelecionadas == "Mais caloricas primeiro") {
-      const calorias = [...receitas].sort((a, b) => b.calorias - a.calorias);
-      setReceitas(calorias);
-    }
-    if (caloriasSelecionadas == "Menos caloricas primeiro") {
-      const calorias = [...receitas].sort((a, b) => a.calorias - b.calorias);
-      setReceitas(calorias);
-    }
-  };
-
-  const handlePrecoChange = (event) => {
-    const precoSelecionado = event.target.value;
-    if (precoSelecionado == "Mais caras primeiro") {
-      const preco = [...receitas].sort((a, b) => b.preco - a.preco);
-      setReceitas(preco);
-    }
-    if (precoSelecionado == "Mais baratas primeiro") {
-      const preco = [...receitas].sort((a, b) => a.preco - b.preco);
-      setReceitas(preco);
-    }
-  };
 
   const handleReceitaInfo = (e) => {
     const receitaSelecionada = e.titulo;
@@ -246,15 +213,6 @@ export default function SearchPage() {
       query: { query: receitaSelecionada }
     });
   };
-
-
-  // 'alimentosUnicosArray' = array com todos os alimentos das receitas sem repetidos
-  const alimentosArray = receitas.reduce((accumulator, current) => {
-    accumulator.push(...current.ingredientes);
-    return accumulator;
-  }, []);
-
-  const alimentosUnicosArray = Array.from(new Set(alimentosArray));
 
 
   // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
