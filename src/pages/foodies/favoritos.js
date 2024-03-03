@@ -35,6 +35,8 @@ export default function FavoritosPage() {
     }
   };
 
+  
+
   const handleImagemClick = (recipe) => {
     const receitaSelecionada = recipe.titulo
     console.log("Receita clicada:", receitaSelecionada);

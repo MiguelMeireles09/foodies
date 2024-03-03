@@ -25,7 +25,7 @@ export default function MaisBaratas() {
 
   return (
     <div>
-      <div className="text-center text-2xl">Económicas</div>
+      <div className="text-center text-2xl py-4">Económicas</div>
       <div className="carousel relative">
         {receitas.map((e, index) => (
           <div key={index} id={`item${index + 1}`} className="carousel-item" onClick={() => setCurrentSlide(index)}>

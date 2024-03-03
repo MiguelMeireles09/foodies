@@ -25,7 +25,7 @@ export default function MaisRapidas() {
 
   return (
     <div>
-      <div className="text-center text-2xl">Rápidas</div>
+      <div className="text-center text-2xl py-4">Rápidas</div>
       <div className="carousel relative">
         {receitas.map((e, index) => (
           <div key={index} id={`item${index + 1}`} className="carousel-item" onClick={() => setCurrentSlide(index)}>

@@ -25,7 +25,7 @@ export default function Sopas() {
 
   return (
     <div>
-      <div className="text-center text-2xl">Sopas</div>
+      <div className="text-center text-2xl py-4">Sopas</div>
       <div className="carousel relative">
         {receitas.map((e, index) => (
           <div key={index} id={`item${index + 1}`} className="carousel-item" onClick={() => setCurrentSlide(index)}>

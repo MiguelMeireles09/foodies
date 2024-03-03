@@ -1,4 +1,4 @@
-import { filtrarPorsopa } from "@/pages/services/receitas/filtrosPagInicial/porCategoria.js/sopa";
+import { filtrarPorsopa } from "@/pages/services/receitas/filtrosPagInicial/categoria.js/sopa";
 
 export default async function handler(req, res) {
     try {

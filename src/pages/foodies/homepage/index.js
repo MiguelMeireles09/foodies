@@ -1,12 +1,13 @@
 // pages/foodies/homepage/index.js
 
+
 import MaisGostadas from "@/components/PaginaInicial/MaisGostadas";
 import MaisRapidas from "@/components/PaginaInicial/MaisRapidas";
 import Entradas from "@/components/PaginaInicial/Entradas";
 import Lanches from "@/components/PaginaInicial/Lanches";
 import MaisBaratas from "@/components/PaginaInicial/MaisEconomicas";
 import MaisFaceis from "@/components/PaginaInicial/MaisFaceis";
-import Sopas from "@/components/PaginaInicial/Moles";
+import Sopas from "@/components/PaginaInicial/Sopas";
 import PratosPrincipais from "@/components/PaginaInicial/PratosPrincipais";
 import Sobremesas from "@/components/PaginaInicial/Sobremesas";
 import MaisSaudaveis from "@/components/PaginaInicial/MaisSaudaveis";
@@ -21,7 +22,7 @@ export default function Home() {
         Confira o nosso top 10
       </p>
 
-      <div className=" flex flex-wrap justify-around pb-14 gap-5">
+      <div className=" flex flex-wrap justify-around pb-14">
         <MaisGostadas />
         <Entradas />
         <Lanches />
