@@ -1,6 +1,5 @@
 const { getMongoCollection } = require("../../mongodb/mongodb");
 
-
 const collectionName = "receitas";
 
 async function procurarReceitasMaisGostos() {
@@ -8,11 +7,18 @@ async function procurarReceitasMaisGostos() {
     const result = await collection.aggregate([
         {
             $addFields: {
-                likesCount: { $size: "$likes" } 
+                likesCount: { $size: "$likes" } // Count the number of likes
             }
         },
-        { $sort: { likesCount: -1 } }, 
-        { $limit: 10 }
+        { $sort: { likesCount: -1 } }, // Sort by 'likesCount' in descending order
+        { $limit: 10 }, // Limit to the first 10 documents
+        { 
+            $project: { 
+                _id: 0, // Exclude the '_id' field
+                titulo: 1, // Include 'titulo'
+                fotoReceita: 1 // Include 'fotoReceita'
+            } 
+        }
     ]).toArray();
     return result;
 }

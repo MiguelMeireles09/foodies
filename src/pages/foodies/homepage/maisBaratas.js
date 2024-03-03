@@ -10,7 +10,7 @@ export default function MaisBaratas() {
         throw new Error('Falha ao buscar receitas');
       }
       const data = await response.json();
-      console.log(data)
+    
       setReceitas(data);
     } catch (error) {
       console.error('Erro ao buscar receitas:', error);
@@ -29,15 +29,8 @@ export default function MaisBaratas() {
          {receitas.map(e => {
           return (
             <li key={e._id}>
+              <img src={e.fotoReceita}/>
               <p className='text-2xl py-2'>{e.titulo}</p>
-              <p>Ingredientes: {e.ingredientes}</p>
-              <p>Quantidades: {e.quantidades}</p>
-              <p>Dificuldade: {e.dificuldade}</p>
-              <p>TempoPreparo: {e.tempoPreparo}</p>
-              <p>Calorias: {e.calorias}</p>
-              <p>Preco: {e.preco}</p>
-              <p>Likes: {(e.likes).length}</p>
-              <p>Categoria: {e.categoria}</p>
             </li>
           );
         })}

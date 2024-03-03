@@ -50,7 +50,6 @@ export default function ReceitaInfo() {
   
       const data = await response.json();
       setReceita(data);
-      console.log("data", data);
     } catch (error) {
       console.error('Error fetching favorite recipes:', error);
     }

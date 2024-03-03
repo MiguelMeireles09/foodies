@@ -7,10 +7,17 @@ async function procurarReceitassobremesa() {
     const result = await collection.aggregate([
         { 
             $match: {
-                categoria: { $regex: /^sobremesa$/i } // Case-insensitive match for 'PratosPrprocurarReceitassobremesa'
+                categoria: { $regex: /^sobremesa$/i } // Case-insensitive match for 'sobremesa'
             } 
         },
-        { $limit: 10 }
+        { $limit: 10 }, // Limit to the first 10 matching documents
+        { 
+            $project: { 
+                _id: 0, // Exclude the '_id' field
+                titulo: 1, // Include 'titulo'
+                fotoReceita: 1 // Include 'fotoReceita'
+            } 
+        }
     ]).toArray();
     return result;
 }

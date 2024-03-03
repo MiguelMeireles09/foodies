@@ -1,7 +1,4 @@
-// receitas Ordenadas Por Facilidade (devo restringir a apenas 10/20 receitas?)
-
 const { getMongoCollection } = require("../../mongodb/mongodb");
-
 
 const collectionName = "receitas";
 
@@ -10,10 +7,17 @@ async function procurarReceitasFacilidade() {
     const result = await collection.aggregate([
         { 
             $match: {
-                dificuldade: { $regex: /^fácil$/i } // Case-insensitive match for 'facil'
+                dificuldade: { $regex: /^fácil$/i } // Case-insensitive match for 'fácil'
             } 
         },
-        { $limit: 10 }
+        { $limit: 10 }, // Limit to the first 10 documents
+        { 
+            $project: { 
+                _id: 0, // Exclude the '_id' field
+                titulo: 1, // Include 'titulo'
+                fotoReceita: 1 // Include 'fotoReceita'
+            } 
+        }
     ]).toArray();
     return result;
 }

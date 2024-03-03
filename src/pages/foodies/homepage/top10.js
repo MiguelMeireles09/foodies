@@ -21,27 +21,20 @@ export default function Top10() {
   useEffect(() => {
     fetchReceitas();
   }, []);
-
+  
   return (
     <div className="min-h-screen">
-      <p className='text-3xl text-center py-5'>Top 10 Receitas:</p>
-        <ul>
-            {receitas.map(e => {
-            return (
-                <li key={e._id}>
-                <p className='text-2xl py-2'>{e.titulo}</p>
-                <p>Ingredientes: {e.ingredientes}</p>
-                <p>Quantidades: {e.quantidades}</p>
-                <p>Dificuldade: {e.dificuldade}</p>
-                <p>TempoPreparo: {e.tempoPreparo}</p>
-                <p>Calorias: {e.calorias}</p>
-                <p>Preco: {e.preco}</p>
-                <p>Likes: {(e.likes).length}</p>
-                <p>Categoria: {e.categoria}</p>
-                </li>
-            );
-            })}
-        </ul>
+      <p className='text-3xl text-center py-5'>Receitas Baratas:</p>
+       <ul>
+         {receitas.map(e => {
+          return (
+            <li>
+              <img src={e.fotoReceita}/>
+              <p className='text-2xl py-2'>{e.titulo}</p>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
