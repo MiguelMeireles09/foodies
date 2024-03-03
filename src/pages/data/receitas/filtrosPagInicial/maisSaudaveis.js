@@ -5,7 +5,7 @@ const collectionName = "receitas";
 async function procurarReceitasMenosCalorias() {
     const collection = await getMongoCollection(collectionName);
     const result = await collection.aggregate([
-        { $sort: { calorias: -1 } }, 
+        { $sort: { calorias: +1 } }, 
         { $limit: 10 }
     ]).toArray();
     return result;

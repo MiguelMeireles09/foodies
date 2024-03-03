@@ -7,7 +7,7 @@ async function procurarReceitassobremesa() {
     const result = await collection.aggregate([
         { 
             $match: {
-                categoria: { $regex: /^prato principal$/i } // Case-insensitive match for 'PratosPrprocurarReceitassobremesa'
+                categoria: { $regex: /^sobremesa$/i } // Case-insensitive match for 'PratosPrprocurarReceitassobremesa'
             } 
         },
         { $limit: 10 }

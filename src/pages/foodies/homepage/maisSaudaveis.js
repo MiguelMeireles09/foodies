@@ -7,7 +7,7 @@ export default function MaisSaudaveis() {
 
   const fetchReceitas = async () => {
     try {
-      const response = await fetch('/api/receitas/todasReceitas');
+      const response = await fetch('/api/receitas/filtrosPagInicial/maisSaudaveis');
       if (!response.ok) {
         throw new Error('Falha ao buscar receitas');
       }
@@ -22,13 +22,12 @@ export default function MaisSaudaveis() {
     fetchReceitas();
   }, []);
 
-  const receitasSaudavies = receitas.filter((e) => e.calorias < 200);
-
+  
   return (
     <div className="min-h-screen">
       <p className='text-3xl text-center py-5'>Receitas Saudáveis:</p>
        <ul>
-         {receitasSaudavies.map(e => {
+         {receitas.map(e => {
           return (
             <li key={e._id}>
               <p className='text-2xl py-2'>{e.titulo}</p>
@@ -38,7 +37,7 @@ export default function MaisSaudaveis() {
               <p>TempoPreparo: {e.tempoPreparo}</p>
               <p>Calorias: {e.calorias}</p>
               <p>Preco: {e.preco}</p>
-              <p>Likes: {e.likes}</p>
+              <p>Likes: {(e.likes).length}</p>
               <p>Categoria: {e.categoria}</p>
             </li>
           );

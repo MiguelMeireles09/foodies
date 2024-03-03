@@ -22,14 +22,11 @@ export default function Top10() {
     fetchReceitas();
   }, []);
 
-  const receitasOrdenadasPorLikes = [...receitas].sort((a, b) => b.likes - a.likes);
-  const top10Receitas = receitasOrdenadasPorLikes.slice(0, 10);
-
   return (
     <div className="min-h-screen">
       <p className='text-3xl text-center py-5'>Top 10 Receitas:</p>
         <ul>
-            {top10Receitas.map(e => {
+            {receitas.map(e => {
             return (
                 <li key={e._id}>
                 <p className='text-2xl py-2'>{e.titulo}</p>
@@ -39,7 +36,7 @@ export default function Top10() {
                 <p>TempoPreparo: {e.tempoPreparo}</p>
                 <p>Calorias: {e.calorias}</p>
                 <p>Preco: {e.preco}</p>
-                <p>Likes: {e.likes}</p>
+                <p>Likes: {(e.likes).length}</p>
                 <p>Categoria: {e.categoria}</p>
                 </li>
             );

@@ -7,7 +7,7 @@ export default function pratosPrincipais() {
 
   const fetchReceitas = async () => {
     try {
-      const response = await fetch('/api/receitas/filtrosPagInicial/categoria/pratosPrincipais');
+      const response = await fetch('/api/receitas/filtrosPagInicial/categoria/sopa');
       if (!response.ok) {
         throw new Error('Falha ao buscar receitas');
       }

@@ -1,5 +1,3 @@
-// pages/foodies/homepageCards/maisBaratas.js
-
 import { useState, useEffect } from 'react';
 
 export default function MaisBaratas() {
@@ -7,11 +5,12 @@ export default function MaisBaratas() {
 
   const fetchReceitas = async () => {
     try {
-      const response = await fetch('/api/receitas/todasReceitas');
+      const response = await fetch('/api/receitas/filtrosPagInicial/maisBaratas');
       if (!response.ok) {
         throw new Error('Falha ao buscar receitas');
       }
       const data = await response.json();
+      console.log(data)
       setReceitas(data);
     } catch (error) {
       console.error('Erro ao buscar receitas:', error);
@@ -22,13 +21,12 @@ export default function MaisBaratas() {
     fetchReceitas();
   }, [])
 
-  const receitasBaratas = receitas.filter((e) => e.preco < 2);
 
   return (
     <div className="min-h-screen">
       <p className='text-3xl text-center py-5'>Receitas Baratas:</p>
        <ul>
-         {receitasBaratas.map(e => {
+         {receitas.map(e => {
           return (
             <li key={e._id}>
               <p className='text-2xl py-2'>{e.titulo}</p>
@@ -38,7 +36,7 @@ export default function MaisBaratas() {
               <p>TempoPreparo: {e.tempoPreparo}</p>
               <p>Calorias: {e.calorias}</p>
               <p>Preco: {e.preco}</p>
-              <p>Likes: {e.likes}</p>
+              <p>Likes: {(e.likes).length}</p>
               <p>Categoria: {e.categoria}</p>
             </li>
           );

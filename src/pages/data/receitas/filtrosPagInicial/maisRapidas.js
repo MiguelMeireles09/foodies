@@ -8,7 +8,7 @@ const collectionName = "receitas";
 async function procurarReceitasMenosDuracao() {
     const collection = await getMongoCollection(collectionName);
     const result = await collection.aggregate([
-        { $sort: { duracao: -1 } }, 
+        { $sort: { tempoPreparo: +1 } }, 
         { $limit: 10 }
     ]).toArray();
     return result;

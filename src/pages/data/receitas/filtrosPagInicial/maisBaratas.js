@@ -7,7 +7,7 @@ const collectionName = "receitas";
 async function procurarReceitasPreco() {
     const collection = await getMongoCollection(collectionName);
     const result = await collection.aggregate([
-        { $sort: { preco : -1 } }, 
+        { $sort: { preco : +1 } }, 
         { $limit: 10 }
     ]).toArray();
     return result;
