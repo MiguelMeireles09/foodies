@@ -1,4 +1,3 @@
-import { Carousel } from "@material-tailwind/react";
 import { useState, useEffect } from 'react';
 
 export default function Top10() {
