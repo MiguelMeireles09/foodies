@@ -9,11 +9,118 @@ export default function SearchPage() {
   const [alimentoQueNaoQuer, setAlimentoQueNaoQuer] = useState("");
   const [alimentosQueQuer, setAlimentosQueQuer] = useState(new Set());
   const [alimentosQueNaoQuer, setAlimentosQueNaoQuer] = useState(new Set());
+  const [dificuldadesQueQuer, setDificuldadesQueQuer] = useState(new Set());
+  const [categoriasQueQuer, setCategoriasQueQuer] = useState(new Set());
   const [erroIncluir, setErroIncluir] = useState("");
   const [erroExcluir, setErroExcluir] = useState("");
   const [filtroDificuldade, setFiltroDificuldade] = useState(null);
   const [filtroCategoria, setFiltroCategoria] = useState(null);
+  const [filtroOrdem, setFiltroOrdem] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
+
   const router = useRouter()
+
+  // Arrays
+  const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator;}, []);
+  const alimentosUnicosArray = Array.from(new Set(alimentosArray));
+  const dificuldades = ["Fácil", "Médio", "Difícil"];
+  const categorias = ["Entrada", "Prato principal", "Sobremesa", "Lanche"];
+  const ordens = ["Mais caloricas primeiro", "Menos caloricas primeiro", "Mais baratas primeiro", "Mais caras primeiro"];
+
+
+  const toggleDropdown = () => {
+    setShowMenu(!showMenu);
+  };
+  
+
+  const Dropdown = () => {
+    // Função para remover uma dificuldade da lista de dificuldades que quer
+    const handleRemoverDificuldadeQueQuer = (dificuldade) => {
+      const newDificuldadesQueQuer = new Set(dificuldadesQueQuer);
+      newDificuldadesQueQuer.delete(dificuldade);
+      setDificuldadesQueQuer(newDificuldadesQueQuer);
+    };
+
+    // Função para remover uma categoria da lista de categorias que quer
+    const handleRemoverCategoriaQueQuer = (categoria) => {
+      const newCategoriasQueQuer = new Set(categoriasQueQuer);
+      newCategoriasQueQuer.delete(categoria);
+      setCategoriasQueQuer(newCategoriasQueQuer);
+    };
+
+    return (
+      <div className="relative">
+        <button className="py-2 px-4 rounded inline-flex items-center" onClick={toggleDropdown}>
+          Filtros
+          <svg className="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/></svg>
+        </button>
+    
+        {showMenu && (
+          <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg">
+            <ul>
+              <li className="relative group hover:bg-gray-100">
+                <button className="w-full py-2 px-4 text-left focus:outline-none" onClick={() => setFiltroDificuldade(null)}>
+                  Dificuldade
+                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/></svg>
+                </button>
+                {/* Lista de dificuldades que quer */}
+                <ul className="flex flex-wrap gap-4">
+                  {Array.from(dificuldadesQueQuer).map((dificuldade, index) => (
+                    <li key={index} className="flex items-center">
+                      <input type="checkbox" checked={dificuldadesQueQuer.size > 0} onChange={() => handleRemoverDificuldadeQueQuer(dificuldade)}/>
+                      <span className="ml-2">{dificuldade}</span><span className="ps-2"> | </span>
+                    </li>
+                  ))}
+                </ul>
+                {/* Lista de subitems */}
+                <ul className="absolute left-full top-0 mt-0 w-56 bg-white rounded-lg shadow-lg hidden group-hover:block">
+                  {dificuldades.map((dificuldade, index) => (
+                    <li key={index} className="py-2 px-4 hover:bg-gray-100" onClick={() => setFiltroDificuldade(dificuldade)}>{dificuldade}</li>
+                  ))}
+                </ul>
+              </li>
+              <li className="relative group hover:bg-gray-100">
+                <button className="w-full py-2 px-4 text-left focus:outline-none" onClick={() => setFiltroCategoria(null)}>
+                  Categoria
+                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/></svg>
+                </button>
+                {/* Lista de categorias que quer */}
+                <ul className="flex flex-wrap gap-4">
+                  {Array.from(categoriasQueQuer).map((categoria, index) => (
+                    <li key={index} className="flex items-center">
+                      <input type="checkbox" checked={categoriasQueQuer.size > 0} onChange={() => handleRemoverCategoriaQueQuer(categoria)}/>
+                      <span className="ml-2">{categoria}</span><span className="ps-2"> | </span>
+                    </li>
+                  ))}
+                </ul>
+                {/* Lista de subitems */}
+                <ul className="absolute left-full top-0 mt-0 w-56 bg-white rounded-lg shadow-lg hidden group-hover:block">
+                  {categorias.map((categoria, index) => (
+                    <li key={index} className="py-2 px-4 hover:bg-gray-100" onClick={() => setFiltroCategoria(categoria)}>{categoria}</li>
+                  ))}
+                </ul>
+              </li>
+              <li className="relative group hover:bg-gray-100">
+                <button className="w-full py-2 px-4 text-left focus:outline-none" onClick={() => setFiltroOrdem(null)}>
+                  Ordem
+                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/></svg>
+                </button>
+                <ul className="absolute left-full top-0 mt-0 w-56 bg-white rounded-lg shadow-lg hidden group-hover:block">
+                  {ordens.map((ordem, index) => (
+                    <li key={index} className="py-2 px-4 hover:bg-gray-100" onClick={() => setFiltroOrdem(ordem)}>{ordem}</li>
+                  ))}
+                </ul>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+    
+    
+  };
+  
+  
 
   // Fetch para obter as receitas
   const fetchReceitas = async () => {
@@ -35,11 +142,11 @@ export default function SearchPage() {
   }, []);
 
 
+  // useEffect para obter query de alimento da página principal
   useEffect(() => {
     if (router.isReady) {
-      // Access the correct query parameter 'query', not 'food'
-      const foodName = router.query.query; // 'Ovo' in this case
-      console.log("Query parameter foodName:", foodName); // This should log 'Ovo'
+      const foodName = router.query.query;
+      console.log("Query parameter foodName:", foodName);
       if (foodName) {
         setAlimentosQueQuer(new Set([foodName]));
         aplicarFiltros();
@@ -47,28 +154,37 @@ export default function SearchPage() {
     }
   }, [router.isReady, router.query.query]);
 
+
   // Funções para aplicar filtros
   const aplicarFiltros = () => {
     let receitasFiltradas = [...receitasOriginais]
 
-    if (filtroDificuldade == "Média") {
-      receitasFiltradas = receitasFiltradas.filter(receita => receita.dificuldade === filtroDificuldade || receita.dificuldade === "Médio");
+    setDificuldadesQueQuer((prevDificuldades) => new Set([...prevDificuldades, filtroDificuldade]));
+    receitasFiltradas = receitasFiltradas.filter(receita =>
+      Array.from(dificuldadesQueQuer).every(dificuldade => 
+          receita.dificuldade.includes(dificuldade))
+    )
+
+    setCategoriasQueQuer((prevCategorias) => new Set([...prevCategorias, filtroCategoria]));
+    receitasFiltradas = receitasFiltradas.filter(receita =>
+      Array.from(categoriasQueQuer).every(categoria => 
+          receita.categoria.includes(categoria))
+    )
+
+    if (filtroOrdem == "Mais caloricas primeiro") {
+      receitasFiltradas = [...receitasFiltradas].sort((a, b) => b.calorias - a.calorias);
     }
 
-    if (filtroCategoria == "Entradas") {
-      receitasFiltradas = receitasFiltradas.filter(receita => receita.categoria === "Entrada");
+    if (filtroOrdem == "Menos caloricas primeiro") {
+      receitasFiltradas = [...receitasFiltradas].sort((a, b) => a.calorias - b.calorias);
     }
 
-    if (filtroCategoria == "Pratos Principais") {
-      receitasFiltradas = receitasFiltradas.filter(receita => receita.categoria === "Prato Principal");
+    if (filtroOrdem == "Mais caras primeiro") {
+      receitasFiltradas = [...receitasFiltradas].sort((a, b) => b.preco - a.preco);
     }
 
-    if (filtroCategoria == "Sobremesas") {
-      receitasFiltradas = receitasFiltradas.filter(receita => receita.categoria === "Sobremesa");
-    }
-
-    if (filtroCategoria == "Lanches") {
-      receitasFiltradas = receitasFiltradas.filter(receita => receita.categoria === "Lanche");
+    if (filtroOrdem == "Mais baratas primeiro") {
+      receitasFiltradas = [...receitasFiltradas].sort((a, b) => a.preco - b.preco);
     }
 
     receitasFiltradas = receitasFiltradas.filter(receita =>
@@ -76,59 +192,15 @@ export default function SearchPage() {
           receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase())) &&
       !Array.from(alimentosQueNaoQuer).some(alimento => 
           receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase()))
-  )
+    )
 
     setReceitas(receitasFiltradas);
   };
 
   useEffect(() => {
     aplicarFiltros();
-  }, [filtroDificuldade, filtroCategoria, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
+  }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
 
-
-  // Handlers dos botões de filtro
-  const handleDificuldadeChange = (event) => {
-    const dificuldadeSelecionada = event.target.value;
-    setFiltroDificuldade(dificuldadeSelecionada);
-  };
-
-  const handleCategoriaChange = (event) => {
-    const categoriaSelecionada = event.target.value;
-    setFiltroCategoria(categoriaSelecionada);
-  };
-
-  const handleCaloriasChange = (event) => {
-    const caloriasSelecionadas = event.target.value;
-    if (caloriasSelecionadas == "Mais caloricas primeiro") {
-      const calorias = [...receitas].sort((a, b) => b.calorias - a.calorias);
-      setReceitas(calorias);
-    }
-    if (caloriasSelecionadas == "Menos caloricas primeiro") {
-      const calorias = [...receitas].sort((a, b) => a.calorias - b.calorias);
-      setReceitas(calorias);
-    }
-  };
-
-  const handlePrecoChange = (event) => {
-    const precoSelecionado = event.target.value;
-    if (precoSelecionado == "Mais caras primeiro") {
-      const preco = [...receitas].sort((a, b) => b.preco - a.preco);
-      setReceitas(preco);
-    }
-    if (precoSelecionado == "Mais baratas primeiro") {
-      const preco = [...receitas].sort((a, b) => a.preco - b.preco);
-      setReceitas(preco);
-    }
-  };
-
-
-  // 'alimentosUnicosArray' = array com todos os alimentos das receitas sem repetidos
-  const alimentosArray = receitas.reduce((accumulator, current) => {
-    accumulator.push(...current.ingredientes);
-    return accumulator;
-  }, []);
-
-  const alimentosUnicosArray = Array.from(new Set(alimentosArray));
 
 
   // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
@@ -157,10 +229,8 @@ export default function SearchPage() {
       alimentosQueNaoQuer.delete(novoAlimento);
     }
 
-    setAlimentosQueQuer(
-      (prevAlimentos) => new Set([...prevAlimentos, novoAlimento])
-    ); // Adiciona o novo alimento ao conjunto de alimentos que quer
-    setAlimentoQueQuer(""); // Limpa o campo de entrada
+    setAlimentosQueQuer((prevAlimentos) => new Set([...prevAlimentos, novoAlimento]));
+    setAlimentoQueQuer("");
   };
 
 
@@ -190,10 +260,8 @@ export default function SearchPage() {
       alimentosQueQuer.delete(novoAlimento);
     }
 
-    setAlimentosQueNaoQuer(
-      (prevAlimentos) => new Set([...prevAlimentos, novoAlimento])
-    ); // Adiciona o novo alimento ao conjunto de alimentos que quer
-    setAlimentoQueNaoQuer(""); // Limpa o campo de entrada
+    setAlimentosQueNaoQuer((prevAlimentos) => new Set([...prevAlimentos, novoAlimento]));
+    setAlimentoQueNaoQuer("");
   };
 
 
@@ -216,36 +284,7 @@ export default function SearchPage() {
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
-    {/* Botões de filtragem */}
-    <div className="flex space-x-2 pb-9">
-      <select onChange={handleDificuldadeChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-          <option disabled selected>Dificuldade ▿</option>
-          <option>Fácil</option>
-          <option>Média</option>
-          <option>Difícil</option>
-        </select>
-
-        <select onChange={handleCategoriaChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-          <option disabled selected>Categoria ▿</option>
-          <option>Entradas</option>
-          <option>Pratos Principais</option>
-          <option>Sobremesas</option>
-          <option>Lanches</option>
-        </select>
-
-        <select onChange={handleCaloriasChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro  border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-          <option disabled selected>Calorias ▿</option>
-          <option>Mais caloricas primeiro</option>
-          <option>Menos caloricas primeiro</option>
-        </select>
-
-        <select onChange={handlePrecoChange} className="w-1/4 flex-1 px-2.5 text-black bg-verdeClaro border rounded-xl text-center shadow-sm outline-none appearance-none focus:border-verde text-xs md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-          <option disabled selected>Preço ▿</option>
-          <option>Mais baratas primeiro</option>
-          <option>Mais caras primeiro</option>
-        </select>
-      </div>
-
+      <Dropdown />
 
       {/* Mostra a mensagem de erro do incluir alimento, se houver */}
       {erroIncluir && <p className="text-red-500 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{erroIncluir}</p>}
@@ -308,6 +347,8 @@ export default function SearchPage() {
               <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
+                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.dificuldade}</p>
+                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.categoria}</p>
               </div>
             </div>
           </div>
