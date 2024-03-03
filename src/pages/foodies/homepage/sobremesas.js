@@ -1,25 +1,27 @@
+
 import { useState, useEffect } from 'react';
 
-export default function MaisBaratas() {
+export default function Sobremesa() {
   const [receitas, setReceitas] = useState([]);
+
 
   const fetchReceitas = async () => {
     try {
-      const response = await fetch('/api/receitas/filtrosPagInicial/maisBaratas');
+      const response = await fetch('/api/receitas/filtrosPagInicial/categoria/sobremesa');
       if (!response.ok) {
         throw new Error('Falha ao buscar receitas');
       }
       const data = await response.json();
-    
       setReceitas(data);
     } catch (error) {
       console.error('Erro ao buscar receitas:', error);
     }
   };
+  
 
   useEffect(() => {
     fetchReceitas();
-  }, [])
+  }, []);
 
 
   return (
@@ -28,7 +30,7 @@ export default function MaisBaratas() {
        <ul>
          {receitas.map(e => {
           return (
-            <li key={e._id}>
+            <li>
               <img src={e.fotoReceita}/>
               <p className='text-2xl py-2'>{e.titulo}</p>
             </li>

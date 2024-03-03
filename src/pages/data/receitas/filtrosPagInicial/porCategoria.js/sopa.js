@@ -15,4 +15,4 @@ async function procurarReceitassopa() {
     return result;
 }
 
-module.exports = { procurarReceitassopa };
+module.exports = { procurarReceitassopa };  

@@ -245,7 +245,6 @@ export default function SearchPage() {
           if (response.ok) {
             setUserData(data); // Set user data on success
             setLoading(false);
-            console.log(data)
           }
         } catch (error) {
           console.error("Error fetching user data:", error);
