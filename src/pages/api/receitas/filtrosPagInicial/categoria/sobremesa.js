@@ -1,15 +1,13 @@
-import { procurarReceitas } from '@/pages/services/receitas/todasReceitas';
-
+import { filtrarPorsobremesa } from "@/pages/services/receitas/filtrosPagInicial/porCategoria.js/sobremesa";
 
 export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
-            const receita = await procurarReceitas();  
-     
-            if (receita) {
-                return res.status(200).json(receita);
+            const sobremesa = await filtrarPorsobremesa();  
+            if (sobremesa) {
+                return res.status(200).json(sobremesa);
             } else {
-                return res.status(404).json({ message: "receita not found" });
+                return res.status(404).json({ message: "Receitas não encontradas." });
             }
         } else {
             // Método não permitido

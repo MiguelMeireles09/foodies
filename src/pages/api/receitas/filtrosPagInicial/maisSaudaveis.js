@@ -1,15 +1,17 @@
-import { procurarReceitas } from '@/pages/services/receitas/todasReceitas';
+// Receitas saudaveis // com menos calorias
+
+import { filtrarPorCalorias } from "@/pages/services/receitas/filtrosPagInicial/maisSaudaveis";
+
 
 
 export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
-            const receita = await procurarReceitas();  
-     
-            if (receita) {
-                return res.status(200).json(receita);
+            const saudaveis = await filtrarPorCalorias();  
+            if (saudaveis) {
+                return res.status(200).json(saudaveis);
             } else {
-                return res.status(404).json({ message: "receita not found" });
+                return res.status(404).json({ message: "Receitas não encontradas." });
             }
         } else {
             // Método não permitido

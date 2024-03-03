@@ -1,15 +1,15 @@
-import { procurarReceitas } from '@/pages/services/receitas/todasReceitas';
+//Receitas Ordenadas Por tempo (devo restringir a apenas 10/20 receitas?)
 
+import { filtrarPorDuracao } from "@/pages/services/receitas/filtrosPagInicial/maisRapidas";
 
 export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
-            const receita = await procurarReceitas();  
-     
-            if (receita) {
-                return res.status(200).json(receita);
+            const duracao = await filtrarPorDuracao();  
+            if (duracao) {
+                return res.status(200).json(duracao);
             } else {
-                return res.status(404).json({ message: "receita not found" });
+                return res.status(404).json({ message: "Receitas não encontradas." });
             }
         } else {
             // Método não permitido

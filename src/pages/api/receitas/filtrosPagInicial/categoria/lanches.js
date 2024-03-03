@@ -1,15 +1,13 @@
-import { procurarReceitas } from '@/pages/services/receitas/todasReceitas';
-
+import { filtrarPorLanches } from "@/pages/services/receitas/filtrosPagInicial/porCategoria.js/lanches";
 
 export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
-            const receita = await procurarReceitas();  
-     
-            if (receita) {
-                return res.status(200).json(receita);
+            const lanches = await filtrarPorLanches();  
+            if (lanches) {
+                return res.status(200).json(lanches);
             } else {
-                return res.status(404).json({ message: "receita not found" });
+                return res.status(404).json({ message: "Receitas não encontradas." });
             }
         } else {
             // Método não permitido
