@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CardFavoritos from "@/components/CardFavoritos";
 import ProtectPage from "@/utils/hooks/protectPagesHook";
 import ReceitaInfo from './receita';
 import Link from 'next/link';
