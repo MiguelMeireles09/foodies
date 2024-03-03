@@ -10,7 +10,7 @@ export default function ReceitaGeral({ geral }) {
       </div>
       <div className="flex gap-2">
         <Image src="/receitainfo/doses.svg" width="20" height="20" />
-        Doses:<div>{geral.doses}</div>
+        Doses:<div>{geral.doses === undefined ? 4 : geral.doses}</div>
       </div>
       <div className="flex gap-2">
         <Image src="/receitainfo/peso.svg" width="20" height="20" />

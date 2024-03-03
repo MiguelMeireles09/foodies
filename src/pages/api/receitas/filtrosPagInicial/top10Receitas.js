@@ -1,15 +1,15 @@
-import { procurarReceitas } from '@/pages/services/receitas/todasReceitas';
+//Receitas por likes  -> FEITO
 
+import { filtrarPorLikes } from "@/pages/services/receitas/filtrosPagInicial/top10Receitas";
 
 export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
-            const receita = await procurarReceitas();  
-     
-            if (receita) {
-                return res.status(200).json(receita);
+            const top10 = await filtrarPorLikes();  
+            if (top10) {
+                return res.status(200).json(top10);
             } else {
-                return res.status(404).json({ message: "receita not found" });
+                return res.status(404).json({ message: "Receitas não encontradas." });
             }
         } else {
             // Método não permitido

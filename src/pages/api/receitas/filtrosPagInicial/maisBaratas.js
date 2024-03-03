@@ -1,15 +1,15 @@
-import { procurarReceitas } from '@/pages/services/receitas/todasReceitas';
+// receitas ordenadas Por preço (devo restringir a apenas 10/20 receitas?)
 
+import { filtrarPorPreco } from "@/pages/services/receitas/filtrosPagInicial/maisBaratas";
 
 export default async function handler(req, res) {
     try {
         if (req.method === "GET") {
-            const receita = await procurarReceitas();  
-     
-            if (receita) {
-                return res.status(200).json(receita);
+            const custo = await filtrarPorPreco();  
+            if (custo) {
+                return res.status(200).json(custo);
             } else {
-                return res.status(404).json({ message: "receita not found" });
+                return res.status(404).json({ message: "Receitas não encontradas." });
             }
         } else {
             // Método não permitido
