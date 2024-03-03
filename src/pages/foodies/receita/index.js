@@ -12,7 +12,8 @@ export default function ReceitaInfo() {
   const { query } = router;
 
     const [imagemAtual, setImagemAtual] = useState('/receitainfo/Favoriteborder.svg');
-  
+
+
     const handleTrocarImagem = () => {
       // Trocar a imagem com base na imagem atual
       if (imagemAtual === '/receitainfo/Favoriteborder.svg') {
@@ -115,3 +116,5 @@ export default function ReceitaInfo() {
     </div>
   );
 }
+
+

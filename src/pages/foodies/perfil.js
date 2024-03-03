@@ -33,7 +33,7 @@ export default function PerfilPage() {
         </div>
         <div className="flex justify-center">
           <Image
-            src="/images/BottomBackgroundFoodies.png"
+            src="/images/Top10Receitas.png"
             alt="Perfil Imagem"
             className="rounded-full"
             width={350}
