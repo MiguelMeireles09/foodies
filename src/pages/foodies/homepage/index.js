@@ -19,7 +19,7 @@ export default function Home() {
   return (
     <div className="py-6 min-h-screen md:px-14 lg:px-20 xl:px-28 ">
 
-      <p className=" text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+      <p className="text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
         “O segredo está na receita - descubra-a connosco.”
       </p>
       <p className=" text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">

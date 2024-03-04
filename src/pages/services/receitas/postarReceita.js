@@ -6,8 +6,8 @@ async function verificaSeExiste(ingredientes , modoPreparo){
     }
 
 
-async function createReceita (ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade , calorias, modoPreparo ,idUsuario ){
-    await inserirReceitaDataBase( ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade , calorias, modoPreparo ,idUsuario )
+async function createReceita (ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade , calorias, modoPreparo ,idUsuario, categoria ){
+    await inserirReceitaDataBase( ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade , calorias, modoPreparo ,idUsuario ,categoria)
 }
 
 

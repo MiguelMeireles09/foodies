@@ -9,9 +9,9 @@ async function verificaSeExiste(ingredientes, modoPreparo) {
     return !recipe
 }
 
-async function inserirReceitaDataBase(ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade, calorias, modoPreparo, idUsuario) {
+async function inserirReceitaDataBase(ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade, calorias, modoPreparo, idUsuario, categoria) {
     const collection = await getMongoCollection(collectionName);
-    await collection.insertOne({ ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade, calorias, modoPreparo, idUsuario, likes: []  });
+    await collection.insertOne({ ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade, calorias, modoPreparo, idUsuario, categoria, likes: []  });
 }
 
 module.exports = { inserirReceitaDataBase, verificaSeExiste }

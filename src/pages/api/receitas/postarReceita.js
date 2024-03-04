@@ -8,7 +8,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: "Method Not Allowed" });
     }
     try {
-        const { ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade, calorias, modoPreparo, idUsuario } = req.body;
+        const { ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade, calorias, modoPreparo, idUsuario, categoria } = req.body;
         const isUnique = await verificaSeExiste(ingredientes, modoPreparo);
         if (!isUnique) {
             return res.status(400).json({
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
                 error: "A receita não parece bem."
             });
         }
-        await createReceita(ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade, calorias, modoPreparo, idUsuario);
+        await createReceita(ingredientes, quantidades, tempoPreparo, preco, fotoReceita, titulo, dificuldade, calorias, modoPreparo, idUsuario,categoria);
         return res.status(201).json({
             message: "Receita Postada com sucesso, Obrigado pela partilha!",
             titulo

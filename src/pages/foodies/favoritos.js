@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProtectPage from "@/utils/hooks/protectPagesHook";
-import ReceitaInfo from './receita'; // Ensure this is used or remove if it's not needed
 import Link from 'next/link';
-import { useRouter } from 'next/router'; // Correct the import for useRouter
+import { useRouter } from 'next/router';
 
 export default function FavoritosPage() {
   const { loading: userLoading, userData } = ProtectPage();
@@ -48,10 +47,10 @@ export default function FavoritosPage() {
   }
 
   if (userLoading || loadingFavoritos) return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex flex-col justify-center items-center h-screen pb-40">
       <img src="https://images-ext-1.discordapp.net/external/O9fOp7KHXEPsHYJZfIAl_6WlcubBa-W3qkn9QKDVCA0/https/x.yummlystatic.com/web/spinner-light-bg.gif?width=250&height=250" alt="Loading..."></img>
     </div>
-  )
+  );
 
 
   return (
@@ -67,7 +66,6 @@ export default function FavoritosPage() {
               <img onClick={() => handleImagemClick(recipe)} src={recipe.fotoReceita} alt="Favorite Recipe" className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{recipe.titulo}</p>
-                
               </div>
             </div>
           </div>

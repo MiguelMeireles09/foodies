@@ -27,7 +27,9 @@ export default function MaisGostadas() {
     <div>
       <div className="text-center text-2xl py-4">Gostadas</div>
       <div className="carousel relative">
+
         {receitas.map((e, index) => (
+
           <div key={index} id={`item${index + 1}`} className="carousel-item" onClick={() => setCurrentSlide(index)}>
             <div style={{ position: "relative", width: "100%", height: "100%" }}>
               <img src={e.fotoReceita} className="h-48" style={{ width: "100%", height: "100%" }} />

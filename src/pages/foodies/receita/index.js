@@ -70,13 +70,13 @@ export default function ReceitaInfo() {
   };
 
   if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
+   return (
+      <div className="flex flex-col justify-center items-center h-screen pb-40">
         <img src="https://images-ext-1.discordapp.net/external/O9fOp7KHXEPsHYJZfIAl_6WlcubBa-W3qkn9QKDVCA0/https/x.yummlystatic.com/web/spinner-light-bg.gif?width=250&height=250" alt="Loading..."></img>
       </div>
     );
-  } 
-  
+   }
+   
   return (
     <div className="font-sans">
       <div className="img-bg-receita" style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
