@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { router } from "next/router";
 
 export default function Sobremesas() {
   const [receitas, setReceitas] = useState([]);
@@ -23,33 +27,66 @@ export default function Sobremesas() {
     fetchReceitas();
   }, []);
 
+  const handleImagemClick = (e) => {
+    console.log("sou o e:", e);
+    const receitaSelecionada = e.titulo;
+    console.log("Receita clicada:", receitaSelecionada);
+    router.push({
+      pathname: "/foodies/receita",
+      query: { query: receitaSelecionada },
+    });
+  };
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    appendDots: (dots) => (
+      <div
+        style={{
+          position: "absolute",
+          bottom: "10px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: "1",
+        }}
+      >
+        <ul
+          style={{ margin: "0", padding: "0", textAlign: "center" }}
+          className="custom-dots"
+        >
+          {" "}
+          {dots}{" "}
+        </ul>
+      </div>
+    ),
+    customPaging: function (i) {
+      return <button className="slick-dot"></button>;
+    },
+  };
+
   return (
     <div>
-      <div className="text-center text-2xl py-4">Sobremesas</div>
-      <div className="carousel relative">
-        {receitas.map((e, index) => (
-          <div key={index} id={`item${index + 1}`} className="carousel-item" onClick={() => setCurrentSlide(index)}>
-            <div style={{ position: "relative", width: "100%", height: "100%" }}>
-              <img src={e.fotoReceita} className="h-48" style={{ width: "100%", height: "100%" }} />
-              <p className="absolute left-0 top-1/2 transform -translate-y-1/2 m-0 p-1 bg-black bg-opacity-50 
-              text-white text-xl w-full text-center">
-                {e.titulo}
-              </p>
-            </div>
-          </div>
-        ))}
-        <div className="absolute bottom-2 left-0 w-full flex justify-center">
-          {receitas.map((_, index) => (
-            <Image
+      <div className="text-center text-2xl py-4 text-verdeClaro font-bold"></div>
+      <div className="relative">
+        <Slider className="w-screen" {...settings}>
+          {receitas.map((e, index) => (
+            <div
               key={index}
-              width="10"
-              height="10"
-              src={index === currentSlide ? "/cardHomepage/dotselected.svg" : "/cardHomepage/dotunselected.svg"}
-              className="h-3 mx-1"
-              alt={index === currentSlide ? "selected dot" : "unselected dot"}
-            />
+              onClick={() => handleImagemClick(e)}
+              className="relative"
+            >
+              <img src={e.fotoReceita} className="w-full h-64 border-cinzaClaro border-t-2 border-b-2" />
+            </div>
           ))}
-        </div>
+        </Slider>
+        <p className="absolute top-0 flex justify-center items-center text-white text-2xl bg-black bg-opacity-20 text-center w-full p-3 font-black">
+          {/* {e.titulo} */}
+          Sobremesas
+        </p>
       </div>
     </div>
   );

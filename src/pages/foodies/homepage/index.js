@@ -1,7 +1,7 @@
 // pages/foodies/homepage/index.js
 
 import { motion } from "framer-motion";
-import MaisGostadas from "@/components/PaginaInicial/MaisGostadas";
+import MaisGostadas from "@/components/PaginaInicial/MaisGostadasteste";
 import MaisRapidas from "@/components/PaginaInicial/MaisRapidas";
 import Entradas from "@/components/PaginaInicial/Entradas";
 import Lanches from "@/components/PaginaInicial/Lanches";
@@ -19,13 +19,12 @@ export default function Home() {
   return (
     <div className="py-6 min-h-screen md:px-14 lg:px-20 xl:px-28 ">
 
-      <p className=" text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+      <p className=" text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-2">
         “O segredo está na receita - descubra-a connosco.”
       </p>
-      <p className=" text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-        Confira o nosso top 10
+      <p className=" text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-2">
+        Confira o nosso TOP 10
       </p>
-
       <motion.div
         initial={{
           y: 100,
