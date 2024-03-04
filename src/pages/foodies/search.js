@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function SearchPage() {
-
-
   const [receitas, setReceitas] = useState([]);
   const [receitasOriginais, setReceitasOriginais] = useState([]);
   const [alimentoQueQuer, setAlimentoQueQuer] = useState("");
@@ -18,10 +16,9 @@ export default function SearchPage() {
   const [filtroCategoria, setFiltroCategoria] = useState(null);
   const [filtroOrdem, setFiltroOrdem] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [favoritos, setFavoritos] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [userData, setUserData] = useState(null);
+  
   const router = useRouter()
 
   // Arrays
