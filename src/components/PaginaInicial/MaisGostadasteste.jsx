@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { router } from "next/router";
 
-export default function Sopas() {
+export default function MaisGostadas() {
   const [receitas, setReceitas] = useState([]);
-  const [currentSlide, setCurrentSlide] = useState(0); // Initialize current slide index
- 
 
   const fetchReceitas = async () => {
     try {
-      const response = await fetch("/api/receitas/filtrosPagInicial/categoria/sopa");
+      const response = await fetch(
+        "/api/receitas/filtrosPagInicial/top10Receitas"
+      );
       if (!response.ok) {
         throw new Error("Falha ao buscar receitas");
       }
@@ -23,11 +22,13 @@ export default function Sopas() {
     }
   };
 
+  console.log("Receitas:", receitas);
+
   useEffect(() => {
     fetchReceitas();
   }, []);
 
-  
+
   const handleImagemClick = (e) => {
     console.log("sou o e:", e);
     const receitaSelecionada = e.titulo;
@@ -78,15 +79,15 @@ export default function Sopas() {
             <div
               key={index}
               onClick={() => handleImagemClick(e)}
-              className="relative"
+              className="relative "
             >
               <img src={e.fotoReceita} className="w-full h-64 border-cinzaClaro border-t-2 border-b-2" />
             </div>
           ))}
         </Slider>
-        <p className="absolute top-0 flex justify-center items-center text-white text-2xl bg-black bg-opacity-20 text-center w-full p-3 font-black">
+        <p className="absolute top-0 flex justify-center items-center text-white text-2xl bg-black bg-opacity-20   text-center w-full p-3 font-black">
           {/* {e.titulo} */}
-          Sopas
+          Receitas favoritas
         </p>
       </div>
     </div>

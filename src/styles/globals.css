@@ -76,3 +76,30 @@ body {
   }
 }
 
+.slick-dots {
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.custom-dots .slick-dot {
+  width: 10px; /* Adjust the width */
+  height: 10px; /* Adjust the height */
+  border-radius: 50%; /* Make it circular */
+  background-color: #D9D9D9; /* Change the color */
+  border: none; /* Remove border */
+  margin: 0 5px; /* Adjust spacing between dots */
+  cursor: pointer; /* Show pointer cursor */
+}
+
+.custom-dots .slick-active .slick-dot {
+  background-color: #306754; /* Change active dot color */
+}
+
+.slick-dots li button:before  {
+  color: transparent !important;
+}
+.slick-dots li button:after {
+  color: transparent !important;
+}
