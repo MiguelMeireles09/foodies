@@ -16,7 +16,11 @@ export default function PerfilPage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Or any loading spinner
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <img src="https://images-ext-1.discordapp.net/external/O9fOp7KHXEPsHYJZfIAl_6WlcubBa-W3qkn9QKDVCA0/https/x.yummlystatic.com/web/spinner-light-bg.gif?width=250&height=250" alt="Loading..."></img>
+      </div>
+    )
   }
 
   return (
@@ -31,13 +35,13 @@ export default function PerfilPage() {
             height={200}
           />
         </div>
-        <div className="flex justify-center">
+        <div className="flex w-90  h-90 rounded-full justify-center">
           <Image
             src="/images/Top10Receitas.png"
             alt="Perfil Imagem"
-            className="rounded-full"
+            className="rounded-full w-90 h-90"
             width={350}
-            height={400}
+            height={350}
           />
         </div>
       </div>

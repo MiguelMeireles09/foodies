@@ -9,6 +9,7 @@ export default function ReceitaInfo() {
   const [pagina, setPagina] = useState("ReceitaGeral");
   const [receita, setReceita] = useState("")
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true); 
   const { query } = router;
 
     const [imagemAtual, setImagemAtual] = useState('/receitainfo/Favoriteborder.svg');
@@ -53,6 +54,7 @@ export default function ReceitaInfo() {
     } catch (error) {
       console.error('Error fetching favorite recipes:', error);
     }
+    setIsLoading(false); // End loading
   };
   
   // Function to render the current page based on the state
@@ -67,14 +69,22 @@ export default function ReceitaInfo() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <img src="https://images-ext-1.discordapp.net/external/O9fOp7KHXEPsHYJZfIAl_6WlcubBa-W3qkn9QKDVCA0/https/x.yummlystatic.com/web/spinner-light-bg.gif?width=250&height=250" alt="Loading..."></img>
+      </div>
+    );
+  } 
+  
   return (
     <div className="font-sans">
       <div className="img-bg-receita" style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
         <div className="h-2/4 p-8">
-          <Image src="/receitainfo/arrowBack.svg" onClick={() => router.back()} width="40" height="40" />
+          <Image src="/receitainfo/arrowBack.svg" className="cursor-pointer" onClick={() => router.back()} width="40" height="40" />
         </div>
-        <div className="h-2/4 flex justify-end items-end p-8">
-          <Image src={imagemAtual} width="40" height="40" onClick={handleTrocarImagem} />
+        <div className="h-2/4 flex justify-end items-end p-8 ">
+          <Image src={imagemAtual} width="40" height="40" onClick={handleTrocarImagem} className="cursor-pointer" />
         </div>
       </div>
       <div className="">
@@ -83,7 +93,7 @@ export default function ReceitaInfo() {
             {receita.titulo}
           </div>
           <div className="w-2/5 p-5 flex justify-end">
-          <div className="w-32 h-10 border border-#868686 rounded-2xl text-verde font-bold flex items-center justify-center gap-2 p-2" style={{fontSize: "11px", letterSpacing:"0.1px"}}>
+          <div className="cursor-pointer w-32 h-10 border border-#868686 rounded-2xl text-verde font-bold flex items-center justify-center gap-2 p-2" style={{fontSize: "11px", letterSpacing:"0.1px"}}>
               <Image src="/receitainfo/share.svg" width="20" height="20" />
               PARTILHAR
             </div>
