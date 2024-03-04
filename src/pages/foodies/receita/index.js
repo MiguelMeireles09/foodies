@@ -42,7 +42,6 @@ export default function ReceitaInfo() {
         headers: {
           'Content-Type': 'application/json',
         },
-        // No need to include body for GET request
       });
       
       if (!response.ok) {
@@ -72,7 +71,7 @@ export default function ReceitaInfo() {
     <div className="font-sans">
       <div className="img-bg-receita" style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
         <div className="h-2/4 p-8">
-          <Image src="/receitainfo/arrowBack.svg" width="40" height="40" />
+          <Image src="/receitainfo/arrowBack.svg" onClick={() => router.back()} width="40" height="40" />
         </div>
         <div className="h-2/4 flex justify-end items-end p-8">
           <Image src={imagemAtual} width="40" height="40" onClick={handleTrocarImagem} />
