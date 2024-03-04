@@ -1,4 +1,4 @@
-import { filtrarPorsobremesa } from "@/pages/services/receitas/filtrosPagInicial/porCategoria.js/sobremesa";
+import { filtrarPorsobremesa } from "@/pages/services/receitas/filtrosPagInicial/categoria.js/sobremesa";
 
 export default async function handler(req, res) {
     try {
