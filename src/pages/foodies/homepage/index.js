@@ -1,7 +1,7 @@
 // pages/foodies/homepage/index.js
 
 import { motion } from "framer-motion";
-import MaisGostadas from "@/components/PaginaInicial/MaisGostadasteste";
+import MaisGostadas from "@/components/PaginaInicial/MaisGostadas";
 import MaisRapidas from "@/components/PaginaInicial/MaisRapidas";
 import Entradas from "@/components/PaginaInicial/Entradas";
 import Lanches from "@/components/PaginaInicial/Lanches";
