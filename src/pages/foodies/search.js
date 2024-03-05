@@ -407,11 +407,11 @@ export default function SearchPage() {
       <p className="text-center py-5 text-2xl 2xl:text-4xl">Receitas:</p>
       <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
-          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4 relative" key={e.id}>
+          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4 relative" key={e._id}>
             <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px] relative">
               <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
-              <button className="absolute top-3 right-3 flex" onClick={() => handleTrocarImagem(e.id)}>
-                <img src={imagensAtuais[e.id] || '/receitainfo/Favoriteborder.svg'} width="40" height="40" className="cursor-pointer" />
+              <button className="absolute top-3 right-3 flex" onClick={() => handleTrocarImagem(e._id)}>
+                <img src={imagensAtuais[e._id] || '/receitainfo/Favoriteborder.svg'} width="40" height="40" className="cursor-pointer" />
               </button>
               <div onClick={() => handleReceitaInfo(e)} className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
