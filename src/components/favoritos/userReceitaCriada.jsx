@@ -34,6 +34,14 @@ export default function UserReceitasCriadasPage() {
     setLoadingReceitas(false);
   };
 
+  const handleImagemClick = (e) => {
+    const receitaSelecionada = e.titulo;
+    router.push({
+      pathname: "/foodies/receita",
+      query: { query: receitaSelecionada },
+    });
+  };
+
   useEffect(() => {
     if (!userLoading && userData?._id) {
       fetchReceitas(userData._id);

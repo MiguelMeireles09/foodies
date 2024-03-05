@@ -16,7 +16,7 @@ export default function ReceitaIngrediente( ingredientes ) {
             </ul>
           ))}
         </div>
-        <div>
+        <div className="w-1/4">
           {quantidades.map((e, index) => (
             <ul key={index} className="">
               <li className={`flex ${index !== quantidades.length - 1 ? 'border-b border-cinzaClaro' : ''} h-14 items-center`}>

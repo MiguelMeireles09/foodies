@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProtectPage from "@/utils/hooks/protectPagesHook";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import BotaoRemoverLike from "../botoes/BotaoRemoverLike";
 
 export default function UserFavoritosPage() {
   const [pagina, setPagina] = useState("Favoritos");
@@ -10,6 +11,7 @@ export default function UserFavoritosPage() {
   const [receitasUser, setReceitasUser] = useState([]);
   const [loadingFavoritos, setLoadingFavoritos] = useState(false);
   const [loadingReceitas, setLoadingReceitas] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   // Favoritos que o usuario deu like
@@ -35,6 +37,20 @@ export default function UserFavoritosPage() {
     setLoadingFavoritos(false);
   };
 
+  // Confirmar se quer remover dos favoritos
+  const handleConfirm = () => {
+    alert("Confirmed!");
+    setIsOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
+
+  const removerLike = () => {
+    setIsOpen(!isOpen);
+  };
+
   useEffect(() => {
     if (!userLoading && userData?._id) {
       Favoritos(userData._id);
@@ -48,15 +64,20 @@ export default function UserFavoritosPage() {
       query: { query: receitaSelecionada },
     });
   };
+
   const handlePageChange = (newPage) => {
     setPagina(newPage);
   };
 
-  if (userLoading || loadingFavoritos) return (
-    <div className="flex flex-col justify-center items-center h-screen pb-40">
-      <img src="https://images-ext-1.discordapp.net/external/O9fOp7KHXEPsHYJZfIAl_6WlcubBa-W3qkn9QKDVCA0/https/x.yummlystatic.com/web/spinner-light-bg.gif?width=250&height=250" alt="Loading..."></img>
-    </div>
-  );
+  if (userLoading || loadingFavoritos)
+    return (
+      <div className="flex flex-col justify-center items-center h-screen pb-40">
+        <img
+          src="https://images-ext-1.discordapp.net/external/O9fOp7KHXEPsHYJZfIAl_6WlcubBa-W3qkn9QKDVCA0/https/x.yummlystatic.com/web/spinner-light-bg.gif?width=250&height=250"
+          alt="Loading..."
+        ></img>
+      </div>
+    );
 
   return (
     <div>
@@ -79,6 +100,14 @@ export default function UserFavoritosPage() {
                 alt="Favorite Recipe"
                 className="rounded-t-2xl w-full h-40 object-cover"
               />
+              <div onClick={removerLike}>
+                <BotaoRemoverLike
+                  isOpen={isOpen}
+                  handleConfirm={handleConfirm}
+                  handleCancel={handleCancel}
+                />
+                <img src="/receitainfo/favorite.svg" width="20" height="20" />
+              </div>
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">
                   {recipe.titulo}
@@ -89,5 +118,5 @@ export default function UserFavoritosPage() {
         ))}
       </div>
     </div>
-  );  
+  );
 }
