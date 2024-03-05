@@ -28,13 +28,28 @@ body {
   border-bottom: 1px solid #D9D9D9;
 }
 
-.bg-image {
+/* Estilos para dispositivos móveis */
+@media only screen and (max-width: 768px) {
+  .bg-image {  
   background-image: url('/bg-image.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 1;
+  }
 }
+
+/* Estilos para desktops */
+@media only screen and (min-width: 769px) {
+  .bg-image {  
+    background-image: url('/desktop-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 1;
+    }
+}
+
 
 /* Heart like */
 .like-button {
