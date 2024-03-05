@@ -6,7 +6,6 @@ import { createTokens } from '@/pages/services/user/tokens';
 
 export default async function handler(req, res) {
     try {
-        
         const { email, password } = req.body
         
         if (req.method === "POST") {

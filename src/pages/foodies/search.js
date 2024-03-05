@@ -16,6 +16,8 @@ export default function SearchPage() {
   const [erroIncluir, setErroIncluir] = useState("");
   const [erroExcluir, setErroExcluir] = useState("");
   const [imagensAtuais, setImagensAtuais] = useState({});
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
   const refFiltros = useRef();
@@ -31,9 +33,9 @@ export default function SearchPage() {
   const handleTrocarImagem = (receitaId) => {
     setImagensAtuais((prevImagens) => {
       const novaImagem = prevImagens[receitaId] === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg';
-      return { ...prevImagens, [receitaId]: novaImagem };
-    });
-  };
+      return { ...prevImagens, [receitaId]: novaImagem }
+    })
+  }
 
 
   useEffect(() => {
@@ -72,8 +74,9 @@ export default function SearchPage() {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          });
+          })
           const data = await response.json();
+          console.log(data)
           if (response.ok) {
             setUserData(data); // Define os dados do usuário em caso de sucesso
             setLoading(false);
@@ -154,7 +157,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     aplicarFiltros();
-  }, [filtroDificuldade, filtroCategoria,  filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
+  }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
 
 
 
@@ -331,7 +334,7 @@ export default function SearchPage() {
       {/* Barra de pesquisa para incluir alimentos */}
       <div className="flex items-center justify-center mt-4">
         <form className="flex w-full" onSubmit={handleIncluir}>
-          <input list="alimentoQueQuer" type="text" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} placeholder="Qual o alimento que tem para hoje?" className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-verde"/>
+          <input list="alimentoQueQuer" type="text" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} placeholder="Qual o alimento que tem para hoje?" className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-verde" />
           <datalist id="alimentoQueQuer">
             {alimentosUnicosArray.map((e, index) => (
               <option key={index} value={e} />
@@ -346,7 +349,7 @@ export default function SearchPage() {
       {/* Barra de pesquisa para excluir alimentos */}
       <div className="flex items-center justify-center mt-4">
         <form className="flex w-full" onSubmit={handleExcluir}>
-          <input list="alimentoQueNaoQuer" type="text" value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} placeholder="Não quero cozinhar com..." className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-red-500"/>
+          <input list="alimentoQueNaoQuer" type="text" value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} placeholder="Não quero cozinhar com..." className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-red-500" />
           <datalist id="alimentoQueNaoQuer">
             {alimentosUnicosArray.map((e, index) => (
               <option key={index} value={e} />
@@ -361,13 +364,13 @@ export default function SearchPage() {
       <div className="flex mt-2 flex-wrap bg-gray-100 p-2 rounded-lg">
         {alimentosQueQuer.map((alimento, index) => (
           <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1">
-            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)}/>
+            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
             {alimento}
           </div>
         ))}
         {alimentosQueNaoQuer.map((alimento, index) => (
           <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1">
-            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)}/>
+            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
             Sem {alimento}
           </div>
         ))}
@@ -397,7 +400,7 @@ export default function SearchPage() {
         ))}
         {filtroOrdem && (
           <div className="flex items-center py-1 px-2 rounded-xl m-1">
-            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => setFiltroOrdem(null)}/>
+            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => setFiltroOrdem(null)} />
             {filtroOrdem}
           </div>
         )}
