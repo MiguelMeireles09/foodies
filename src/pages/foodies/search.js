@@ -25,17 +25,17 @@ export default function SearchPage() {
   const router = useRouter()
 
   // Arrays
-  const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator;}, []);
+  const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator; }, []);
   const alimentosUnicosArray = Array.from(new Set(alimentosArray));
   const dificuldades = ["Fácil", "Médio", "Difícil"];
   const categorias = ["Entrada", "Prato principal", "Sobremesa", "Lanche"];
   const ordens = ["Mais caloricas primeiro", "Menos caloricas primeiro", "Mais baratas primeiro", "Mais caras primeiro"];
 
-  
+
   const toggleDropdown = () => {
     setShowMenu(!showMenu);
   };
-  
+
 
   const Dropdown = () => {
     // Função para remover uma dificuldade da lista de dificuldades que quer
@@ -56,22 +56,22 @@ export default function SearchPage() {
       <div className="relative">
         <button className="py-2 px-4 rounded inline-flex items-center" onClick={toggleDropdown}>
           Filtros
-          <svg className="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/></svg>
+          <svg className="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd" /></svg>
         </button>
-    
+
         {showMenu && (
           <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg">
             <ul>
               <li className="relative group hover:bg-gray-100">
                 <button className="w-full py-2 px-4 text-left focus:outline-none" onClick={() => setFiltroDificuldade(null)}>
                   Dificuldade
-                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/></svg>
+                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd" /></svg>
                 </button>
                 {/* Lista de dificuldades que quer */}
                 <ul className="flex flex-wrap gap-4">
                   {Array.from(dificuldadesQueQuer).map((dificuldade, index) => (
                     <li key={index} className="flex items-center">
-                      <input type="checkbox" checked={dificuldadesQueQuer.size > 0} onChange={() => handleRemoverDificuldadeQueQuer(dificuldade)}/>
+                      <input type="checkbox" checked={dificuldadesQueQuer.size > 0} onChange={() => handleRemoverDificuldadeQueQuer(dificuldade)} />
                       <span className="ml-2">{dificuldade}</span><span className="ps-2"> | </span>
                     </li>
                   ))}
@@ -86,13 +86,13 @@ export default function SearchPage() {
               <li className="relative group hover:bg-gray-100">
                 <button className="w-full py-2 px-4 text-left focus:outline-none" onClick={() => setFiltroCategoria(null)}>
                   Categoria
-                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/></svg>
+                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd" /></svg>
                 </button>
                 {/* Lista de categorias que quer */}
                 <ul className="flex flex-wrap gap-4">
                   {Array.from(categoriasQueQuer).map((categoria, index) => (
                     <li key={index} className="flex items-center">
-                      <input type="checkbox" checked={categoriasQueQuer.size > 0} onChange={() => handleRemoverCategoriaQueQuer(categoria)}/>
+                      <input type="checkbox" checked={categoriasQueQuer.size > 0} onChange={() => handleRemoverCategoriaQueQuer(categoria)} />
                       <span className="ml-2">{categoria}</span><span className="ps-2"> | </span>
                     </li>
                   ))}
@@ -107,7 +107,7 @@ export default function SearchPage() {
               <li className="relative group hover:bg-gray-100">
                 <button className="w-full py-2 px-4 text-left focus:outline-none" onClick={() => setFiltroOrdem(null)}>
                   Ordem
-                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd"/></svg>
+                  <svg className="w-4 h-4 absolute right-4 top-1/2 transform -translate-y-1/2 group-hover:-rotate-90 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 011.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd" /></svg>
                 </button>
                 <ul className="absolute left-full top-0 mt-0 w-56 bg-white rounded-lg shadow-lg hidden group-hover:block">
                   {ordens.map((ordem, index) => (
@@ -120,13 +120,13 @@ export default function SearchPage() {
         )}
       </div>
     );
-    
-    
+
+
   };
-  
 
 
-  // Fetch para obter as receitas
+
+  // Fetch para obter as receitas 
   const fetchReceitas = async () => {
     try {
       const response = await fetch("/api/receitas/todasReceitas");
@@ -164,14 +164,14 @@ export default function SearchPage() {
 
     setDificuldadesQueQuer((prevDificuldades) => new Set([...prevDificuldades, filtroDificuldade]));
     receitasFiltradas = receitasFiltradas.filter(receita =>
-      Array.from(dificuldadesQueQuer).every(dificuldade => 
-          receita.dificuldade.includes(dificuldade))
+      Array.from(dificuldadesQueQuer).every(dificuldade =>
+        receita.dificuldade.includes(dificuldade))
     )
 
     setCategoriasQueQuer((prevCategorias) => new Set([...prevCategorias, filtroCategoria]));
     receitasFiltradas = receitasFiltradas.filter(receita =>
-      Array.from(categoriasQueQuer).every(categoria => 
-          receita.categoria.includes(categoria))
+      Array.from(categoriasQueQuer).every(categoria =>
+        receita.categoria.includes(categoria))
     )
 
     if (filtroOrdem == "Mais caloricas primeiro") {
@@ -191,20 +191,18 @@ export default function SearchPage() {
     }
 
     receitasFiltradas = receitasFiltradas.filter(receita =>
-      Array.from(alimentosQueQuer).every(alimento => 
-          receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase())) &&
-      !Array.from(alimentosQueNaoQuer).some(alimento => 
-          receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase()))
-      )
+      Array.from(alimentosQueQuer).every(alimento =>
+        receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase())) &&
+      !Array.from(alimentosQueNaoQuer).some(alimento =>
+        receita.ingredientes.map(ingrediente => ingrediente.toLowerCase()).includes(alimento.toLowerCase()))
+    )
 
     setReceitas(receitasFiltradas);
   };
 
   useEffect(() => {
     aplicarFiltros();
-  }, [filtroDificuldade, filtroCategoria,  filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
-
-
+  }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
 
   const handleReceitaInfo = (e) => {
     const receitaSelecionada = e.titulo;
@@ -307,7 +305,7 @@ export default function SearchPage() {
           });
           const data = await response.json();
           if (response.ok) {
-            setUserData(data); // Set user data on success
+            setUserData(data);
             setLoading(false);
           }
         } catch (error) {
@@ -324,7 +322,7 @@ export default function SearchPage() {
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5" >
 
-    <Dropdown />
+      <Dropdown />
 
 
       {/* Mostra a mensagem de erro do incluir alimento, se houver */}
@@ -381,32 +379,27 @@ export default function SearchPage() {
 
 
 
-            
-
-
-
       {/* Cards de receitas pretendidas */}
 
       <p className="text-center py-5 text-2xl 2xl:text-4xl">Receitas:</p>
       <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
-          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
-            <div onClick={() => handleReceitaInfo(e)} key={e.id} className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
-              <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
+          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4" key={e.id}>
+            <div onClick={() => handleReceitaInfo(e)} className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
+              <img src={e.fotoReceita} alt={e.titulo} className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.dificuldade}</p>
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.categoria}</p>
-                {/* se n tiver like  */}
-                {userData ?
-                    (<button className="mt-2 text-center">Like</button>) :
-                    null}
+                {userData ? (
+                  <button className="mt-2 text-center">{e.likes.includes(userData._id) ? <img src="/footer/Heartfull.svg" /> : <img src="/footer/heart.png" />}</button>
+                ) : (
+                  null )}
               </div>
             </div>
           </div>
         ))}
       </div>
-
     </main>
   );
 }
