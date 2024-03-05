@@ -21,10 +21,7 @@ export default function SearchPage() {
   const router = useRouter();
 
   // Arrays
-  const alimentosArray = receitas.reduce((accumulator, current) => {
-    accumulator.push(...current.ingredientes);
-    return accumulator;
-  }, []);
+  const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator; }, []);
   const alimentosUnicosArray = Array.from(new Set(alimentosArray));
   const dificuldades = ["Fácil", "Médio", "Difícil"];
   const categorias = ["Entrada", "Prato principal", "Sobremesa", "Lanche"];
@@ -122,6 +119,22 @@ export default function SearchPage() {
     setReceitas(receitasFiltradas);
   };
 
+  useEffect(() => {
+    aplicarFiltros();
+  }, [filtroDificuldade, filtroCategoria,  filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
+
+
+
+  const handleReceitaInfo = (e) => {
+    const receitaSelecionada = e.titulo;
+    router.push({
+      pathname: '/foodies/receita',
+      query: { query: receitaSelecionada }
+    });
+  };
+
+
+  // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
   const handleIncluir = (e) => {
     e.preventDefault();
     const novoAlimento = alimentoQueQuer.charAt(0).toUpperCase() + alimentoQueQuer.slice(1);
@@ -430,23 +443,22 @@ export default function SearchPage() {
       <p className="text-center py-5 text-2xl 2xl:text-4xl">Receitas:</p>
       <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
-          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
-            <div onClick={() => handleReceitaInfo(e)} key={e.id} className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
-              <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
+          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4" key={e.id}>
+            <div onClick={() => handleReceitaInfo(e)} className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px]">
+              <img src={e.fotoReceita} alt={e.titulo} className="rounded-t-2xl w-full h-40 object-cover" />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.dificuldade}</p>
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.categoria}</p>
-                {/* se n tiver like  */}
-                {userData ?
-                    (<button className="mt-2 text-center">Like</button>) :
-                    null}
+                {userData ? (
+                  <button className="mt-2 text-center">{e.likes.includes(userData._id) ? <img src="/footer/Heartfull.svg" /> : <img src="/footer/heart.png" />}</button>
+                ) : (
+                  null )}
               </div>
             </div>
           </div>
         ))}
       </div>
-
     </main>
   );
 }

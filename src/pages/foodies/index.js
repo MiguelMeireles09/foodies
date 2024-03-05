@@ -66,20 +66,23 @@ export default function Home() {
 
         {/* Barra de pesquisa para incluir alimento */}
         <form onSubmit={handleIncluir} className="flex flex-col justify-center align-middle text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-          <input list="alimentoQueQuer" type="text" placeholder="Qual o alimento que tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="bg-cinzaClaro border-verde border-2 placeholder-verde p-5 mb-2 rounded-3xl h-20 w-50 text-center"/>
+          <input list="alimentoQueQuer" type="text" placeholder="Que ingrediente tem para hoje?" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} className="bg-cinzaClaro border-verde border-2 placeholder-verde p-5 mb-2 rounded-3xl h-20 w-50 text-center"/>
+          <Link className="underline text-right lg:pb-10" href="/foodies/search">ver receitas</Link>
           <datalist id="alimentoQueQuer">
             {alimentosUnicosArray.map((e, index) => (
               <option key={index} value={e} />
             ))}
           </datalist>
           <div className="align-center text-center justify-center flex flex-col px-28">
-            <button type="submit" className="bg-verde p-2 rounded-xl flex align-middle justify-center text-center text-white">
-              Procurar
+            
+            <button type="submit" className="bg-verde p-2 px-8 rounded-xl flex align-middle justify-center text-center text-white ">
+              Vamos começar
             </button>
+            
           </div>
         </form>
 
-        <Link href="/foodies/search">Ver Todas.</Link>
+        
       </main> 
     </div>
   );

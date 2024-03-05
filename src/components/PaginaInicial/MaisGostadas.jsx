@@ -83,7 +83,7 @@ export default function MaisGostadas() {
         </Slider>
         <p className="absolute top-0 flex justify-center items-center text-white text-2xl bg-black bg-opacity-20   text-center w-full p-3 font-black">
           {/* {e.titulo} */}
-          Receitas favoritas
+          Receitas Favoritas
         </p>
       </div>
     </div>

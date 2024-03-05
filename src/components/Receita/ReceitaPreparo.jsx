@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export default function ReceitaPreparo( preparo) {
+export default function ReceitaPreparo(preparo) {
   const preparoReceita = preparo.preparo.modoPreparo;
   return (
     <div className="px-6 pt-7 pb-14">
