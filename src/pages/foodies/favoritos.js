@@ -13,12 +13,6 @@ export default function FavoritosPage() {
   const [loadingFavoritos, setLoadingFavoritos] = useState(false);
   const [loadingReceitas, setLoadingReceitas] = useState(false);
   const router = useRouter();
-
-  
-
-
- 
-
  
 
   if (userLoading || loadingFavoritos) return (
@@ -40,9 +34,6 @@ export default function FavoritosPage() {
     }
   };
 
-
-
-
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5">
       <div className="flex justify-around items-center border-b-2 border-gray-300 ">
@@ -60,8 +51,6 @@ export default function FavoritosPage() {
           </button>
         </div>
           <div>{renderPage()}</div>
-    </main>
-
-    
+    </main> 
   )
 }

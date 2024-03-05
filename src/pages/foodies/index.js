@@ -78,11 +78,8 @@ export default function Home() {
             <button type="submit" className="bg-verde p-2 px-8 rounded-xl flex align-middle justify-center text-center text-white ">
               Vamos começar
             </button>
-            
           </div>
         </form>
-
-        
       </main> 
     </div>
   );

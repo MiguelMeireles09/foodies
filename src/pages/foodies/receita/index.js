@@ -11,20 +11,57 @@ export default function ReceitaInfo() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const { query } = router
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [imagemAtual, setImagemAtual] = useState('/receitainfo/Favoriteborder.svg')
 
-  const handleTrocarImagem = () => {
-    if (imagemAtual === '/receitainfo/Favoriteborder.svg') {
-      setImagemAtual('/receitainfo/Favorite.svg')
-    } else {
-      setImagemAtual('/receitainfo/Favoriteborder.svg')
+  const handleTrocarImagem = async () => {
+    if (!userData || !receita) {
+        console.log("Missing user data or recipe data.");
+        return;
     }
-  }
+
+    // Toggle the like status optimistically for immediate UI feedback
+    const newImageSrc = imagemAtual === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg';
+    setImagemAtual(newImageSrc);
+
+    try {
+        const payload = {
+            idUsuario: userData._id,
+            idReceita: receita._id,
+        };
+
+        const response = await fetch('/api/user/like', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`, // Include if needed
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to toggle like status');
+        }
+
+        // Here, no need to update the image based on the response
+        // since we've optimistically updated the UI already.
+        // If needed, you could refresh the data here instead.
+        
+    } catch (error) {
+        console.error('Error toggling like status:', error);
+        // Rollback the optimistic UI update in case of error
+        setImagemAtual(imagemAtual); // This line might not revert as expected due to closures capturing the state
+        // Consider using a more sophisticated state management strategy or force a data refresh
+    }
+};
+
+
 
   const handlePageChange = (newPage) => {
     setPagina(newPage)
-  };
+  }
 
   useEffect(() => {
     if (router.isReady) {
@@ -32,7 +69,6 @@ export default function ReceitaInfo() {
       fetchInfoReceitas(tituloReceita);
     }
   }, [router.isReady, router.query.query])
-
 
   const fetchInfoReceitas = async (query) => {
     try {
@@ -42,18 +78,50 @@ export default function ReceitaInfo() {
           'Content-Type': 'application/json',
         }
       })
-
       if (!response.ok) {
         throw new Error('Failed to fetch favorite recipes')
       }
-
       const data = await response.json();
-      setReceita(data);
+       // this will give me recipe data with likes being and array of user _ids
+      setReceita(data)
     } catch (error) {
       console.error('Error fetching favorite recipes:', error)
     }
     setIsLoading(false)
   }
+
+  useEffect(() => {
+    async function fetchData() {
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await fetch("/api/user/verificaToken", {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          const data = await response.json();
+          console.log(data)
+          if (response.ok) {
+            setUserData(data); // Define os dados do usuário em caso de sucesso
+            setLoading(false);
+          }
+        } catch (error) {
+          console.error("Erro ao buscar dados do usuário:", error);
+          router.push("/foodies/login");
+        }
+      }
+    }
+    fetchData(); // this will give me user _id
+  }, [])
+
+  useEffect(() => {
+    if (receita.likes && userData) {
+      const isLiked = receita.likes.includes(userData._id);
+      setImagemAtual(isLiked ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg');
+    }
+  }, [receita, userData]);
 
   const renderPage = () => {
     switch (pagina) {

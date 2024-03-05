@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import ProtectPage from "@/utils/hooks/protectPagesHook";
-import { useEffect } from "react";
+import { useEffect, useState} from "react";
+import UserProfile from "@/components/profile/ProfileImage";
 
 export default function PerfilPage() {
   const { loading, userData } = ProtectPage();
@@ -13,10 +14,6 @@ export default function PerfilPage() {
     localStorage.removeItem("token");
     router.push("/foodies/login");
   };
-
-  
-  
-
 
   if (loading) {
     return (
@@ -40,21 +37,21 @@ export default function PerfilPage() {
             width="40"
             height="40"
           />
-          <div className="w-full flex justify-center pt-6">
-            <img
-              src="/PerfilPage/personimage.svg"
-              width="180"
-              heigth="180"
-              className=""
-            />
+          <div className="flex justify-center items-center pt-10">
+            <UserProfile  />
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center justify-center gap-5 px-5">
+      <div className="w-full flex flex-col items-center justify-center gap-5 px-5 pt-16">
         <div className="flex w-full pt-14">
           <div className=" flex  w-4/12 py-2 justify-start">
             <div className="flex">
-              <img src="/PerfilPage/person.svg" width="15" heigth="15" className="mr-2"/>
+              <img
+                src="/PerfilPage/person.svg"
+                width="15"
+                heigth="15"
+                className="mr-2"
+              />
             </div>
             Nome
           </div>
@@ -65,7 +62,12 @@ export default function PerfilPage() {
         <div className="flex w-full">
           <div className=" flex  w-4/12 py-2 justify-start">
             <div className="flex">
-              <img src="/PerfilPage/email.svg" width="15" heigth="15" className="mr-2"/>
+              <img
+                src="/PerfilPage/email.svg"
+                width="15"
+                heigth="15"
+                className="mr-2"
+              />
             </div>
             E-mail
           </div>
@@ -76,7 +78,12 @@ export default function PerfilPage() {
         <div className="flex w-full">
           <div className=" flex  w-4/12 py-2 justify-start">
             <div className="flex">
-              <img src="/PerfilPage/phone.svg" width="15" heigth="15" className="mr-2"/>
+              <img
+                src="/PerfilPage/phone.svg"
+                width="15"
+                heigth="15"
+                className="mr-2"
+              />
             </div>
             Contacto
           </div>
@@ -84,9 +91,14 @@ export default function PerfilPage() {
             {userData.contacto}
           </div>
         </div>
-        <div className="pt-44"><button className="bg-verdeClaro rounded-xl p-4" onClick={handleLogout}>
-          Terminar Sessão
-        </button></div>
+        <div className="pt-32">
+          <button
+            className="bg-verde text-white font-bold py-2 text-bold px-4 rounded-lg"
+            onClick={handleLogout}
+          >
+            Terminar Sessão
+          </button>
+        </div>
       </div>
     </div>
   );

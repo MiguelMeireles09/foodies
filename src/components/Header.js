@@ -21,14 +21,6 @@ export default function Header() {
           />
         </div>
       </Link>
-      {/* Render this Link component only if the current pathname matches one of the specified paths */}
-      {visiblePaths.includes(router.pathname) && (
-        <Link href="/foodies/receita/publicar">
-          <div className="rounded-2xl bg-verde text-white flex justify-center items-center p-2 sm:p-2 text-xs sm:text-sm md:text-base cursor-pointer">
-            Publicar receita
-          </div>
-        </Link>
-      )}
     </nav>
   );
 }
