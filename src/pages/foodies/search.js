@@ -238,9 +238,7 @@ export default function SearchPage() {
         {/* Botão de Filtros */}
         <div>
           <button className="py-2 px-4 inline-flex items-center bg-verdeClaro text-white font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuFiltros(!showMenuFiltros)}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-filter">
-              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-            </svg>
+            <img width={20} height={20} src="/images/filter.svg" className="me-2"></img>
             Filtros
           </button>
 
@@ -334,7 +332,7 @@ export default function SearchPage() {
       {/* Barra de pesquisa para incluir alimentos */}
       <div className="flex items-center justify-center mt-4">
         <form className="flex w-full" onSubmit={handleIncluir}>
-          <input list="alimentoQueQuer" type="text" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} placeholder="Qual o alimento que tem para hoje?" className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-verde" />
+          <input list="alimentoQueQuer" type="text" value={alimentoQueQuer} onChange={(e) => setAlimentoQueQuer(e.target.value)} placeholder="Qual o alimento que tem para hoje?" className="w-full p-2 me-2 border border-gray-300 rounded-xl focus:outline-none focus:border-verde" />
           <datalist id="alimentoQueQuer">
             {alimentosUnicosArray.map((e, index) => (
               <option key={index} value={e} />
@@ -349,7 +347,7 @@ export default function SearchPage() {
       {/* Barra de pesquisa para excluir alimentos */}
       <div className="flex items-center justify-center mt-4">
         <form className="flex w-full" onSubmit={handleExcluir}>
-          <input list="alimentoQueNaoQuer" type="text" value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} placeholder="Não quero cozinhar com..." className="w-full p-2 border border-gray-300 rounded-xl focus:outline-none focus:border-red-500" />
+          <input list="alimentoQueNaoQuer" type="text" value={alimentoQueNaoQuer} onChange={(e) => setAlimentoQueNaoQuer(e.target.value)} placeholder="Não quero cozinhar com..." className="w-full p-2 me-2 border border-gray-300 rounded-xl focus:outline-none focus:border-red-500" />
           <datalist id="alimentoQueNaoQuer">
             {alimentosUnicosArray.map((e, index) => (
               <option key={index} value={e} />
@@ -361,63 +359,60 @@ export default function SearchPage() {
       </div>
 
       {/* Lista de alimentos e filtros selecionados */}
-      <div className="flex mt-2 flex-wrap bg-gray-100 p-2 rounded-lg">
-        {alimentosQueQuer.map((alimento, index) => (
-          <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1">
-            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
-            {alimento}
-          </div>
-        ))}
-        {alimentosQueNaoQuer.map((alimento, index) => (
-          <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1">
-            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
-            Sem {alimento}
-          </div>
-        ))}
-        {filtroDificuldade.map((filtro, index) => (
-          <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1">
-            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true}
-              onChange={(e) =>
-                e.target.checked
-                  ? setFiltroDificuldade([...filtroDificuldade, filtro])
-                  : setFiltroDificuldade(filtroDificuldade.filter((item) => item !== filtro))
-              }
-            />
-            {filtro}
-          </div>
-        ))}
-        {filtroCategoria.map((filtro, index) => (
-          <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1">
-            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true}
-              onChange={(e) =>
-                e.target.checked
-                  ? setFiltroCategoria([...filtroCategoria, filtro])
-                  : setFiltroCategoria(filtroCategoria.filter((item) => item !== filtro))
-              }
-            />
-            {filtro}
-          </div>
-        ))}
-        {filtroOrdem && (
-          <div className="flex items-center py-1 px-2 rounded-xl m-1">
-            <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => setFiltroOrdem(null)} />
-            {filtroOrdem}
-          </div>
-        )}
-      </div>
+        <div className="flex mt-2 flex-wrap p-2 rounded-lg">
+          {alimentosQueQuer.map((alimento, index) => (
+            <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
+              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
+              {alimento}
+            </div>
+          ))}
+          {alimentosQueNaoQuer.map((alimento, index) => (
+            <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
+              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
+              Sem {alimento}
+            </div>
+          ))}
+          {filtroDificuldade.map((filtro, index) => (
+            <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
+              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true}
+                onChange={(e) =>
+                  e.target.checked
+                    ? setFiltroDificuldade([...filtroDificuldade, filtro])
+                    : setFiltroDificuldade(filtroDificuldade.filter((item) => item !== filtro))
+                }
+              />
+              {filtro}
+            </div>
+          ))}
+          {filtroCategoria.map((filtro, index) => (
+            <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
+              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true}
+                onChange={(e) =>
+                  e.target.checked
+                    ? setFiltroCategoria([...filtroCategoria, filtro])
+                    : setFiltroCategoria(filtroCategoria.filter((item) => item !== filtro))
+                }
+              />
+              {filtro}
+            </div>
+          ))}
+          {filtroOrdem && (
+            <div className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
+              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => setFiltroOrdem(null)} />
+              {filtroOrdem}
+            </div>
+          )}
+        </div>
 
       {/* Cards de receitas pretendidas */}
       <p className="text-center py-5 text-2xl 2xl:text-4xl">Receitas:</p>
       <div className="flex flex-wrap mb-10 pb-10">
         {receitas.map((e) => (
-          <div className="w-1/2 md:w-1/3 lg:w-1/4 p-4 relative" key={e._id}>
+          <div onClick={() => handleReceitaInfo(e)} className="w-1/2 md:w-1/3 lg:w-1/4 p-4 relative" key={e._id}>
             <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between min-w-[160px] relative">
               <img src={e.fotoReceita} className="rounded-t-2xl w-full h-40 object-cover" />
-              <button className="absolute top-3 right-3 flex" onClick={() => handleTrocarImagem(e._id)}>
-                <img src={imagensAtuais[e._id] || '/receitainfo/Favoriteborder.svg'} width="40" height="40" className="cursor-pointer" />
-              </button>
-              <div onClick={() => handleReceitaInfo(e)} className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
-                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
+              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
+                <p className="font-sans font-normal text-center p-2 text-sm md:text-base lg:text-lg xl:text-xl text-black">{e.titulo}</p>
               </div>
             </div>
           </div>
