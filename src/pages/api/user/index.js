@@ -8,7 +8,6 @@ export default async function handler(req, res) {
             return res.status(403).json({ message: "Não foi enviado o token de autenticação!" })
         }
         const email = await findToken(token)
-      
         if (!email) {
             return res.status(403).json({ "message": "Não existe nenhuma sessão com o token indicado!" })
         }
