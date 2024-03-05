@@ -13,6 +13,7 @@ export default function UserFavoritosPage() {
   const [loadingReceitas, setLoadingReceitas] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  
 
   // Favoritos que o usuario deu like
   const Favoritos = async (idDoUsuario) => {
