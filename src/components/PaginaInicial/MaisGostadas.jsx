@@ -22,17 +22,13 @@ export default function MaisGostadas() {
     }
   };
 
-  console.log("Receitas:", receitas);
-
   useEffect(() => {
     fetchReceitas();
   }, []);
 
 
   const handleImagemClick = (e) => {
-    console.log("sou o e:", e);
     const receitaSelecionada = e.titulo;
-    console.log("Receita clicada:", receitaSelecionada);
     router.push({
       pathname: "/foodies/receita",
       query: { query: receitaSelecionada },

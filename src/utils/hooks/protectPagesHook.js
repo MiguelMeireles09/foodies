@@ -24,8 +24,8 @@ export default function ProtectPage() {
           });
           const data = await response.json();
           if (response.ok) {
-            setUserData(data); // Set user data on success
-            setLoading(false);
+            setUserData(data)
+            setLoading(false)
           } else {
             router.push("/foodies/login");
           }

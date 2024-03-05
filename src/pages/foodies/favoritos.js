@@ -39,7 +39,6 @@ export default function FavoritosPage() {
 
   const handleImagemClick = (recipe) => {
     const receitaSelecionada = recipe.titulo;
-    console.log("Receita clicada:", receitaSelecionada);
     router.push({
       pathname: '/foodies/receita',
       query: { query: receitaSelecionada }

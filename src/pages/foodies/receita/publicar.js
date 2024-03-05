@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import ProtectPage from "@/utils/hooks/protectPagesHook";
 
 export default function SignUp() {
+  const { loading: userLoading, userData } = ProtectPage(); //userData is equal to somthing like this  and i want the user id to post in idUsuario
   const router = useRouter();
   const [formData, setFormData] = useState({
     titulo: "",
@@ -14,13 +16,22 @@ export default function SignUp() {
     dificuldade: "",
     ingredientes: [""],
     quantidades: [""],
-    modoPreparo: [""]
+    modoPreparo: [""],
+    idUsuario: ""
   });
+
+  useEffect(() => {
+    if (userData) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        idUsuario: userData._id 
+      }));
+    }
+  }, [userData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     
-    // Check if the name indicates the field is part of 'ingredientes', 'quantidades', or 'modoPreparo'
     if (name.startsWith('ingredientes') || name.startsWith('quantidades') || name.startsWith('modoPreparo')) {
       const prefix = name.split('-')[0]; 
       const index = parseInt(name.split('-')[1], 10); 

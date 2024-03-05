@@ -150,7 +150,6 @@ export default function SearchPage() {
   useEffect(() => {
     if (router.isReady) {
       const foodName = router.query.query;
-      console.log("Query parameter foodName:", foodName);
       if (foodName) {
         setAlimentosQueQuer(new Set([foodName]));
         aplicarFiltros();
@@ -209,7 +208,6 @@ export default function SearchPage() {
 
   const handleReceitaInfo = (e) => {
     const receitaSelecionada = e.titulo;
-    console.log("Receita clicada:", receitaSelecionada);
     router.push({
       pathname: '/foodies/receita',
       query: { query: receitaSelecionada }
