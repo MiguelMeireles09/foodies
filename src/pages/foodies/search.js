@@ -201,13 +201,7 @@ export default function SearchPage() {
     setAlimentosQueNaoQuer(newAlimentosQueNaoQuer);
   };
 
-  const handleReceitaInfo = (receita) => {
-    const receitaSelecionada = receita.titulo;
-    router.push({
-      pathname: "/foodies/receita",
-      query: { query: receitaSelecionada },
-    });
-  };
+
 
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5">
