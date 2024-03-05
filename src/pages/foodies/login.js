@@ -104,7 +104,7 @@ export default function Home() {
           Ou registar
         </Link>
         <p className="text-xl font-semibold text-center pt-10">
-          "O segredo está na receita -<br /> descubra-o conosco."
+          &quot;O segredo está na receita -<br /> descubra-o conosco.&quot;
         </p>
 
         <Link
