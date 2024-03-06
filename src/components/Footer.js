@@ -22,8 +22,8 @@ export default function Footer() {
             <Image src="/cinzaclaro/Search.svg" width="40" height="40" />
           )}
         </Link>
-        <Link href="/foodies/receita/publicar">
-          {router.route === "/foodies/receita/publicar" ? (
+        <Link href="/foodies/publicar">
+          {router.route === "/foodies/publicar" ? (
             <Image src="/foooter/PlusFilled.svg" width="40" height="40" />
           ) : (
             <Image src="/cinzaclaro/Plus.svg" width="40" height="40" />

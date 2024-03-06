@@ -56,11 +56,11 @@ export default function UserReceitasCriadasPage() {
 
   return (
     <div>
-      <p className="text-center py-5 text-2xl 2xl:text-4xl">As Tuas Receitas</p>
+      <p className="text-center py-5 text-2xl 2xl:text-4xl">As tuas receitas</p>
       {receitasUser.length === 0 && (
         <div>
           Ainda não tens nenhuma receita adicionada aos teus favoritos.{" "}
-          <Link href={"/foodies/search"}>Adiciona-a aqui!</Link>
+          <Link href={"/foodies/publicar"} className="text-verdeClaro">Adiciona-a aqui!</Link>
         </div>
       )}
       <div className="flex flex-wrap mb-10 pb-10">

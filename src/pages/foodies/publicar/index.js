@@ -97,7 +97,7 @@ export default function SignUp() {
     <div className="min-h-screen flex justify-center items-center pb-12">
       <main className="container max-w-4xl mx-auto p-8 bg-white shadow rounded-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">
-          Postar Receita
+          Publicar Receita
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-wrap -mx-2 mb-4">
@@ -266,7 +266,7 @@ export default function SignUp() {
             type="submit"
             className="mt-6 w-full bg-verde hover:bg-verde text-white font-bold py-3 px-4 rounded-lg"
           >
-            Postar Receita
+            Publicar Receita
           </button>
         </form>
       </main>
