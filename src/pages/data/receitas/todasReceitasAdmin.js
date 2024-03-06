@@ -6,12 +6,13 @@ async function findReceitas() {
     const collection = await getMongoCollection(collectionName);
     const query = {
         $or: [
-            { ativa: true }, 
-            { ativa: { $exists: false } } 
+            { ativa: false }, 
+            { ativa: { $exists: true } } 
         ]
     };
     const result = await collection.find(query).toArray();
-    return result;
+    return result
 }
 
 module.exports = { findReceitas };
+

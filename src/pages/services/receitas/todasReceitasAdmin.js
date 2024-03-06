@@ -1,4 +1,4 @@
-const { findReceitas } = require("@/pages/data/receitas/todasReceitas")
+const { findReceitas } = require("@/pages/data/receitas/todasReceitasAdmin")
 
 async function procurarReceitas() {
     const res = await findReceitas()

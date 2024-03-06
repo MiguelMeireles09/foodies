@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import ReceitaGeral from "@/components/Receita/ReceitaGeral"
-import ReceitaIngrediente from "@/components/Receita/ReceitaIngredientes copy"
+import ReceitaIngrediente from "@/components/Receita/ReceitaIngredientes"
 import ReceitaPreparo from "@/components/Receita/ReceitaPreparo"
 import Image from "next/image"
 import { useRouter } from "next/router"
@@ -18,38 +18,40 @@ export default function ReceitaInfo() {
 
   const handleTrocarImagem = async () => {
     if (!userData || !receita) {
-        console.log("Missing user data or recipe data.");
-        return;
+      console.log("Missing user data or recipe data.");
+      return;
     }
 
+    // Toggle the like status optimistically for immediate UI feedback
     const newImageSrc = imagemAtual === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg';
     setImagemAtual(newImageSrc);
 
     try {
-        const payload = {
-            idUsuario: userData._id,
-            idReceita: receita._id,
-        };
+      const payload = {
+        idUsuario: userData._id,
+        idReceita: receita._id,
+      };
 
-        const response = await fetch('/api/user/like', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`, // Include if needed
-            },
-            body: JSON.stringify(payload),
-        });
+      const response = await fetch('/api/user/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`, // Include if needed
+        },
+        body: JSON.stringify(payload),
+      })
 
-        if (!response.ok) {
-            throw new Error('Failed to toggle like status');
-        }
-       
+      if (!response.ok) {
+        throw new Error('Failed to toggle like status');
+      }
+
+
     } catch (error) {
-        console.error('Error toggling like status:', error);
-        setImagemAtual(imagemAtual); 
-       
+      console.error('Error toggling like status:', error);
+      setImagemAtual(imagemAtual);
+
     }
-};
+  };
 
 
 
@@ -76,39 +78,45 @@ export default function ReceitaInfo() {
         throw new Error('Failed to fetch favorite recipes')
       }
       const data = await response.json();
-       // this will give me recipe data with likes being and array of user _ids
+      // this will give me recipe data with likes being and array of user _ids
       setReceita(data)
     } catch (error) {
       console.error('Error fetching favorite recipes:', error)
     }
     setIsLoading(false)
   }
-
   useEffect(() => {
     async function fetchData() {
+      // This is correct; ensures code runs only on the client side
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
-        try {
-          const response = await fetch("/api/user/verificaToken", {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          const data = await response.json();
-          console.log(data)
-          if (response.ok) {
-            setUserData(data); // Define os dados do usuário em caso de sucesso
-            setLoading(false);
+        if (token) {
+          try {
+            const response = await fetch("/api/user/verificaToken", {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            if (response.ok) {
+              const data = await response.json();
+              setUserData(data);
+            } else {
+              // Handle unauthorized or invalid token scenario
+              console.error("Token verification failed.");
+              router.push("/foodies/login");
+            }
+          } catch (error) {
+            console.error("Erro ao buscar dados do usuário:", error);
           }
-        } catch (error) {
-          console.error("Erro ao buscar dados do usuário:", error);
+        } else {
+          // No token found, redirect or handle accordingly
           router.push("/foodies/login");
         }
       }
     }
-    fetchData(); // this will give me user _id
-  }, [])
+    fetchData();
+  }, []); 
 
   useEffect(() => {
     if (receita.likes && userData) {
@@ -128,6 +136,7 @@ export default function ReceitaInfo() {
     }
   }
 
+
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center h-screen pb-40">
@@ -138,7 +147,7 @@ export default function ReceitaInfo() {
 
   return (
     <div className="font-sans">
-      <div className="h-[290px] sm:h-[300px]  md:h-[310px] lg:h-[320px] xl:h-[340px] bg-cover bg-center bg-no-repeat border-b border-gray-300"style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
+      <div className="h-[290px] sm:h-[300px]  md:h-[310px] lg:h-[320px] xl:h-[340px] bg-cover bg-center bg-no-repeat border-b border-gray-300" style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
         <div className="h-2/4 p-8">
           <Image src="/receitainfo/arrowBack.svg" className="cursor-pointer" onClick={() => router.back()} width="40" height="40" />
         </div>
@@ -177,10 +186,14 @@ export default function ReceitaInfo() {
             Preparo
           </button>
         </div>
+        {userData && userData._id === "65e89a267f5aa8c1d93f84b6" && userData.admin === "true" && receita.ativa === false &&(
+          <div>
+            <button>Aceitar</button>
+            <button>Apagar</button>
+          </div>
+        )}
         <div>{renderPage()}</div>
       </div>
     </div>
   )
 }
-
-
