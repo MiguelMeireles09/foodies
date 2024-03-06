@@ -77,12 +77,16 @@ export default function MaisGostadas() {
               onClick={() => handleImagemClick(e)}
               className="relative "
             >
-              <img src={e.fotoReceita} className="w-full h-64 border-cinzaClaro border-t-2 border-b-2" />
+              <div className="w-full h-40 relative sm:pb-[28%] lg:h-48 xl:h-48 lg:px-10 xl:px-20">
+                <div className="absolute top-0 left-0 w-full h-full">
+                  <img src={e.fotoReceita} className="w-full h-full object-cover" />
+                </div>
+              </div>
             </div>
           ))}
         </Slider>
         <p className="absolute top-0 flex justify-center items-center text-white text-2xl bg-black bg-opacity-20   text-center w-full p-3 font-black">
-          {/* {e.titulo} */}
+
           Receitas Favoritas
         </p>
       </div>

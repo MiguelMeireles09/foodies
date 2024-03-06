@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ProtectPage from "@/utils/hooks/protectPagesHook";
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import UserFavoritosPage from '@/components/favoritos/userFavoritos';
 import UserReceitasCriadasPage from '@/components/favoritos/userReceitaCriada';

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Custom404() {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center p-8">
@@ -10,7 +12,7 @@ export default function Custom404() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
           </svg>
         </div>
-        <p className="mt-4 text-gray-600">Ir para a <a href="/foodies/homepage" className="text-blue-500">Página Inicial.</a>.</p>
+        <p className="mt-4 text-gray-600">Ir para a <Link href="/" className="text-blue-500">Página Inicial.</Link></p>
       </div>
     );
   }

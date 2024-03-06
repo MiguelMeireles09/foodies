@@ -245,7 +245,7 @@ export default function SearchPage() {
           {/* Menu de Filtros */}
           <div ref={refFiltros}>
             {showMenuFiltros && (
-              <div className="absolute left-0 top-10 mt-2 w-56 bg-white rounded-lg shadow-lg">
+              <div className="absolute left-0 top-10 mt-2 w-56 bg-white rounded-lg shadow-lg z-40">
                 <ul>
                   <li className="relative group hover:bg-gray-100">
                     <button className="w-full py-2 px-4 text-left focus:outline-none">
@@ -299,7 +299,7 @@ export default function SearchPage() {
         {/* Menu de Ordenação */}
         <div ref={refOrdenar}>
           {showMenuOrdenar && (
-            <div className="absolute right-0 top-10 mt-2 w-56 bg-white rounded-lg shadow-lg">
+            <div className="absolute right-0 top-10 mt-2 w-56 bg-white rounded-lg shadow-lg z-40">
               <ul>
                 {ordens.map((ordem) => (
                   <li key={ordem} className="bg-gray-50 py-2 px-4">

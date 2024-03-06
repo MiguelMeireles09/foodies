@@ -22,7 +22,7 @@ export default function Home() {
       <p className=" text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-2">
         “O segredo está na receita - descubra-a connosco.”
       </p>
-      <p className=" text-center font-bold  text-xl sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-2">
+      <p className=" text-verde font-extrabold text-2xl text-center pt-10  sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-2">
         Confira o nosso TOP 10
       </p>
       <motion.div
@@ -41,7 +41,7 @@ export default function Home() {
           delay: 8 * 0.07
         }}
       >
-        <div className=" flex flex-wrap justify-around pb-14">
+        <div className=" flex  flex-wrap justify-around  pb-14">
           <MaisGostadas />
           <Entradas />
           <Lanches />

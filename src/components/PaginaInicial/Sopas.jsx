@@ -71,14 +71,18 @@ export default function Sopas() {
     <div>
       <div className="text-center text-2xl py-4 text-verdeClaro font-bold"></div>
       <div className="relative">
-        <Slider className="w-screen" {...settings}>
+      <Slider className="w-screen" {...settings}>
           {receitas.map((e, index) => (
             <div
               key={index}
               onClick={() => handleImagemClick(e)}
               className="relative"
             >
-              <img src={e.fotoReceita} className="w-full h-64 border-cinzaClaro border-t-2 border-b-2" />
+               <div className="w-full h-40 relative sm:pb-[28%] lg:h-40 xl:h-40 lg:px-10 xl:px-20">
+                <div className="absolute top-0 left-0 w-full h-full">
+                  <img src={e.fotoReceita} className="w-full h-full object-cover" />
+                </div>
+              </div>
             </div>
           ))}
         </Slider>

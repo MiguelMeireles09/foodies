@@ -20,13 +20,6 @@ body {
   background-repeat: no-repeat;
 }
 
-.img-bg-receita {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 290px;
-  border-bottom: 1px solid #D9D9D9;
-}
 
 /* Estilos para dispositivos móveis */
 @media only screen and (max-width: 768px) {
