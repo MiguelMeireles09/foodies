@@ -187,7 +187,7 @@ export default function ReceitaInfo() {
             Preparo
           </button>
         </div>
-        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === true && (
+        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && (
           <div>
             <button>Aceitar</button>
             <button>Apagar</button>
