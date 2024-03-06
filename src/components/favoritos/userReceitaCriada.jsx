@@ -50,7 +50,7 @@ export default function UserReceitasCriadasPage() {
 
   
   const fetchReceitasAdmin = async () => {
-    if (userData._id !== "65e877b5c08f417f72c931dc") {
+    if (userData._id !== "65e89d257f5aa8c1d93f84bb" && userData.admin === true) {
       return;
     }
     try {
@@ -101,7 +101,7 @@ export default function UserReceitasCriadasPage() {
       </div>
       
       <div className="flex">
-      {userData._id === "65e877b5c08f417f72c931dc" && receitasAdmin.map((receita) => (
+      {userData._id === "65e89d257f5aa8c1d93f84bb" && receitasAdmin.map((receita) => (
         <div key={receita._id} className= "w-1/2 md:w-1/3 lg:w-1/4 p-4 pb-40">
       <p className="pt-10 border-t-2 border-cinzaClaro">Em Aprovação</p>
           <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">

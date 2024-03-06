@@ -42,16 +42,16 @@ export default function Home() {
         }}
       >
         <div className=" flex  flex-wrap justify-around  pb-14">
-          <MaisGostadas />
+          <Sobremesas />
           <Entradas />
           <Lanches />
+          <MaisGostadas />
           <MaisBaratas />
           <MaisFaceis />
           <Sopas />
           <MaisRapidas />
           <MaisSaudaveis />
           <PratosPrincipais />
-          <Sobremesas />
         </div>
       </motion.div>
     </div>

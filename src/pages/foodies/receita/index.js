@@ -100,6 +100,7 @@ export default function ReceitaInfo() {
             });
             if (response.ok) {
               const data = await response.json();
+              console.log(data)
               setUserData(data);
             } else {
               // Handle unauthorized or invalid token scenario
@@ -186,7 +187,7 @@ export default function ReceitaInfo() {
             Preparo
           </button>
         </div>
-        {userData && userData._id === "65e89a267f5aa8c1d93f84b6" && userData.admin === "true" && receita.ativa === false &&(
+        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === true && (
           <div>
             <button>Aceitar</button>
             <button>Apagar</button>
@@ -197,3 +198,5 @@ export default function ReceitaInfo() {
     </div>
   )
 }
+
+
