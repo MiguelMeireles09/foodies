@@ -3,7 +3,6 @@ import Layout from "@/components/Layout";
 import "@/styles/globals.css";
 import '@/styles/ConfirmButton.css';
 
-
 // Nao mostrar nem footer nem layout
 export default function App({ Component, pageProps, router }) {
   const isHomePage = router.pathname === '/foodies';
@@ -13,7 +12,6 @@ export default function App({ Component, pageProps, router }) {
   const is404 = router.pathname === '/404'
   const isReceita = router.pathname === '/foodies/receita'
   const isPerfil = router.pathname === '/foodies/perfil'
-
 
   if (isHomePage || isSignUp || islogin || isLocalHost || is404 ) {
     return <Component {...pageProps} />
@@ -27,7 +25,6 @@ export default function App({ Component, pageProps, router }) {
       </>
     );
   }
-
 
   return (
     <Layout>
