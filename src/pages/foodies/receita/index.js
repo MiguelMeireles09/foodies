@@ -144,7 +144,7 @@ export default function ReceitaInfo() {
 
   return (
     <div className="font-sans">
-      <div className="img-bg-receita" style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
+      <div className="h-[290px] sm:h-[300px]  md:h-[310px] lg:h-[320px] xl:h-[340px] bg-cover bg-center bg-no-repeat border-b border-gray-300"style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
         <div className="h-2/4 p-8">
           <Image src="/receitainfo/arrowBack.svg" className="cursor-pointer" onClick={() => router.back()} width="40" height="40" />
         </div>

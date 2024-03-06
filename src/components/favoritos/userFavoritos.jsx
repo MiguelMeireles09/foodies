@@ -13,7 +13,7 @@ export default function UserFavoritosPage() {
   const [loadingReceitas, setLoadingReceitas] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  
+
 
   // Favoritos que o usuario deu like
   const Favoritos = async (idDoUsuario) => {
@@ -88,7 +88,7 @@ export default function UserFavoritosPage() {
       {favoritos.length === 0 && (
         <div>
           Ainda não tens nenhuma receita adicionada aos teus favoritos.{" "}
-          <Link href={"/foodies/search"}>Adiciona-a aqui!</Link>
+          <a className="text-verde font-bold" href={"/foodies/search"}>Adiciona-a aqui!</a>
         </div>
       )}
       <div className="flex flex-wrap mb-10 pb-10">
@@ -101,6 +101,7 @@ export default function UserFavoritosPage() {
                 alt="Favorite Recipe"
                 className="rounded-t-2xl w-full h-40 object-cover"
               />
+              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
               <div onClick={removerLike}>
                 <BotaoRemoverLike
                   isOpen={isOpen}
@@ -109,7 +110,6 @@ export default function UserFavoritosPage() {
                 />
                 <img src="/receitainfo/favorite.svg" width="20" height="20" />
               </div>
-              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">
                   {recipe.titulo}
                 </p>

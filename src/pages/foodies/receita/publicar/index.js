@@ -96,8 +96,8 @@ export default function SignUp() {
   return (
     <div className="min-h-screen flex justify-center items-center pb-12">
       <main className="container max-w-4xl mx-auto p-8 bg-white shadow rounded-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">
-          Postar Receita
+        <h2 className="text-2xl font-bold text-center text-verde pb-4ic">
+          Publicar Receita
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-wrap -mx-2 mb-4">
