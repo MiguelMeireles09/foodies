@@ -53,12 +53,6 @@ export default function ReceitaInfo() {
     }
   };
 
-
-
-  const handlePageChange = (newPage) => {
-    setPagina(newPage)
-  }
-
   useEffect(() => {
     if (router.isReady) {
       const tituloReceita = router.query.query
