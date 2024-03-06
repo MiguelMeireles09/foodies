@@ -22,7 +22,6 @@ export default function ReceitaInfo() {
         return;
     }
 
-    // Toggle the like status optimistically for immediate UI feedback
     const newImageSrc = imagemAtual === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg';
     setImagemAtual(newImageSrc);
 
@@ -44,16 +43,11 @@ export default function ReceitaInfo() {
         if (!response.ok) {
             throw new Error('Failed to toggle like status');
         }
-
-        // Here, no need to update the image based on the response
-        // since we've optimistically updated the UI already.
-        // If needed, you could refresh the data here instead.
-        
+       
     } catch (error) {
         console.error('Error toggling like status:', error);
-        // Rollback the optimistic UI update in case of error
-        setImagemAtual(imagemAtual); // This line might not revert as expected due to closures capturing the state
-        // Consider using a more sophisticated state management strategy or force a data refresh
+        setImagemAtual(imagemAtual); 
+       
     }
 };
 

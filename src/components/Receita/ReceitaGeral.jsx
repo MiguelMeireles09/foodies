@@ -6,11 +6,11 @@ export default function ReceitaGeral({ geral }) {
     <div className="px-6 pt-8 gap-6 flex flex-col">
       <div className="flex gap-2">
         <Image src="/receitainfo/fire.svg" width="20" height="20" />
-        Calorias:<div>{geral.calorias}</div>
+        Calorias:<div>{geral.calorias} kcal</div>
       </div>
       <div className="flex gap-2">
         <Image src="/receitainfo/doses.svg" width="20" height="20" />
-        Doses:<div>{geral.doses === undefined ? 4 : geral.doses}</div>
+        Doses:<div>{geral.doses === undefined ? "4 doses" : geral.doses} doses</div>
       </div>
       <div className="flex gap-2">
         <Image src="/receitainfo/peso.svg" width="20" height="20" />
@@ -18,7 +18,7 @@ export default function ReceitaGeral({ geral }) {
       </div>
       <div className="flex gap-2">
         <Image src="/receitainfo/relogio.svg" width="20" height="20" />
-        Tempo:<div>{geral.tempoPreparo}</div>
+        Tempo:<div>{geral.tempoPreparo} mins</div>
       </div>
       <div className="flex gap-2">
         <Image src="/receitainfo/coracaoreceita.svg" width="20" height="20" />

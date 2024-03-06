@@ -13,7 +13,7 @@ export default function UserFavoritosPage() {
   const [loadingReceitas, setLoadingReceitas] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-
+  const [receita, setReceita] = useState(null)
 
   // Favoritos que o usuario deu like
   const Favoritos = async (idDoUsuario) => {
@@ -38,7 +38,52 @@ export default function UserFavoritosPage() {
     setLoadingFavoritos(false);
   };
 
-  // Confirmar se quer remover dos favoritos
+  const [imagemAtual, setImagemAtual] = useState('/receitainfo/Favorite.svg')
+
+  const handleTrocarImagem = async (userId, recipeId) => {
+    if (!userId || !recipeId) {
+      console.log("Missing user ID or recipe ID.");
+      return;
+    }
+  
+    // Muda O coracao antes de saber a resposta do backend
+    const updatedFavoritos = favoritos.map(recipe => {
+      if (recipe._id === recipeId) {
+        return { ...recipe, isFavorite: !recipe.isFavorite }; 
+      }
+      return recipe;
+    });
+  
+    setFavoritos(updatedFavoritos);
+  
+    try {
+      const payload = {
+        idUsuario: userId,
+        idReceita: recipeId,
+      };
+      // remove like / volta a adicionar
+      const response = await fetch('/api/user/like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to toggle like status');
+      }
+      // volta a fazer fetch a favoritos / refresh na pagina 
+      await Favoritos(userId);
+  
+    } catch (error) {
+      console.error('Error toggling like status:', error);
+    
+    }
+  };
+
+/*   // Confirmar se quer remover dos favoritos
   const handleConfirm = () => {
     alert("Confirmed!");
     setIsOpen(false);
@@ -50,7 +95,7 @@ export default function UserFavoritosPage() {
 
   const removerLike = () => {
     setIsOpen(!isOpen);
-  };
+  }; */
 
   useEffect(() => {
     if (!userLoading && userData?._id) {
@@ -66,6 +111,7 @@ export default function UserFavoritosPage() {
     });
   };
 
+
   const handlePageChange = (newPage) => {
     setPagina(newPage);
   };
@@ -79,6 +125,8 @@ export default function UserFavoritosPage() {
         ></img>
       </div>
     );
+
+
 
   return (
     <div>
@@ -102,14 +150,9 @@ export default function UserFavoritosPage() {
                 className="rounded-t-2xl w-full h-40 object-cover"
               />
               <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
-              <div onClick={removerLike}>
-                <BotaoRemoverLike
-                  isOpen={isOpen}
-                  handleConfirm={handleConfirm}
-                  handleCancel={handleCancel}
-                />
-                <img src="/receitainfo/favorite.svg" width="20" height="20" />
-              </div>
+                <div onClick={() => handleTrocarImagem(userData._id, recipe._id)}>
+                  <img src={recipe.isFavorite ? "/receitainfo/FavoriteBorder.svg" : "/receitainfo/Favorite.svg"} width="20" height="20" />
+                </div>
                 <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">
                   {recipe.titulo}
                 </p>
