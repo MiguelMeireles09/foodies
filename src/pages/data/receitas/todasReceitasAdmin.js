@@ -7,7 +7,7 @@ async function findReceitas() {
     const query = {
         $or: [
             { ativa: false }, 
-            { ativa: { $exists: true } } 
+           /*  { ativa: { $exists: true } }  */
         ]
     };
     const result = await collection.find(query).toArray();
