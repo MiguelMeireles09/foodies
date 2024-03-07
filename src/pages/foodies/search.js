@@ -1,233 +1,267 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
-
-export default function SearchPage() {
-  const [receitas, setReceitas] = useState([]);
-  const [receitasOriginais, setReceitasOriginais] = useState([]);
-  const [filtroDificuldade, setFiltroDificuldade] = useState([]);
-  const [filtroCategoria, setFiltroCategoria] = useState([]);
-  const [filtroOrdem, setFiltroOrdem] = useState(null);
-  const [alimentoQueQuer, setAlimentoQueQuer] = useState("");
-  const [alimentoQueNaoQuer, setAlimentoQueNaoQuer] = useState("");
-  const [alimentosQueQuer, setAlimentosQueQuer] = useState([]);
-  const [alimentosQueNaoQuer, setAlimentosQueNaoQuer] = useState([]);
-  const [showMenuFiltros, setShowMenuFiltros] = useState(false);
-  const [showMenuOrdenar, setShowMenuOrdenar] = useState(false);
-  const [erroIncluir, setErroIncluir] = useState("");
-  const [erroExcluir, setErroExcluir] = useState("");
-  const [imagensAtuais, setImagensAtuais] = useState({});
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const router = useRouter();
-  const refFiltros = useRef();
-  const refOrdenar = useRef();
-
-  // Arrays
-  const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator; }, []);
-  const alimentosUnicosArray = Array.from(new Set(alimentosArray));
-  const dificuldades = ["Fácil", "Médio", "Difícil"];
-  const categorias = ["Entrada", "Prato principal", "Sobremesa", "Lanche"];
-  const ordens = ["Mais caloricas primeiro", "Menos caloricas primeiro", "Mais baratas primeiro", "Mais caras primeiro"];
-
-  const handleTrocarImagem = (receitaId) => {
-    setImagensAtuais((prevImagens) => {
-      const novaImagem = prevImagens[receitaId] === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg';
-      return { ...prevImagens, [receitaId]: novaImagem }
-    })
-  }
-
-
-  useEffect(() => {
-    fetchReceitas();
-  }, []);
-
-  useEffect(() => {
-    const imagensInicial = receitasOriginais.reduce((acc, receita) => {
-      acc[receita.id] = '/receitainfo/Favoriteborder.svg';
-      return acc;
-    }, {});
-    setImagensAtuais(imagensInicial);
-  }, [receitasOriginais]);
-
-  useEffect(() => {
-    if (router.isReady) {
-      const foodName = router.query.query;
-      if (foodName) {
-        setAlimentosQueQuer([foodName]);
-        aplicarFiltros();
-      }
-    }
-  }, [router.isReady, router.query.query]);
-
-  useEffect(() => {
-    aplicarFiltros();
-  }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
-
-  useEffect(() => {
-    async function fetchData() {
-      if (typeof window !== "undefined") {
-        const token = localStorage.getItem("token");
-        try {
-          const response = await fetch("/api/user/verificaToken", {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          const data = await response.json();
-          console.log(data)
-          if (response.ok) {
-            setUserData(data); // Define os dados do usuário em caso de sucesso
-            setLoading(false);
-          }
-        } catch (error) {
-          console.error("Erro ao buscar dados do usuário:", error);
-          router.push("/foodies/login");
+  
+  export default function SearchPage() {
+    const [receitas, setReceitas] = useState([]);
+    const [receitasOriginais, setReceitasOriginais] = useState([]);
+    const [filtroDificuldade, setFiltroDificuldade] = useState([]);
+    const [filtroCategoria, setFiltroCategoria] = useState([]);
+    const [filtroOrdem, setFiltroOrdem] = useState(null);
+    const [alimentoQueQuer, setAlimentoQueQuer] = useState("");
+    const [alimentoQueNaoQuer, setAlimentoQueNaoQuer] = useState("");
+    const [alimentosQueQuer, setAlimentosQueQuer] = useState([]);
+    const [alimentosQueNaoQuer, setAlimentosQueNaoQuer] = useState([]);
+    const [showMenuFiltros, setShowMenuFiltros] = useState(false);
+    const [showMenuDificuldade, setShowMenuDificuldade] = useState(false);
+    const [showMenuCategoria, setShowMenuCategoria] = useState(false);
+    const [showMenuOrdenar, setShowMenuOrdenar] = useState(false);
+    const [dificuldadeSelecionada, setDificuldadeSelecionada] = useState({});
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState({});
+    const [erroIncluir, setErroIncluir] = useState("");
+    const [erroExcluir, setErroExcluir] = useState("");
+    const [imagensAtuais, setImagensAtuais] = useState({});
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+  
+    const router = useRouter();
+    const refFiltros = useRef();
+    const refOrdenar = useRef();
+  
+    // Arrays
+    const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator; }, []);
+    const alimentosUnicosArray = Array.from(new Set(alimentosArray));
+    const dificuldades = ["Fácil", "Médio", "Difícil"];
+    const categorias = ["Entrada", "Prato principal", "Sobremesa", "Lanche"];
+    const ordens = ["Mais caloricas primeiro", "Menos caloricas primeiro", "Mais baratas primeiro", "Mais caras primeiro"];
+  
+    useEffect(() => {
+      fetchReceitas();
+    }, []);
+  
+    useEffect(() => {
+      const imagensInicial = receitasOriginais.reduce((acc, receita) => {
+        acc[receita.id] = '/receitainfo/Favoriteborder.svg';
+        return acc;
+      }, {});
+      setImagensAtuais(imagensInicial);
+    }, [receitasOriginais]);
+  
+    useEffect(() => {
+      if (router.isReady) {
+        const foodName = router.query.query;
+        if (foodName) {
+          setAlimentosQueQuer([foodName]);
+          aplicarFiltros();
         }
       }
-    }
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (refFiltros.current && !refFiltros.current.contains(event.target)) {
-        setShowMenuFiltros(false);
+    }, [router.isReady, router.query.query]);
+  
+    useEffect(() => {
+      aplicarFiltros();
+    }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
+  
+    useEffect(() => {
+      async function fetchData() {
+        if (typeof window !== "undefined") {
+          const token = localStorage.getItem("token");
+          try {
+            const response = await fetch("/api/user/verificaToken", {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            const data = await response.json();
+            console.log(data)
+            if (response.ok) {
+              setUserData(data); // Define os dados do usuário em caso de sucesso
+              setLoading(false);
+            }
+          } catch (error) {
+            console.error("Erro ao buscar dados do usuário:", error);
+            router.push("/foodies/login");
+          }
+        }
       }
-      if (refOrdenar.current && !refOrdenar.current.contains(event.target)) {
-        setShowMenuOrdenar(false);
+  
+      fetchData();
+    }, []);
+  
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (refFiltros.current && !refFiltros.current.contains(event.target)) {
+          setShowMenuFiltros(false);
+        }
+        if (refOrdenar.current && !refOrdenar.current.contains(event.target)) {
+          setShowMenuOrdenar(false);
+        }
       }
-    }
+  
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, []);
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    useEffect(() => {
+      // Atualizar estado dificuldadeSelecionada quando filtroDificuldade muda
+      const newDificuldadeSelecionada = {};
+      dificuldades.forEach((dificuldade) => {
+        newDificuldadeSelecionada[dificuldade] = filtroDificuldade.includes(dificuldade);
+      });
+      setDificuldadeSelecionada(newDificuldadeSelecionada);
+    }, [filtroDificuldade]);
+    
+    useEffect(() => {
+      // Atualizar estado categoriaSelecionada quando filtroCategoria muda
+      const newCategoriaSelecionada = {};
+      categorias.forEach((categoria) => {
+        newCategoriaSelecionada[categoria] = filtroCategoria.includes(categoria);
+      });
+      setCategoriaSelecionada(newCategoriaSelecionada);
+    }, [filtroCategoria]);
+  
+    const fetchReceitas = async () => {
+      try {
+        const response = await fetch("/api/receitas/todasReceitas");
+        if (!response.ok) {
+          throw new Error("Falha ao buscar receitas");
+        }
+        const data = await response.json();
+        setReceitasOriginais(data);
+        setReceitas(data);
+      } catch (error) {
+        console.error("Erro ao buscar receitas:", error);
+      }
     };
-  }, []);
-
-  const fetchReceitas = async () => {
-    try {
-      const response = await fetch("/api/receitas/todasReceitas");
-      if (!response.ok) {
-        throw new Error("Falha ao buscar receitas");
+  
+    const aplicarFiltros = () => {
+      let receitasFiltradas = [...receitasOriginais];
+  
+      if (filtroDificuldade && filtroDificuldade.length > 0) {
+        receitasFiltradas = receitasFiltradas.filter((receita) => filtroDificuldade.includes(receita.dificuldade));
       }
-      const data = await response.json();
-      setReceitasOriginais(data);
-      setReceitas(data);
-    } catch (error) {
-      console.error("Erro ao buscar receitas:", error);
-    }
-  };
+  
+      if (filtroCategoria && filtroCategoria.length > 0) {
+        receitasFiltradas = receitasFiltradas.filter((receita) => filtroCategoria.includes(receita.categoria));
+      }
+  
+      if (filtroOrdem === "Mais caloricas primeiro") {
+        receitasFiltradas.sort((a, b) => b.calorias - a.calorias);
+      } else if (filtroOrdem === "Menos caloricas primeiro") {
+        receitasFiltradas.sort((a, b) => a.calorias - b.calorias);
+      } else if (filtroOrdem === "Mais caras primeiro") {
+        receitasFiltradas.sort((a, b) => b.preco - a.preco);
+      } else if (filtroOrdem === "Mais baratas primeiro") {
+        receitasFiltradas.sort((a, b) => a.preco - b.preco);
+      }
+  
+      receitasFiltradas = receitasFiltradas.filter(
+        (receita) =>
+          alimentosQueQuer.every((alimento) =>
+            receita.ingredientes.map((ingrediente) => ingrediente.toLowerCase()).includes(alimento.toLowerCase())
+          ) &&
+          !alimentosQueNaoQuer.some((alimento) =>
+            receita.ingredientes.map((ingrediente) => ingrediente.toLowerCase()).includes(alimento.toLowerCase())
+          )
+      );
+  
+      setReceitas(receitasFiltradas);
+    };
+  
+    useEffect(() => {
+      aplicarFiltros();
+    }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer]);
+  
 
-  const aplicarFiltros = () => {
-    let receitasFiltradas = [...receitasOriginais];
-
-    if (filtroDificuldade.length > 0) {
-      receitasFiltradas = receitasFiltradas.filter((receita) => filtroDificuldade.includes(receita.dificuldade));
-    }
-
-    if (filtroCategoria.length > 0) {
-      receitasFiltradas = receitasFiltradas.filter((receita) => filtroCategoria.includes(receita.categoria));
-    }
-
-    if (filtroOrdem === "Mais caloricas primeiro") {
-      receitasFiltradas.sort((a, b) => b.calorias - a.calorias);
-    } else if (filtroOrdem === "Menos caloricas primeiro") {
-      receitasFiltradas.sort((a, b) => a.calorias - b.calorias);
-    } else if (filtroOrdem === "Mais caras primeiro") {
-      receitasFiltradas.sort((a, b) => b.preco - a.preco);
-    } else if (filtroOrdem === "Mais baratas primeiro") {
-      receitasFiltradas.sort((a, b) => a.preco - b.preco);
-    }
-
-    receitasFiltradas = receitasFiltradas.filter(
-      (receita) =>
-        alimentosQueQuer.every((alimento) =>
-          receita.ingredientes.map((ingrediente) => ingrediente.toLowerCase()).includes(alimento.toLowerCase())
-        ) &&
-        !alimentosQueNaoQuer.some((alimento) =>
-          receita.ingredientes.map((ingrediente) => ingrediente.toLowerCase()).includes(alimento.toLowerCase())
-        )
-    );
-
-    setReceitas(receitasFiltradas);
-  };
-
-  useEffect(() => {
-    aplicarFiltros();
-  }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
+    const handleReceitaInfo = (e) => {
+      const receitaSelecionada = e.titulo;
+      router.push({
+        pathname: '/foodies/receita',
+        query: { query: receitaSelecionada }
+      });
+    };
 
 
+    // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
+    const handleIncluir = (e) => {
+      e.preventDefault();
+      const novoAlimento = alimentoQueQuer.charAt(0).toUpperCase() + alimentoQueQuer.slice(1);
+      if (!receitasOriginais.flatMap((receita) => receita.ingredientes).includes(novoAlimento)) {
+        setErroIncluir("Alimento não encontrado");
+        setTimeout(() => { setErroIncluir("") }, 1000);
+        return;
+      }
 
-  const handleReceitaInfo = (e) => {
-    const receitaSelecionada = e.titulo;
-    router.push({
-      pathname: '/foodies/receita',
-      query: { query: receitaSelecionada }
-    });
-  };
+      if (alimentosQueQuer.includes(novoAlimento)) {
+        setErroIncluir("Alimento já está na lista");
+        setTimeout(() => { setErroIncluir("") }, 1000);
+        return;
+      }
 
+      if (alimentosQueNaoQuer.includes(novoAlimento)) {
+        const newAlimentosQueNaoQuer = alimentosQueNaoQuer.filter((alimento) => alimento !== novoAlimento);
+        setAlimentosQueNaoQuer(newAlimentosQueNaoQuer);
+      }
 
-  // Função que é executada quando o form 'INCLUIR' é submetido (carregando no enter)
-  const handleIncluir = (e) => {
-    e.preventDefault();
-    const novoAlimento = alimentoQueQuer.charAt(0).toUpperCase() + alimentoQueQuer.slice(1);
-    if (!receitasOriginais.flatMap((receita) => receita.ingredientes).includes(novoAlimento)) {
-      setErroIncluir("Alimento não encontrado");
-      setTimeout(() => { setErroIncluir("") }, 1000);
-      return;
-    }
+      setAlimentosQueQuer([...alimentosQueQuer, novoAlimento]);
+      setAlimentoQueQuer("");
+    };
 
-    if (alimentosQueQuer.includes(novoAlimento)) {
-      setErroIncluir("Alimento já está na lista");
-      setTimeout(() => { setErroIncluir("") }, 1000);
-      return;
-    }
+    // Função que é executada quando o form 'EXCLUIR' é submetido (carregando no enter)
+    const handleExcluir = (e) => {
+      e.preventDefault();
+      const novoAlimento = alimentoQueNaoQuer.charAt(0).toUpperCase() + alimentoQueNaoQuer.slice(1);
+      if (!receitasOriginais.flatMap((receita) => receita.ingredientes).includes(novoAlimento)) {
+        setErroExcluir("Alimento não encontrado");
+        setTimeout(() => { setErroExcluir("") }, 1000);
+        return;
+      }
 
-    if (alimentosQueNaoQuer.includes(novoAlimento)) {
-      const newAlimentosQueNaoQuer = alimentosQueNaoQuer.filter((alimento) => alimento !== novoAlimento);
-      setAlimentosQueNaoQuer(newAlimentosQueNaoQuer);
-    }
+      if (alimentosQueNaoQuer.includes(novoAlimento)) {
+        setErroExcluir("Alimento já está na lista");
+        setTimeout(() => { setErroExcluir("") }, 1000);
+        return;
+      }
 
-    setAlimentosQueQuer([...alimentosQueQuer, novoAlimento]);
-    setAlimentoQueQuer("");
-  };
+      if (alimentosQueQuer.includes(novoAlimento)) {
+        const newAlimentosQueQuer = alimentosQueQuer.filter((alimento) => alimento !== novoAlimento);
+        setAlimentosQueQuer(newAlimentosQueQuer);
+      }
 
-  const handleExcluir = (e) => {
-    e.preventDefault();
-    const novoAlimento = alimentoQueNaoQuer.charAt(0).toUpperCase() + alimentoQueNaoQuer.slice(1);
-    if (!receitasOriginais.flatMap((receita) => receita.ingredientes).includes(novoAlimento)) {
-      setErroExcluir("Alimento não encontrado");
-      setTimeout(() => { setErroExcluir("") }, 1000);
-      return;
-    }
+      setAlimentosQueNaoQuer([...alimentosQueNaoQuer, novoAlimento]);
+      setAlimentoQueNaoQuer("");
+    };
 
-    if (alimentosQueNaoQuer.includes(novoAlimento)) {
-      setErroExcluir("Alimento já está na lista");
-      setTimeout(() => { setErroExcluir("") }, 1000);
-      return;
-    }
-
-    if (alimentosQueQuer.includes(novoAlimento)) {
-      const newAlimentosQueQuer = alimentosQueQuer.filter((alimento) => alimento !== novoAlimento);
+    const handleRemoverAlimentoQueQuer = (alimento) => {
+      const newAlimentosQueQuer = alimentosQueQuer.filter((item) => item !== alimento);
       setAlimentosQueQuer(newAlimentosQueQuer);
-    }
+    };    
 
-    setAlimentosQueNaoQuer([...alimentosQueNaoQuer, novoAlimento]);
-    setAlimentoQueNaoQuer("");
-  };
+    const handleRemoverAlimentoQueNaoQuer = (alimento) => {
+      const newAlimentosQueNaoQuer = alimentosQueNaoQuer.filter((item) => item !== alimento);
+      setAlimentosQueNaoQuer(newAlimentosQueNaoQuer);
+    };
 
-  const handleRemoverAlimentoQueQuer = (alimento) => {
-    const newAlimentosQueQuer = alimentosQueQuer.filter((item) => item !== alimento);
-    setAlimentosQueQuer(newAlimentosQueQuer);
-  };
+    // Função para manipular a seleção de filtros de dificuldade
+    const handleFiltroDificuldade = (dificuldade) => {
+      setDificuldadeSelecionada({ ...dificuldadeSelecionada, [dificuldade]: !dificuldadeSelecionada[dificuldade] });
+      if (filtroDificuldade.includes(dificuldade)) {
+        setFiltroDificuldade(filtroDificuldade.filter((item) => item !== dificuldade));
+      } else {
+        setFiltroDificuldade([...filtroDificuldade, dificuldade]);
+      }
+    };
 
-  const handleRemoverAlimentoQueNaoQuer = (alimento) => {
-    const newAlimentosQueNaoQuer = alimentosQueNaoQuer.filter((item) => item !== alimento);
-    setAlimentosQueNaoQuer(newAlimentosQueNaoQuer);
-  };
+    // Função para manipular a seleção de filtros de categoria
+    const handleFiltroCategoria = (categoria) => {
+      setCategoriaSelecionada({ ...categoriaSelecionada, [categoria]: !categoriaSelecionada[categoria] });
+      if (filtroCategoria.includes(categoria)) {
+        setFiltroCategoria(filtroCategoria.filter((item) => item !== categoria));
+      } else {
+        setFiltroCategoria([...filtroCategoria, categoria]);
+      }
+    };
 
 
   return (
@@ -243,25 +277,19 @@ export default function SearchPage() {
           </button>
 
           {/* Menu de Filtros */}
-          <div ref={refFiltros}>
+          <div className="relative" ref={refFiltros}>
             {showMenuFiltros && (
-              <div className="absolute left-0 top-10 mt-2 w-56 bg-white rounded-lg shadow-lg z-40">
+              <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-40">
                 <ul>
                   <li className="relative group hover:bg-gray-100">
-                    <button className="w-full py-2 px-4 text-left focus:outline-none">
+                    <button className="py-2 px-4 inline-flex focus:outline-none" onClick={() => setShowMenuDificuldade(!showMenuDificuldade)} onTouchStart={() => setShowMenuDificuldade(!showMenuDificuldade)}>
                       Dificuldade
                     </button>
-                    <ul className="overflow-hidden transition-all duration-300 opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-screen">
+                    <ul className="overflow-hidden opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-screen">
                       {dificuldades.map((dificuldade) => (
                         <li key={dificuldade} className="bg-gray-50 py-2 px-4 text-left">
                           <label className="inline-flex items-center">
-                            <input type="checkbox" className="form-checkbox h-5 w-5"
-                              onChange={(e) =>
-                                e.target.checked
-                                  ? setFiltroDificuldade([...filtroDificuldade, dificuldade])
-                                  : setFiltroDificuldade(filtroDificuldade.filter((item) => item !== dificuldade))
-                              }
-                            />
+                            <input type="checkbox" className="form-checkbox h-4 w-4" onChange={() => handleFiltroDificuldade(dificuldade)} checked={dificuldadeSelecionada[dificuldade] || alimentosQueQuer.includes(dificuldade)}/>
                             <span className="ml-2">{dificuldade}</span>
                           </label>
                         </li>
@@ -269,20 +297,14 @@ export default function SearchPage() {
                     </ul>
                   </li>
                   <li className="relative group hover:bg-gray-100">
-                    <button className="w-full py-2 px-4 text-left focus:outline-none">
+                    <button className="py-2 px-4 inline-flex focus:outline-none" onClick={() => setShowMenuCategoria(!showMenuCategoria)} onTouchStart={() => setShowMenuCategoria(!showMenuCategoria)}>
                       Categoria
                     </button>
-                    <ul className="overflow-hidden transition-all duration-300 opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-screen">
+                    <ul className="overflow-hidden opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-screen">
                       {categorias.map((categoria) => (
                         <li key={categoria} className="bg-gray-50 py-2 px-4 text-left">
                           <label className="inline-flex items-center">
-                            <input type="checkbox" className="form-checkbox h-5 w-5"
-                              onChange={(e) =>
-                                e.target.checked
-                                  ? setFiltroCategoria([...filtroCategoria, categoria])
-                                  : setFiltroCategoria(filtroCategoria.filter((item) => item !== categoria))
-                              }
-                            />
+                            <input type="checkbox" className="form-checkbox h-4 w-4" onChange={() => handleFiltroCategoria(categoria)} checked={categoriaSelecionada[categoria] || alimentosQueQuer.includes(categoria)}/>
                             <span className="ml-2">{categoria}</span>
                           </label>
                         </li>
@@ -362,19 +384,19 @@ export default function SearchPage() {
         <div className="flex mt-2 flex-wrap p-2 rounded-lg">
           {alimentosQueQuer.map((alimento, index) => (
             <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
+              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
               {alimento}
             </div>
           ))}
           {alimentosQueNaoQuer.map((alimento, index) => (
             <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
+              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
               Sem {alimento}
             </div>
           ))}
           {filtroDificuldade.map((filtro, index) => (
             <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true}
+              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true}
                 onChange={(e) =>
                   e.target.checked
                     ? setFiltroDificuldade([...filtroDificuldade, filtro])
@@ -386,7 +408,7 @@ export default function SearchPage() {
           ))}
           {filtroCategoria.map((filtro, index) => (
             <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true}
+              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true}
                 onChange={(e) =>
                   e.target.checked
                     ? setFiltroCategoria([...filtroCategoria, filtro])
@@ -398,7 +420,7 @@ export default function SearchPage() {
           ))}
           {filtroOrdem && (
             <div className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-5 w-5 mr-2" checked={true} onChange={() => setFiltroOrdem(null)} />
+              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => setFiltroOrdem(null)} />
               {filtroOrdem}
             </div>
           )}
@@ -421,3 +443,4 @@ export default function SearchPage() {
     </main>
   );
 }
+
