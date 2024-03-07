@@ -6,3 +6,4 @@ async function procurarReceita(titulo) {
 }
 
 module.exports = { procurarReceita }
+
