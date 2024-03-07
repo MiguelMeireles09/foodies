@@ -58,8 +58,8 @@ export default function Home() {
 
   return (
     <div className="bg-image min-h-screen">
-      <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
-        <img src="/images/LogoInicial.svg" className="pb-2" />
+      <main className="relative flex flex-col items-center justify-center min-h-screen p-20">
+        <img src="/images/FOODIES.svg" className="pb-10"  width={200} height={70}/>
 
         {/* Mostra a mensagem de erro do incluir alimento, se houver */}
         {erroIncluir && <p className="text-red-500 text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{erroIncluir}</p>}

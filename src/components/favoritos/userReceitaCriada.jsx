@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProtectPage from "@/utils/hooks/protectPagesHook";
 import { useRouter } from "next/router";
+import BotaoRemoverReceita from "../botoes/BotaoRemoverReceita";
 
 export default function UserReceitasCriadasPage() {
   const [pagina, setPagina] = useState("Favoritos");
@@ -8,9 +9,12 @@ export default function UserReceitasCriadasPage() {
   const [favoritos, setFavoritos] = useState([]);
   const [receitasUser, setReceitasUser] = useState([]);
   const [loadingFavoritos, setLoadingFavoritos] = useState(false);
+  const [receita, setReceita] = useState(null);
   const [loadingReceitas, setLoadingReceitas] = useState(false);
   const router = useRouter();
   const [receitasAdmin, setReceitasAdmin] = useState([]);
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const [recipeIdToDelete, setRecipeIdToDelete] = useState(null); // Add state to hold the recipe id to delete
 
   // Receitas Criadas User
   const fetchReceitas = async (idDoUsuario) => {
@@ -34,19 +38,19 @@ export default function UserReceitasCriadasPage() {
     setLoadingReceitas(false);
   };
 
-  const handleImagemClick = (e) => {
-    const receitaSelecionada = e.titulo;
+  const handleImagemClick = (recipe) => {
+    const receitaSelecionada = recipe.titulo;
     router.push({
       pathname: "/foodies/receita",
       query: { query: receitaSelecionada },
     });
   };
 
-  const handleToggleTrash = async (userId, recipeId, isTrash) => {
-    if (!userId || !recipeId) {
-      console.log("Sem Usuário Ou receita");
-      return
-    }
+  const handleToggleTrash = (recipeId) => {
+    // Set the recipe id to delete
+    setRecipeIdToDelete(recipeId);
+    // Open the confirmation dialog
+    setConfirmationOpen(true);
   };
 
   useEffect(() => {
@@ -72,27 +76,15 @@ export default function UserReceitasCriadasPage() {
     }
   };
 
-  // apagar Receita
-  const deleteReceita = async (recipeId) => {
-    if (!userData || !userData._id || !recipeId) {
-      console.log("Missing user ID or recipe ID.");
-      return;
-    }
-
-    const confirmed = window.confirm("Are you sure you want to delete this recipe?");
-    if (!confirmed) {
-      return;
-    }
-
-    setLoadingReceitas(true) // Animacao loading
-
+  // Apagar Receita
+  const handleConfirm = async () => {
     try {
       const response = await fetch(`/api/receitas/apagarReceita`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeId }),
+        body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeIdToDelete }),
       });
 
       if (!response.ok) {
@@ -101,13 +93,20 @@ export default function UserReceitasCriadasPage() {
       // novo fetch receitas assim que deleta, para user ver o que aconteceu
       fetchReceitas(userData._id);
 
-      alert("Recipe successfully deleted!");
     } catch (error) {
       console.error('Erro ao apagar Receita:', error);
     }
-    setLoadingReceitas(false);
+    // Reset states after deletion
+    setRecipeIdToDelete(null);
+    setConfirmationOpen(false);
 
   }
+
+  const handleCancel = () => {
+    // Reset states on cancel
+    setRecipeIdToDelete(null);
+    setConfirmationOpen(false);
+  };
 
   if (userLoading || loadingFavoritos) {
     return (
@@ -122,70 +121,55 @@ export default function UserReceitasCriadasPage() {
       <p className="text-center py-5 text-2xl 2xl:text-4xl">As tuas receitas</p>
       {receitasUser.length === 0 && (
         <div>
-          Ainda não tens nenhuma receita adicionada aos teus favoritos.{" "}
+          Ainda não tens nenhuma receita adicionada às tuas receitas.{" "}
           <a className="text-verde font-bold" href={"/foodies/publicar"}>Adiciona-a aqui!</a>
         </div>
       )}
-      <div className="flex flex-wrap mb-10 pb-10">
+      <div className="flex flex-wrap pb-10">
         {receitasUser.map((recipe) => (
           <div key={recipe._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
-            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between border border-black">
+            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between ">
               <div onClick={() => handleImagemClick(recipe)} className="rounded-t-2xl w-full h-40 object-cover cursor-pointer bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${recipe.fotoReceita})` }}>
                 <div className="flex justify-end items-end h-full w-full">
-                  <div className="m-3" onClick={(e) => {deleteReceita(recipe._id); e.stopPropagation(); handleToggleTrash(userData._id, recipe._id, recipe.isTrash); }}>
+                  <div className="m-3" onClick={(e) => { e.stopPropagation(); handleToggleTrash(recipe._id); }}>
                     <img src="/images/Trash.svg" className="w-8 h-8 m-2" />
                   </div>
                 </div>
               </div>
-              <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">
+              <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl border-t-2 border-cinza text-black">
                 {recipe.titulo}
               </p>
             </div>
           </div>
         ))}
       </div>
-
-      <div className="flex">
-        {userData._id === "65e877b5c08f417f72c931dc" && receitasAdmin.map((receita) => (
-          <div key={receita._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4 pb-40">
-            <p className="pt-10 border-t-2 border-cinzaClaro">Em Aprovação</p>
-            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
-              <img
-                onClick={() => handleImagemClick(receita)}
-                src={receita.fotoReceita}
-                alt="Recipe"
-                className="rounded-t-2xl w-full h-40 object-cover"
-              />
-              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
-                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">
-                  {receita.titulo}
-                </p>
-              </div>
+        <div className="pb-20">
+          {userData._id === "65e89d257f5aa8c1d93f84bb" && (
+            <div className="text-center pb-5 text-2xl 2xl:text-4xl">Em Aprovação</div>
+          )}
+              <div className="flex flex-wrap">
+              {receitasAdmin.map((receita) => (
+                <div key={receita._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
+                  <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between border ">
+                    <div onClick={() => handleImagemClick(receita)} className="rounded-t-2xl w-full h-40 object-cover cursor-pointer bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
+                      <div className="flex justify-end items-end h-full w-full">
+                        <div className="m-3" onClick={(e) => { e.stopPropagation(); handleToggleTrash(receita._id); }}>
+                          <img src="/images/Trash.svg" className="w-8 h-8 m-2" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex-grow flex flex-col justify-center">
+                    <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl border-t-2 border-cinza text-black">
+                      {receita.titulo}
+                    </p>
+                    </div>
+                  </div>
+                  <BotaoRemoverReceita isOpen={confirmationOpen} handleConfirm={handleConfirm} handleCancel={handleCancel} />
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="flex">
-        {userData._id === "65e89d257f5aa8c1d93f84bb" && receitasAdmin.map((receita) => (
-          <div key={receita._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4 pb-40">
-            <p className="pt-10 border-t-2 border-cinzaClaro">Em Aprovação</p>
-            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
-              <img
-                onClick={() => handleImagemClick(receita)}
-                src={receita.fotoReceita}
-                alt="Recipe"
-                className="rounded-t-2xl w-full h-40 object-cover"
-              />
-              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
-                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">
-                  {receita.titulo}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+        </div>
+      <BotaoRemoverReceita isOpen={confirmationOpen} handleConfirm={handleConfirm} handleCancel={handleCancel} />
     </div>
   )
 }

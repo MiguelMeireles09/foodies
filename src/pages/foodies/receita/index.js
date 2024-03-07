@@ -219,9 +219,9 @@ export default function ReceitaInfo() {
           </button>
         </div>
         {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && receita.ativa ===false && (
-          <div>
-            <button >Aceitar</button>
-            <button onClick={() => deleteReceita(receita._id)}>Apagar</button>
+          <div className="w-full">
+            <button className="w-1/2 py-3 border-r-2 border-gray-300 text-verde font-bold " >Aprovar</button>
+            <button className="w-1/2 font-bold text-red-500" onClick={() => deleteReceita(receita._id)}>Apagar</button>
           </div>
         )}
         <div>{renderPage()}</div>

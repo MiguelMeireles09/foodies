@@ -75,23 +75,7 @@ export default function PerfilPage() {
             {userData.email}
           </div>
         </div>
-        <div className="flex w-full">
-          <div className=" flex  w-4/12 py-2 justify-start">
-            <div className="flex">
-              <img
-                src="/PerfilPage/phone.svg"
-                width="15"
-                heigth="15"
-                className="mr-2"
-              />
-            </div>
-            Contacto
-          </div>
-          <div className="bg-cinzaClaro bg-opacity-40 rounded-xl flex w-8/12 indent-5 items-center">
-            {userData.contacto}
-          </div>
-        </div>
-        <div className="pt-32">
+        <div className="pt-48">
           <button
             className="bg-verde text-white font-bold py-2 text-bold px-4 rounded-lg"
             onClick={handleLogout}

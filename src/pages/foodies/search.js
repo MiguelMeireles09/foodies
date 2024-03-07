@@ -227,7 +227,7 @@ import { useRouter } from "next/router";
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5">
       
       {/* Botões de Filtros */}
-      <div className="relative flex justify-between">
+      <div className="relative flex justify-between gap-2">
 
         {/* Botão de Dificuldades */}
         <div>

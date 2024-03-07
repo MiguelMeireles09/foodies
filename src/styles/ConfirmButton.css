@@ -12,8 +12,7 @@
 
 .popup {
   background-color: white;
-  padding: 20px;
-  border-radius: 5px;
+  border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
 }
 
@@ -22,5 +21,12 @@
 }
 
 .popup button {
-  margin-right: 10px;
+}
+
+.buttonYes{
+  width: 100%;
+}
+
+.buttonNo{
+  width: 100%;
 }

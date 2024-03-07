@@ -41,7 +41,7 @@ export default function Home() {
           delay: 8 * 0.07
         }}
       >
-        <div className=" flex  flex-wrap justify-around  pb-14">
+        <div className=" flex  flex-wrap justify-around  pb-16">
           <Sobremesas />
           <Entradas />
           <Lanches />

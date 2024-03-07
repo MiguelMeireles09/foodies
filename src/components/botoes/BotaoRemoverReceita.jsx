@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-const BotaoRemoverLike = ({ isOpen, handleConfirm, handleCancel }) => {
+const BotaoRemoverReceita = ({ isOpen, handleConfirm, handleCancel }) => {
   const popupRef = useRef(null);
 
   // Add event listener to handle click outside the popup
@@ -35,10 +35,10 @@ const BotaoRemoverLike = ({ isOpen, handleConfirm, handleCancel }) => {
       {isOpen && (
         <div className="overlay">
           <div className="popup" ref={popupRef}>
-            <p className="pt-6 px-7 pb-2">Pretende remover dos favoritos?</p>
+            <p className="pt-6 px-7 pb-2">Pretender apagar a receita?</p>
             <div className="w-full flex justify-center">
               <button
-                className="buttonYes py-3 border-t-2 border-gray-300 border-r-2 text-verde font-bold"
+                className="buttonYes py-3 border-t-2 border-gray-300 border-r-2 text-verde font-bold "
                 onClick={handleYes}
               >
                 Sim
@@ -57,4 +57,4 @@ const BotaoRemoverLike = ({ isOpen, handleConfirm, handleCancel }) => {
   );
 };
 
-export default BotaoRemoverLike;
+export default BotaoRemoverReceita;
