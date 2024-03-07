@@ -101,7 +101,6 @@ export default function SignUp() {
         </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-wrap -mx-2 mb-4">
-            {/* Título with Doses and Preço */}
             <div className="w-full md:w-2/3 px-2 mb-4 md:mb-0">
               <input
                 placeholder="Título da Receita"
@@ -152,7 +151,7 @@ export default function SignUp() {
                 required
               >
                 <option value="">Selecione uma Categoria</option>
-                <option value="Sopa">Sopa</option>
+                <option value="Sobremesa">Sopa</option>
                 <option value="Entrada">Entrada</option>
                 <option value="Prato Principal">Prato Principal</option>
                 <option value="Lanche">Lanche</option>
@@ -169,7 +168,7 @@ export default function SignUp() {
               >
                 <option value="">Selecione uma Dificuldade</option>
                 <option value="Fácil">Fácil</option>
-                <option value="Média">Média</option>
+                <option value="Médio">Médio</option>
                 <option value="Difícil">Difícil</option>
               </select>
             </div>
@@ -216,7 +215,7 @@ export default function SignUp() {
             />
           </div>
 
-          {/* Dynamic fields for Ingredientes and Quantidades */}
+          {/*Campos dinamicos para Ingredientes and Quantidades */}
           {formData.ingredientes.map((ingrediente, index) => (
             <div
               key={`ingrediente-${index}`}
@@ -247,7 +246,7 @@ export default function SignUp() {
             </div>
           ))}
 
-          {/* Dynamic fields for ModoPreparo */}
+          {/* Campos dinamicos ModoPreparo */}
           {formData.modoPreparo.map((step, index) => (
             <div key={`modoPreparo-${index}`} className="mb-4 w-full">
               <input
@@ -257,7 +256,7 @@ export default function SignUp() {
                 value={step}
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-lg text-gray-700 px-4 py-3"
-                required={index === 0} // Only the first step is required
+                required={index === 0} // apenas [0] é necessario
               />
             </div>
           ))}

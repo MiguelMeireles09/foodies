@@ -115,7 +115,7 @@ export default function UserFavoritosPage() {
       {favoritos.length === 0 && (
         <div>
           Ainda não tens nenhuma receita adicionada aos teus favoritos.{" "}
-          <Link href={"/foodies/search"}  className="text-verde font-bold">Adiciona-a aqui!
+          <Link href={"/foodies/search"} className="text-verde font-bold">Adiciona-a aqui!
           </Link>
         </div>
       )}
