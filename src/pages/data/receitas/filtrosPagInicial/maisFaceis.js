@@ -7,19 +7,19 @@ async function procurarReceitasFacilidade() {
     const result = await collection.aggregate([
         { 
             $match: {
-                dificuldade: { $regex: /^fácil$/i } // Case-insensitive match for 'fácil'
+                dificuldade: { $regex: /^fácil$/i } 
             } 
         },
-        { $limit: 10 }, // Limit to the first 10 documents
+        { $limit: 10 }, 
         { 
             $project: { 
-                _id: 0, // Exclude the '_id' field
-                titulo: 1, // Include 'titulo'
-                fotoReceita: 1 // Include 'fotoReceita'
+                _id: 0, 
+                titulo: 1,
+                fotoReceita: 1 
             } 
         }
     ]).toArray();
-    return result;
+    return result
 }
 
-module.exports = { procurarReceitasFacilidade };
+module.exports = { procurarReceitasFacilidade }

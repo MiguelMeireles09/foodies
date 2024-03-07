@@ -6,20 +6,20 @@ async function procurarReceitasPreco() {
     const collection = await getMongoCollection(collectionName);
     const result = await collection.aggregate([
         {
-            $sort: { preco: 1 } // Sort by 'preco' in ascending order
+            $sort: { preco: 1 }
         },
         {
-            $limit: 10 // Limit the results to the top 10 (change to 20 if needed)
+            $limit: 10 
         },
         {
             $project: { 
-                _id: 0, // Exclude the '_id' field
-                titulo: 1, // Include 'titulo'
-                fotoReceita: 1 // Include 'fotoReceita'
+                _id: 0, 
+                titulo: 1, 
+                fotoReceita: 1 
             }
         }
-    ]).toArray();
-    return result;
+    ]).toArray()
+    return result
 }
 
-module.exports = { procurarReceitasPreco };
+module.exports = { procurarReceitasPreco }

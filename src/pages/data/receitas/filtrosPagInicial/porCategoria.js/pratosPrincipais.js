@@ -3,23 +3,29 @@ const { getMongoCollection } = require("@/pages/data/mongodb/mongodb");
 const collectionName = "receitas";
 
 async function procurarReceitasPratosPrincipais() {
-    const collection = await getMongoCollection(collectionName);
+    const collection = await getMongoCollection(collectionName)
     const result = await collection.aggregate([
         { 
             $match: {
-                categoria: { $regex: /^prato principal$/i } // Case-insensitive match for 'prato principal'
+                categoria: { $regex: /^prato principal$/i } 
             } 
         },
-        { $limit: 10 }, // Limit to the first 10 matching documents
+        {
+            $addFields: {
+                likesCount: { $size: "$likes" } 
+            }
+        },
+        { $sort: { likesCount: -1 } }, 
+        { $limit: 10 }, 
         { 
             $project: { 
-                _id: 0, // Exclude the '_id' field
-                titulo: 1, // Include 'titulo'
-                fotoReceita: 1 // Include 'fotoReceita'
+                _id: 0, 
+                titulo: 1, 
+                fotoReceita: 1 
             } 
         }
     ]).toArray();
     return result;
 }
 
-module.exports = { procurarReceitasPratosPrincipais };
+module.exports = { procurarReceitasPratosPrincipais }

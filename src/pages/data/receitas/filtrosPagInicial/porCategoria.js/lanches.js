@@ -3,23 +3,29 @@ const { getMongoCollection } = require("@/pages/data/mongodb/mongodb");
 const collectionName = "receitas";
 
 async function procurarReceitasLanches() {
-    const collection = await getMongoCollection(collectionName);
+    const collection = await getMongoCollection(collectionName)
     const result = await collection.aggregate([
         { 
             $match: {
-                categoria: { $regex: /^lanche$/i } // Case-insensitive match for 'lanche'
+                categoria: { $regex: /^lanche$/i } 
             } 
         },
-        { $limit: 10 }, // Limit to the first 10 matching documents
+        {
+            $addFields: {
+                likesCount: { $size: "$likes" } 
+            }
+        },
+        { $sort: { likesCount: -1 } }, 
+        { $limit: 10 }, 
         { 
             $project: { 
-                _id: 0, // Exclude the '_id' field
-                titulo: 1, // Include 'titulo'
-                fotoReceita: 1 // Include 'fotoReceita'
+                _id: 0, 
+                titulo: 1, 
+                fotoReceita: 1
             } 
         }
     ]).toArray();
     return result;
 }
 
-module.exports = { procurarReceitasLanches };
+module.exports = { procurarReceitasLanches }

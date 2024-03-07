@@ -7,12 +7,18 @@ async function procurarReceitassopa() {
     const result = await collection.aggregate([
         { 
             $match: {
-                titulo: { $regex: /sopa/i } // Case-insensitive match for titles containing 'sopa'
+                titulo: { $regex: /sopa/i } 
             } 
         },
+        {
+            $addFields: {
+                likesCount: { $size: "$likes" } 
+            }
+        },
+        { $sort: { likesCount: -1 } }, 
         { $limit: 10 }
-    ]).toArray();
-    return result;
+    ]).toArray()
+    return result
 }
 
-module.exports = { procurarReceitassopa };  
+module.exports = { procurarReceitassopa }

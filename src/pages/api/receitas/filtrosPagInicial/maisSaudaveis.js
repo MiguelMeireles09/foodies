@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         } else {
             // Método não permitido
             res.setHeader('Allow', ['GET']);
-            return res.status(405).end(`Method ${req.method} Not Allowed`);
+            return res.status(405).end(`Metodo ${req.method} não permitido.`);
         }
     } catch (err) {
         return res.status(500).json({ message: err.message });
