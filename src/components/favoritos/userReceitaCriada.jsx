@@ -123,7 +123,7 @@ export default function UserReceitasCriadasPage() {
       {receitasUser.length === 0 && (
         <div>
           Ainda não tens nenhuma receita adicionada aos teus favoritos.{" "}
-          <a className="text-verde font-bold" href={"/foodies/receita/publicar"}>Adiciona-a aqui!</a>
+          <a className="text-verde font-bold" href={"/foodies/publicar"}>Adiciona-a aqui!</a>
         </div>
       )}
       <div className="flex flex-wrap mb-10 pb-10">

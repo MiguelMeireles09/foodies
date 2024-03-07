@@ -129,7 +129,40 @@ export default function ReceitaInfo() {
         return <ReceitaPreparo preparo={receita} />
     }
   }
+   // apagar Receita
+   const deleteReceita = async (recipeId) => {
+    if (!userData || !userData._id || !recipeId) {
+      console.log("Missing user ID or recipe ID.");
+      return;
+    }
 
+    const confirmed = window.confirm("Are you sure you want to delete this recipe?");
+    if (!confirmed) {
+      return;
+    }
+
+ 
+    try {
+      const response = await fetch(`/api/receitas/apagarReceita`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao apagar receita.');
+      }
+      router.push("foodies/favoritos")
+
+      alert("Recipe successfully deleted!");
+    } catch (error) {
+      console.error('Erro ao apagar Receita:', error);
+    }
+
+
+  }
 
   if (isLoading) {
     return (
@@ -182,13 +215,13 @@ export default function ReceitaInfo() {
           <button
             onClick={() => handlePageChange("ReceitaPreparo")}
             className={pagina === "ReceitaPreparo" ? "text-verde border-b-2 border-verde h-10 font-bold" : "h-10"}>
-            Preparo
+            Preparação
           </button>
         </div>
         {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && receita.ativa ===false && (
           <div>
-            <button>Aceitar</button>
-            <button>Apagar</button>
+            <button >Aceitar</button>
+            <button onClick={() => deleteReceita(receita._id)}>Apagar</button>
           </div>
         )}
         <div>{renderPage()}</div>
