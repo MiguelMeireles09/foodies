@@ -1,12 +1,14 @@
-import { procurarReceitasUsuario } from "@/pages/services/user/receitasUser";
+import { updateReceita } from "@/pages/services/user/adminAprovar";
+
 
 export default async function handler(req, res) {
     try {
         if (req.method === "POST") {
-            const { idDoUsuario } = req.body;
-            const receitasUsuario = await procurarReceitasUsuario(idDoUsuario);
-            if (receitasUsuario) {
-                return res.status(200).json(receitasUsuario);
+            const { idReceita } = req.body;
+            const receita = await updateReceita(idReceita)
+            if (receita) {
+                console.log("Apagada com sucesso")
+                return res.status(200).json(receita);
             } else {
                 return res.status(404).json({ message: "Usuario não encontrado" });
             }

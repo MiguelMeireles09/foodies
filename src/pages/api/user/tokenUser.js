@@ -13,6 +13,6 @@ export default async function handler(req, res) {
         return res.status(200).json({ _id , email })
     } catch (err) {
         console.log(err);
-        return res.status(500).json({"message": "service internal error"})
+        return res.status(500).json({"message": "internal error"})
     }
 }
