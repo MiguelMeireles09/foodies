@@ -24,7 +24,8 @@ import { useRouter } from "next/router";
     const [loading, setLoading] = useState(true);
   
     const router = useRouter();
-    const refFiltros = useRef();
+    const refDificuldade = useRef();
+    const refCategoria = useRef();
     const refOrdenar = useRef();
   
     // Arrays
@@ -45,7 +46,7 @@ import { useRouter } from "next/router";
       }, {});
       setImagensAtuais(imagensInicial);
     }, [receitasOriginais]);
-  
+    
     useEffect(() => {
       if (router.isReady) {
         const foodName = router.query.query;
@@ -59,49 +60,7 @@ import { useRouter } from "next/router";
     useEffect(() => {
       aplicarFiltros();
     }, [filtroDificuldade, filtroCategoria, filtroOrdem, alimentosQueQuer, alimentosQueNaoQuer, receitasOriginais]);
-  
-    useEffect(() => {
-      async function fetchData() {
-        if (typeof window !== "undefined") {
-          const token = localStorage.getItem("token");
-          try {
-            const response = await fetch("/api/user/verificaToken", {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            })
-            const data = await response.json();
-            console.log(data)
-            if (response.ok) {
-              setUserData(data); // Define os dados do usuário em caso de sucesso
-              setLoading(false);
-            }
-          } catch (error) {
-            console.error("Erro ao buscar dados do usuário:", error);
-            router.push("/foodies/login");
-          }
-        }
-      }
-  
-      fetchData();
-    }, []);
-  
-    useEffect(() => {
-      function handleClickOutside(event) {
-        if (refFiltros.current && !refFiltros.current.contains(event.target)) {
-          setShowMenuFiltros(false);
-        }
-        if (refOrdenar.current && !refOrdenar.current.contains(event.target)) {
-          setShowMenuOrdenar(false);
-        }
-      }
-  
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }, []);
+        
 
     useEffect(() => {
       // Atualizar estado dificuldadeSelecionada quando filtroDificuldade muda
@@ -266,73 +225,45 @@ import { useRouter } from "next/router";
 
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5">
-      {/* Botões de Filtros e de Ordenação*/}
+      
+      {/* Botões de Filtros */}
       <div className="relative flex justify-between">
 
-        {/* Botão de Filtros */}
+        {/* Botão de Dificuldades */}
         <div>
-          <button className="py-2 px-4 inline-flex items-center bg-verdeClaro text-white font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuFiltros(!showMenuFiltros)}>
-            <img width={20} height={20} src="/images/filter.svg" className="me-2"></img>
-            Filtros
+          <button className="btnDificuldade py-2 px-4 bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuDificuldade(!showMenuDificuldade)}>
+            Dificuldades ▿
           </button>
-
-          {/* Menu de Filtros */}
-          <div className="relative" ref={refFiltros}>
-            {showMenuFiltros && (
-              <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg z-40">
-                <ul>
-                  <li className="relative group hover:bg-gray-100">
-                    <button className="py-2 px-4 inline-flex focus:outline-none" onClick={() => setShowMenuDificuldade(!showMenuDificuldade)} onTouchStart={() => setShowMenuDificuldade(!showMenuDificuldade)}>
-                      Dificuldade
-                    </button>
-                    <ul className="overflow-hidden opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-screen">
-                      {dificuldades.map((dificuldade) => (
-                        <li key={dificuldade} className="bg-gray-50 py-2 px-4 text-left">
-                          <label className="inline-flex items-center">
-                            <input type="checkbox" className="form-checkbox h-4 w-4" onChange={() => handleFiltroDificuldade(dificuldade)} checked={dificuldadeSelecionada[dificuldade] || alimentosQueQuer.includes(dificuldade)}/>
-                            <span className="ml-2">{dificuldade}</span>
-                          </label>
-                        </li>
-                      ))}
-                    </ul>
+          {showMenuDificuldade && (
+            <div className="absolute top-10 left-0 mt-2 bg-white rounded-lg shadow-lg z-40">
+              <ul>
+                {dificuldades.map((dificuldade) => (
+                  <li key={dificuldade} className="bg-gray-50 py-2 px-4 text-left">
+                    <label className="inline-flex items-center">
+                      <input type="checkbox" className="form-checkbox h-4 w-4" onChange={() => handleFiltroDificuldade(dificuldade)} checked={dificuldadeSelecionada[dificuldade] || alimentosQueQuer.includes(dificuldade)}/>
+                      <span className="ml-2">{dificuldade}</span>
+                    </label>
                   </li>
-                  <li className="relative group hover:bg-gray-100">
-                    <button className="py-2 px-4 inline-flex focus:outline-none" onClick={() => setShowMenuCategoria(!showMenuCategoria)} onTouchStart={() => setShowMenuCategoria(!showMenuCategoria)}>
-                      Categoria
-                    </button>
-                    <ul className="overflow-hidden opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-screen">
-                      {categorias.map((categoria) => (
-                        <li key={categoria} className="bg-gray-50 py-2 px-4 text-left">
-                          <label className="inline-flex items-center">
-                            <input type="checkbox" className="form-checkbox h-4 w-4" onChange={() => handleFiltroCategoria(categoria)} checked={categoriaSelecionada[categoria] || alimentosQueQuer.includes(categoria)}/>
-                            <span className="ml-2">{categoria}</span>
-                          </label>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
-
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
-        {/* Menu de Ordenação */}
-        <div ref={refOrdenar}>
-          {showMenuOrdenar && (
-            <div className="absolute right-0 top-10 mt-2 w-56 bg-white rounded-lg shadow-lg z-40">
+        {/* Botão de Categorias */}
+        <div>
+          <button className="btnCategoria py-2 px-4 bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuCategoria(!showMenuCategoria)}>
+            Categorias ▿
+          </button>
+          {showMenuCategoria && (
+            <div className="absolute top-10 items-center mt-2 bg-white rounded-lg shadow-lg z-40">
               <ul>
-                {ordens.map((ordem) => (
-                  <li key={ordem} className="bg-gray-50 py-2 px-4">
-                    <button className="w-full text-left focus:outline-none"
-                      onClick={() => {
-                        setFiltroOrdem(ordem);
-                        setShowMenuOrdenar(false);
-                      }}
-                    >
-                      {ordem}
-                    </button>
+                {categorias.map((categoria) => (
+                  <li key={categoria} className="bg-gray-50 py-2 px-4 text-left">
+                    <label className="inline-flex items-center">
+                      <input type="checkbox" className="form-checkbox h-4 w-4" onChange={() => handleFiltroCategoria(categoria)} checked={categoriaSelecionada[categoria] || alimentosQueQuer.includes(categoria)}/>
+                      <span className="ml-2">{categoria}</span>
+                    </label>
                   </li>
                 ))}
               </ul>
@@ -342,13 +273,25 @@ import { useRouter } from "next/router";
 
         {/* Botão de Ordenação */}
         <div>
-          <button className="py-2 px-4 bg-verdeClaro text-white font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuOrdenar(!showMenuOrdenar)}>
-            Ordenar por:
+          <button className="btnOrdenar py-2 px-4 bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuOrdenar(!showMenuOrdenar)}>
+            Ordenar por: ▿
           </button>
+          {showMenuOrdenar && (
+            <div className="absolute top-10 right-0 mt-2 bg-white rounded-lg shadow-lg z-40">
+              <ul>
+                {ordens.map((ordem) => (
+                  <li key={ordem} className="bg-gray-50 py-2 px-4">
+                    <button className="w-full text-left focus:outline-none" onClick={() => { setFiltroOrdem(ordem); setShowMenuOrdenar(false); }}>
+                      {ordem}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
       </div>
-
 
 
       {/* Barra de pesquisa para incluir alimentos */}
@@ -360,9 +303,9 @@ import { useRouter } from "next/router";
               <option key={index} value={e} />
             ))}
           </datalist>
-          <button type="submit" className="py-2 px-4 bg-verdeClaro text-white font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde">Incluir</button>
+          <button type="submit" className="py-2 px-4 bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde">Incluir</button>
         </form>
-        <p className="text-red-500">{erroIncluir}</p>
+        <p className="text-red-500 text-sm">{erroIncluir}</p>
       </div>
 
 
@@ -375,9 +318,9 @@ import { useRouter } from "next/router";
               <option key={index} value={e} />
             ))}
           </datalist>
-          <button type="submit" className="py-2 px-4 bg-red-500 text-white font-semibold rounded-xl hover:bg-red-600 focus:outline-none focus:bg-red-600">Excluir</button>
+          <button type="submit" className="py-2 px-4 bg-red-500 text-white text-sm font-semibold rounded-xl hover:bg-red-600 focus:outline-none focus:bg-red-600">Excluir</button>
         </form>
-        <p className="text-red-500">{erroExcluir}</p>
+        <p className="text-red-500 text-sm">{erroExcluir}</p>
       </div>
 
       {/* Lista de alimentos e filtros selecionados */}
