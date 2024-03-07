@@ -151,7 +151,7 @@ export default function SignUp() {
                 required
               >
                 <option value="">Selecione uma Categoria</option>
-                <option value="Sobremesa">Sopa</option>
+                <option value="Sobremesa">Sobremesa</option>
                 <option value="Entrada">Entrada</option>
                 <option value="Prato Principal">Prato Principal</option>
                 <option value="Lanche">Lanche</option>
