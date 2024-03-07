@@ -24,12 +24,12 @@ export default function UserReceitasCriadasPage() {
         body: JSON.stringify({ idDoUsuario }),
       });
       if (!response.ok) {
-        throw new Error("Failed to fetch favorite recipes");
+        throw new Error("Erro ao procurar receitas favoritas.");
       }
       const data = await response.json();
       setReceitasUser(data);
     } catch (error) {
-      console.error("Error fetching favorite recipes:", error);
+      console.error("Erro a procurar receitas:", error);
     }
     setLoadingReceitas(false);
   };
@@ -44,8 +44,8 @@ export default function UserReceitasCriadasPage() {
 
   const handleToggleTrash = async (userId, recipeId, isTrash) => {
     if (!userId || !recipeId) {
-      console.log("Missing user ID or recipe ID.");
-      return;
+      console.log("Sem Usuário Ou receita");
+      return
     }
   };
 
@@ -72,6 +72,43 @@ export default function UserReceitasCriadasPage() {
     }
   };
 
+  // apagar Receita
+  const deleteReceita = async (recipeId) => {
+    if (!userData || !userData._id || !recipeId) {
+      console.log("Missing user ID or recipe ID.");
+      return;
+    }
+
+    const confirmed = window.confirm("Are you sure you want to delete this recipe?");
+    if (!confirmed) {
+      return;
+    }
+
+    setLoadingReceitas(true) // Animacao loading
+
+    try {
+      const response = await fetch(`/api/receitas/apagarReceita`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao apagar receita.');
+      }
+      // novo fetch receitas assim que deleta, para user ver o que aconteceu
+      fetchReceitas(userData._id);
+
+      alert("Recipe successfully deleted!");
+    } catch (error) {
+      console.error('Erro ao apagar Receita:', error);
+    }
+    setLoadingReceitas(false);
+
+  }
+
   if (userLoading || loadingFavoritos) {
     return (
       <div className="flex flex-col justify-center items-center h-screen pb-40">
@@ -95,8 +132,8 @@ export default function UserReceitasCriadasPage() {
             <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between border border-black">
               <div onClick={() => handleImagemClick(recipe)} className="rounded-t-2xl w-full h-40 object-cover cursor-pointer bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${recipe.fotoReceita})` }}>
                 <div className="flex justify-end items-end h-full w-full">
-                  <div className="m-3" onClick={(e) => { e.stopPropagation(); handleToggleTrash(userData._id, recipe._id, recipe.isTrash); }}>
-                    <img src="/images/Trash.svg" className="w-8 h-8 m-2"  />
+                  <div className="m-3" onClick={(e) => {deleteReceita(recipe._id); e.stopPropagation(); handleToggleTrash(userData._id, recipe._id, recipe.isTrash); }}>
+                    <img src="/images/Trash.svg" className="w-8 h-8 m-2" />
                   </div>
                 </div>
               </div>
@@ -128,28 +165,27 @@ export default function UserReceitasCriadasPage() {
           </div>
         ))}
       </div>
-      
+
       <div className="flex">
-      {userData._id === "65e89d257f5aa8c1d93f84bb" && receitasAdmin.map((receita) => (
-        <div key={receita._id} className= "w-1/2 md:w-1/3 lg:w-1/4 p-4 pb-40">
-      <p className="pt-10 border-t-2 border-cinzaClaro">Em Aprovação</p>
-          <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
-            <img
-              onClick={() => handleImagemClick(receita)}
-              src={receita.fotoReceita}
-              alt="Recipe"
-              className="rounded-t-2xl w-full h-40 object-cover"
-            />
-            <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
-              <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">
-                {receita.titulo}
-              </p>
+        {userData._id === "65e89d257f5aa8c1d93f84bb" && receitasAdmin.map((receita) => (
+          <div key={receita._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4 pb-40">
+            <p className="pt-10 border-t-2 border-cinzaClaro">Em Aprovação</p>
+            <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between">
+              <img
+                onClick={() => handleImagemClick(receita)}
+                src={receita.fotoReceita}
+                alt="Recipe"
+                className="rounded-t-2xl w-full h-40 object-cover"
+              />
+              <div className="flex-grow flex flex-col justify-center border-t-2 border-cinza">
+                <p className="font-sans font-normal text-center p-3 text-sm md:text-base lg:text-lg xl:text-xl text-black">
+                  {receita.titulo}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
       </div>
-
     </div>
-  );
+  )
 }

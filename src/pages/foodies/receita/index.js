@@ -22,7 +22,7 @@ export default function ReceitaInfo() {
       return;
     }
 
-    // Toggle the like status optimistically for immediate UI feedback
+    //muda o coraçao mesmo que n tenha a resposta ok do backend
     const newImageSrc = imagemAtual === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg';
     setImagemAtual(newImageSrc);
 
@@ -72,7 +72,7 @@ export default function ReceitaInfo() {
         throw new Error('Failed to fetch favorite recipes')
       }
       const data = await response.json();
-      // this will give me recipe data with likes being and array of user _ids
+      // informacoes da receita, likes sendo array de ids
       setReceita(data)
     } catch (error) {
       console.error('Error fetching favorite recipes:', error)
@@ -81,7 +81,6 @@ export default function ReceitaInfo() {
   }
   useEffect(() => {
     async function fetchData() {
-      // This is correct; ensures code runs only on the client side
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
         if (token) {
@@ -97,7 +96,7 @@ export default function ReceitaInfo() {
               console.log(data)
               setUserData(data);
             } else {
-              // Handle unauthorized or invalid token scenario
+              // token existente mas incorreto
               console.error("Token verification failed.");
               router.push("/foodies/login");
             }
@@ -105,7 +104,7 @@ export default function ReceitaInfo() {
             console.error("Erro ao buscar dados do usuário:", error);
           }
         } else {
-          // No token found, redirect or handle accordingly
+          // token não encontrado
           router.push("/foodies/login");
         }
       }
@@ -139,6 +138,11 @@ export default function ReceitaInfo() {
       </div>
     )
   }
+  
+  const handlePageChange = (newPage) => {
+    setPagina(newPage);
+  };
+
 
   return (
     <div className="font-sans">
@@ -181,7 +185,7 @@ export default function ReceitaInfo() {
             Preparo
           </button>
         </div>
-        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && (
+        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && receita.ativa ===false && (
           <div>
             <button>Aceitar</button>
             <button>Apagar</button>
