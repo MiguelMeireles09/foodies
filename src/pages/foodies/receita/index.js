@@ -12,7 +12,6 @@ export default function ReceitaInfo() {
   const [isLoading, setIsLoading] = useState(true)
   const { query } = router
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const [imagemAtual, setImagemAtual] = useState('/receitainfo/Favoriteborder.svg')
 
@@ -36,7 +35,6 @@ export default function ReceitaInfo() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`, // Include if needed
         },
         body: JSON.stringify(payload),
       })
@@ -104,13 +102,12 @@ export default function ReceitaInfo() {
             console.error("Erro ao buscar dados do usuário:", error);
           }
         } else {
-          // token não encontrado
-          router.push("/foodies/login");
+
         }
       }
     }
     fetchData();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (receita.likes && userData) {
@@ -129,8 +126,8 @@ export default function ReceitaInfo() {
         return <ReceitaPreparo preparo={receita} />
     }
   }
-   // apagar Receita
-   const deleteReceita = async (recipeId) => {
+  // apagar Receita
+  const deleteReceita = async (recipeId) => {
     if (!userData || !userData._id || !recipeId) {
       console.log("Missing user ID or recipe ID.");
       return;
@@ -140,8 +137,6 @@ export default function ReceitaInfo() {
     if (!confirmed) {
       return;
     }
-
- 
     try {
       const response = await fetch(`/api/receitas/apagarReceita`, {
         method: 'DELETE',
@@ -160,9 +155,35 @@ export default function ReceitaInfo() {
     } catch (error) {
       console.error('Erro ao apagar Receita:', error);
     }
-
-
   }
+  // apagar Receita
+  const aprovarReceita = async (recipeId) => {
+    
+    const confirmed = window.confirm("Aprovar receita?");
+    if (!confirmed) {
+      return;
+    }
+    try {
+      const response = await fetch(`/api/user/adminAprovar`, {
+        method: 'Post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idReceita: recipeId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao apagar receita.');
+      }
+      console.log(recipeId)
+      router.push("foodies/favoritos")
+
+      alert("Recipe successfully deleted!");
+    } catch (error) {
+      console.error('Erro ao apagar Receita:', error);
+    }
+  }
+
 
   if (isLoading) {
     return (
@@ -171,7 +192,7 @@ export default function ReceitaInfo() {
       </div>
     )
   }
-  
+
   const handlePageChange = (newPage) => {
     setPagina(newPage);
   };
@@ -218,9 +239,10 @@ export default function ReceitaInfo() {
             Preparação
           </button>
         </div>
-        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && receita.ativa ===false && (
+        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && receita.ativa === false && (
           <div>
-            <button >Aceitar</button>
+              {console.log(receita.id)}
+            <button onClick={() => aprovarReceita(receita._id)}>Aprovar</button>
             <button onClick={() => deleteReceita(receita._id)}>Apagar</button>
           </div>
         )}
