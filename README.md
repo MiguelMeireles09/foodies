@@ -15,7 +15,7 @@ O projeto Foodies nasceu da necessidade de aproveitar ao máximo os ingredientes
 ## A nossa App!
 
 <p align="center">
-  <img src="gif aqui" alt="Quick App Example">
+  <img src="https://giphy.com/gifs/xFOOepSSZAvgNXgwAq" alt="Quick App Example">
 </p>
 
 
