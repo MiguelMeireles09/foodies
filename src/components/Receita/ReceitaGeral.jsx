@@ -17,7 +17,7 @@ export default function ReceitaGeral({ geral }) {
         Dificuldade:<div>{geral.dificuldade}</div>
       </div>
       <div className="flex gap-2">
-        <Image src="/receitainfo/categoria.svg" width="20" height="20" />
+        <Image src="/receitainfo/Tag.svg" width="20" height="20" />
         Categoria: <div>{geral.categoria}</div>
       </div>
       <div className="flex gap-2">
