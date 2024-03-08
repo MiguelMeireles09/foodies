@@ -14,7 +14,7 @@ export default function UserReceitasCriadasPage() {
   const router = useRouter();
   const [receitasAdmin, setReceitasAdmin] = useState([]);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
-  const [recipeIdToDelete, setRecipeIdToDelete] = useState(null); // Add state to hold the recipe id to delete
+  const [recipeIdToDelete, setRecipeIdToDelete] = useState(null);
 
   // Receitas Criadas User
   const fetchReceitas = async (idDoUsuario) => {
@@ -47,9 +47,9 @@ export default function UserReceitasCriadasPage() {
   };
 
   const handleToggleTrash = (recipeId) => {
-    // Set the recipe id to delete
+
     setRecipeIdToDelete(recipeId);
-    // Open the confirmation dialog
+
     setConfirmationOpen(true);
   };
 

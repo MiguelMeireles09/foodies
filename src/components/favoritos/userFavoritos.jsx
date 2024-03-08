@@ -12,9 +12,9 @@ export default function UserFavoritosPage() {
   const [loadingFavoritos, setLoadingFavoritos] = useState(false);
   const router = useRouter();
   const [receita, setReceita] = useState(null);
-  const [confirmationOpen, setConfirmationOpen] = useState(false); // State variable for the confirmation dialog
+  const [confirmationOpen, setConfirmationOpen] = useState(false)
 
-  // Fetch user's favorite recipes
+
   const fetchFavoritos = async (userId) => {
     setLoadingFavoritos(true);
     try {
@@ -26,38 +26,35 @@ export default function UserFavoritosPage() {
         body: JSON.stringify({ idDoUsuario: userId }),
       });
       if (!response.ok) {
-        throw new Error("Failed to fetch favorite recipes");
+        throw new Error("Falha encontrar favoritos");
       }
       const data = await response.json();
       setFavoritos(data);
     } catch (error) {
-      console.error("Error fetching favorite recipes:", error);
+      console.error("Erro procurar receitas.", error);
     }
     setLoadingFavoritos(false);
   };
 
-  // Function to handle like toggling with confirmation dialog
   const handleToggleLike = async (userId, recipeId, isFavorite) => {
     if (!userId || !recipeId) {
-      console.log("Missing user ID or recipe ID.");
+      console.log("Falta usuario ou receita.");
       return;
     }
 
-    // Set the recipe to remove the like
-    setReceita({ userId, recipeId });
-    // Open the confirmation dialog
-    setConfirmationOpen(true);
-  };
 
-  // Function to confirm removing the like
+    setReceita({ userId, recipeId });
+    setConfirmationOpen(true);
+  }
+
+
   const handleConfirm = async () => {
     const { userId, recipeId } = receita;
     try {
       const payload = {
         idUsuario: userId,
         idReceita: recipeId,
-      };
-      // Send request to remove like
+      }
       const response = await fetch('/api/user/like', {
         method: 'POST',
         headers: {
@@ -68,20 +65,20 @@ export default function UserFavoritosPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to remove like');
+        throw new Error('Falha a remover like');
       }
-      // Refresh the favorite recipes list
+    
       await fetchFavoritos(userId);
     } catch (error) {
-      console.error('Error removing like:', error);
+      console.error('Erro em remover like:', error);
     }
-    // Close the confirmation dialog
+ 
     setConfirmationOpen(false);
   };
 
-  // Function to cancel removing the like
+
   const handleCancel = () => {
-    // Close the confirmation dialog
+
     setConfirmationOpen(false);
   };
 
@@ -92,7 +89,7 @@ export default function UserFavoritosPage() {
     });
   };
 
-  // Fetch user's favorite recipes on component mount
+
   useEffect(() => {
     if (!userLoading && userData?._id) {
       fetchFavoritos(userData._id);
@@ -107,7 +104,7 @@ export default function UserFavoritosPage() {
           alt="Loading..."
         />
       </div>
-    );
+    )
 
   return (
     <div>
@@ -139,5 +136,5 @@ export default function UserFavoritosPage() {
       </div>
       <BotaoRemoverLike isOpen={confirmationOpen} handleConfirm={handleConfirm} handleCancel={handleCancel} />
     </div>
-  );
+  )
 }

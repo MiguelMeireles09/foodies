@@ -1,39 +1,37 @@
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { router } from "next/router";
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import { router } from "next/router"
 
 export default function Sobremesas() {
-  const [receitas, setReceitas] = useState([]);
-  const [currentSlide, setCurrentSlide] = useState(0); // Initialize current slide index
- 
+  const [receitas, setReceitas] = useState([]) 
 
   const fetchReceitas = async () => {
     try {
-      const response = await fetch("/api/receitas/filtrosPagInicial/categoria/sobremesa");
+      const response = await fetch("/api/receitas/filtrosPagInicial/categoria/sobremesa")
       if (!response.ok) {
-        throw new Error("Falha ao buscar receitas");
+        throw new Error("Falha ao buscar receitas")
       }
-      const data = await response.json();
-      setReceitas(data);
+      const data = await response.json()
+      setReceitas(data)
     } catch (error) {
-      console.error("Erro ao buscar receitas:", error);
+      console.error("Erro ao buscar receitas:", error)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchReceitas();
-  }, []);
+    fetchReceitas()
+  }, [])
 
   const handleImagemClick = (e) => {
-    const receitaSelecionada = e.titulo;
+    const receitaSelecionada = e.titulo
     router.push({
       pathname: "/foodies/receita",
       query: { query: receitaSelecionada },
-    });
-  };
+    })
+  }
 
   const settings = {
     dots: true,
@@ -62,9 +60,9 @@ export default function Sobremesas() {
       </div>
     ),
     customPaging: function (i) {
-      return <button className="slick-dot"></button>;
+      return <button className="slick-dot"></button>
     },
-  };
+  }
 
   return (
     <div>
@@ -86,10 +84,9 @@ export default function Sobremesas() {
           ))}
         </Slider>
         <p className="absolute top-0 flex justify-center items-center text-white text-2xl bg-black bg-opacity-20 text-center w-full p-3 font-black">
-          {/* {e.titulo} */}
           Sobremesas
         </p>
       </div>
     </div>
-  );
+  )
 }

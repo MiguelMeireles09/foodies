@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react"
 
 const BotaoRemoverLike = ({ isOpen, handleConfirm, handleCancel }) => {
-  const popupRef = useRef(null);
+  const popupRef = useRef(null)
 
-  // Add event listener to handle click outside the popup
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -11,24 +11,24 @@ const BotaoRemoverLike = ({ isOpen, handleConfirm, handleCancel }) => {
         popupRef.current &&
         !popupRef.current.contains(event.target)
       ) {
-        handleCancel(); // Close the dialog if clicked outside
+        handleCancel() 
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen, handleCancel]);
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [isOpen, handleCancel])
 
   const handleYes = () => {
-    handleConfirm(); // Call handleConfirm function passed as prop
-  };
+    handleConfirm()
+  }
 
   const handleNo = () => {
-    handleCancel(); // Call handleCancel function passed as prop
-  };
+    handleCancel()
+  }
 
   return (
     <div>
@@ -54,7 +54,7 @@ const BotaoRemoverLike = ({ isOpen, handleConfirm, handleCancel }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default BotaoRemoverLike;
+export default BotaoRemoverLike

@@ -16,7 +16,7 @@ export default function ReceitaInfo() {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [confirmAction, setConfirmAction] = useState(null);
   const [confirmationOpen, setConfirmationOpen] = useState(false);
-  const [recipeIdToDelete, setRecipeIdToDelete] = useState(null); // Add state to hold the recipe id to delete
+  const [recipeIdToDelete, setRecipeIdToDelete] = useState(null); 
 
 
 
@@ -108,7 +108,7 @@ export default function ReceitaInfo() {
               setUserData(data)
             } else {
               // token existente mas incorreto
-              console.error("Token verification failed.")
+              console.error("Erro verificar token.")
               router.push("/foodies/login")
             }
           } catch (error) {
@@ -154,7 +154,7 @@ export default function ReceitaInfo() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeIdToDelete }), // Certifique-se de usar recipeIdToDelete
+          body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeIdToDelete }), 
         });
   
         if (!response.ok) {
@@ -183,7 +183,7 @@ const handleConfirm = async () => {
       if (!response.ok) {
         throw new Error('Erro ao apagar receita.')
       }
-      console.log("recipeId:",recipeIdToDelete)
+    
       router.push("/foodies/favoritos")
 
     } catch (error) {
@@ -194,10 +194,10 @@ const handleConfirm = async () => {
 
 
   const handleToggleDeleteOrNo = (receita) => {
-    console.log("olaola",receita._id)
-    // Set the recipe id to delete
+  
+    
     setRecipeIdToDelete(receita._id);
-    // Open the confirmation dialog
+   
     setConfirmationOpen(true);
   };
 
