@@ -59,11 +59,11 @@ export default function Home() {
       console.error("Error:", error);
     }
   };
-
+  
   return (
     <div className="bg-image-login-signup min-h-screen ">
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
-        <img src="/images/LogoInicial.png" className="pb-2" />
+        <img src="/images/FOODIES.svg" width={200} height={70} className="pb-10" />
         <form
           onSubmit={handleSubmit}
           className="flex md:px-40 lg:px-40 xl:px-96  flex-col items-center w-full"
