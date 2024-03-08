@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState } from "react";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function Home() {
   const router = useRouter();
@@ -41,9 +43,10 @@ export default function Home() {
 
         if (getResponse.ok) {
           const responseData = await getResponse.json();
-          console.log("GET request successful:", responseData);
+
+          toast.success('Login Feito!', { position: "top-right", theme:"colored" })
         } else {
-          console.error("GET request failed:", getResponse.status, getResponse.statusText);
+          toast.error('Erro Token', { position: "top-right", theme:"colored" });
         } 
 
         router.push({
@@ -51,17 +54,17 @@ export default function Home() {
           query: { token: userData.tokenId },
         }, "/foodies/homepage" );
 
-        console.log("Login successful");
       } else {
-        setError("Login failed. Please check your credentials.");
+        toast.error('Conta não encontrada', { position: "top-right", theme:"colored" });
       }
     } catch (error) {
-      console.error("Error:", error);
+      toast.error('Erro.', { position: "top-right", theme:"colored" });
     }
   };
   
   return (
     <div className="bg-image-login-signup min-h-screen ">
+    <ToastContainer />
       <main className="relative flex flex-col items-center justify-center min-h-screen p-24">
         <img src="/images/FOODIES.svg" width={200} height={70} className="pb-10" />
         <form

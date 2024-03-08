@@ -26,6 +26,7 @@
     "react-avatar": "^5.0.3",
     "react-dom": "^18",
     "react-slick": "^0.30.2",
+    "react-toastify": "^10.0.4",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.8",
     "tailwind": "^4.0.0",

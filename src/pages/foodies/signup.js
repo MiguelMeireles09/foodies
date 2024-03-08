@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Router, useRouter } from "next/router";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 
 export default function SignUp() {
@@ -32,10 +34,10 @@ export default function SignUp() {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        console.log("Cadastro bem-sucedido");
+        toast.success('Conta criada com sucesso!', { position: "top-right", theme:"colored" })
         router.push("/foodies/login");
       } else {
-        console.error("Erro ao cadastrar usuário");
+        toast.error('Erro ao criar Conta!', { position: "top-right", theme:"colored" })
       }
     } catch (error) {
       console.error("Erro:", error);
@@ -44,6 +46,7 @@ export default function SignUp() {
   
   return (
     <div className="bg-image-login-signup min-h-screen">
+    <ToastContainer/>
       <main className="flex flex-col items-center justify-center min-h-screen p-24">
         <img src="/images/FOODIES.svg" className='pb-10' width={200} height={70} />
         <form onSubmit={handleSubmit} className="flex md:px-40 lg:px-40 xl:px-96  flex-col items-center w-full">

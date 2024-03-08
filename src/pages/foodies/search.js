@@ -32,7 +32,7 @@ import { useRouter } from "next/router";
     const alimentosArray = receitas.reduce((accumulator, current) => { accumulator.push(...current.ingredientes); return accumulator; }, []);
     const alimentosUnicosArray = Array.from(new Set(alimentosArray));
     const dificuldades = ["Fácil", "Médio", "Difícil"];
-    const categorias = ["Entrada", "Prato principal", "Sobremesa", "Lanche"];
+    const categorias = ["Entrada", "Prato Principal", "Sobremesa", "Lanche"];
     const ordens = ["Mais caloricas primeiro", "Menos caloricas primeiro", "Mais baratas primeiro", "Mais caras primeiro"];
   
     useEffect(() => {
