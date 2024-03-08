@@ -75,7 +75,7 @@ export default function PerfilPage() {
             {userData.email}
           </div>
         </div>
-        <div className="pt-48">
+        <div className="pt-64">
           <button
             className="bg-verde text-white font-bold py-2 text-bold px-4 rounded-lg"
             onClick={handleLogout}
