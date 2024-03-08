@@ -4,6 +4,7 @@ import ReceitaIngrediente from "@/components/Receita/ReceitaIngredientes"
 import ReceitaPreparo from "@/components/Receita/ReceitaPreparo"
 import Image from "next/image"
 import { useRouter } from "next/router"
+import BotaoRemoverReceitaAdmin from "@/components/botoes/BotoesRemoverReceitaAdmin"
 
 export default function ReceitaInfo() {
   const [pagina, setPagina] = useState("ReceitaGeral")
@@ -12,7 +13,12 @@ export default function ReceitaInfo() {
   const [isLoading, setIsLoading] = useState(true)
   const { query } = router
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null);
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const [recipeIdToDelete, setRecipeIdToDelete] = useState(null); // Add state to hold the recipe id to delete
+
+
 
   const [imagemAtual, setImagemAtual] = useState('/receitainfo/Favoriteborder.svg')
 
@@ -21,7 +27,7 @@ export default function ReceitaInfo() {
       console.log("Missing user data or recipe data.");
       return;
     }
-
+    
     //muda o coraçao mesmo que n tenha a resposta ok do backend
     const newImageSrc = imagemAtual === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg';
     setImagemAtual(newImageSrc);
@@ -36,7 +42,6 @@ export default function ReceitaInfo() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem("token")}`, // Include if needed
         },
         body: JSON.stringify(payload),
       })
@@ -51,6 +56,12 @@ export default function ReceitaInfo() {
       setImagemAtual(imagemAtual);
 
     }
+  };
+
+  const handleCancel = () => {
+    // Reset states on cancel
+    setRecipeIdToDelete(null);
+    setConfirmationOpen(false);
   };
 
   useEffect(() => {
@@ -104,13 +115,12 @@ export default function ReceitaInfo() {
             console.error("Erro ao buscar dados do usuário:", error);
           }
         } else {
-          // token não encontrado
-          router.push("/foodies/login");
+
         }
       }
     }
     fetchData();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (receita.likes && userData) {
@@ -129,40 +139,68 @@ export default function ReceitaInfo() {
         return <ReceitaPreparo preparo={receita} />
     }
   }
-   // apagar Receita
-   const deleteReceita = async (recipeId) => {
-    if (!userData || !userData._id || !recipeId) {
-      console.log("Missing user ID or recipe ID.");
+
+  // apagar Receita
+  const handleDelete = async () => {
+    if (!userData || !userData._id || !recipeIdToDelete) { 
       return;
     }
+  
+    setConfirmAction(async () => {
+      try {
+        console.log("ola receita apagar");
+        const response = await fetch(`/api/receitas/apagarReceita`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeIdToDelete }), // Certifique-se de usar recipeIdToDelete
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erro ao apagar receita.');
+        }
+        router.push("/foodies/favoritos")
+  
+      } catch (error) {
+        console.error('Erro ao apagar Receita:', error);
+      }
+    });
+  };
 
-    const confirmed = window.confirm("Are you sure you want to delete this recipe?");
-    if (!confirmed) {
-      return;
-    }
-
- 
+// Aprovar Receita
+const handleConfirm = async () => {
+  setConfirmAction(async () => {
     try {
-      const response = await fetch(`/api/receitas/apagarReceita`, {
-        method: 'DELETE',
+      const response = await fetch(`/api/user/adminAprovar`, {
+        method: 'Post',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeId }),
+        body: JSON.stringify({ idReceita: recipeIdToDelete }),
       });
 
       if (!response.ok) {
         throw new Error('Erro ao apagar receita.');
       }
-      router.push("foodies/favoritos")
+      console.log("recipeId:",recipeIdToDelete)
+      router.push("/foodies/favoritos")
 
-      alert("Recipe successfully deleted!");
     } catch (error) {
-      console.error('Erro ao apagar Receita:', error);
+      console.error('Erro ao aprovar Receita:', error);
     }
+  });
+};
 
 
-  }
+  const handleToggleDeleteOrNo = (receita) => {
+    console.log("olaola",receita._id)
+    // Set the recipe id to delete
+    setRecipeIdToDelete(receita._id);
+    // Open the confirmation dialog
+    setConfirmationOpen(true);
+  };
+
 
   if (isLoading) {
     return (
@@ -171,7 +209,7 @@ export default function ReceitaInfo() {
       </div>
     )
   }
-  
+
   const handlePageChange = (newPage) => {
     setPagina(newPage);
   };
@@ -218,16 +256,17 @@ export default function ReceitaInfo() {
             Preparação
           </button>
         </div>
-        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && receita.ativa ===false && (
-          <div className="w-full">
-            <button className="w-1/2 py-3 border-r-2 border-gray-300 text-verde font-bold " >Aprovar</button>
-            <button className="w-1/2 font-bold text-red-500" onClick={() => deleteReceita(receita._id)}>Apagar</button>
+        {userData && userData._id === "65e89d257f5aa8c1d93f84bb" && userData.admin === "true" && receita.ativa === false && (
+          <div>
+            <div className="font-bold text-red-500 flex justify-center pt-3">Esta receita ainda não foi aprovada</div>
+            <div className= "flex w-full text-center pt-3 justify-center" onClick={(e) => { e.stopPropagation(); handleToggleDeleteOrNo(receita); }} > 
+              <div className="bg-verdeClaro p-2 rounded-xl text-white">Opções</div>
+            </div>
           </div>
         )}
+        <BotaoRemoverReceitaAdmin isOpen={confirmationOpen} handleConfirm={handleConfirm} handleCancel={handleCancel} handleDelete={handleDelete} />
         <div>{renderPage()}</div>
       </div>
     </div>
   )
 }
-
-

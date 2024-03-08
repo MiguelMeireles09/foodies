@@ -222,15 +222,45 @@ import { useRouter } from "next/router";
       }
     };
 
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (
+          !refCategoria.current.contains(event.target) &&
+          !refOrdenar.current.contains(event.target) &&
+          !refDificuldade.current.contains(event.target)
+        ) {
+          setShowMenuCategoria(false);
+          setShowMenuOrdenar(false);
+          setShowMenuDificuldade(false);
+        }
+      };
+    
+      document.addEventListener('mousedown', handleClickOutside);
+    
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [refCategoria, refOrdenar, refDificuldade]);
+    
+    // Function to toggle the visibility of the dropdown menus
+    const toggleDropdownMenu = (menuName) => {
+      setShowMenuCategoria(menuName === 'Categoria' ? !showMenuCategoria : false);
+      setShowMenuOrdenar(menuName === 'Ordenar' ? !showMenuOrdenar : false);
+      setShowMenuDificuldade(menuName === 'Dificuldade' ? !showMenuDificuldade : false);
+    };
+    
+    
+
+
 
   return (
     <main className="justify-center items-start text-center w-full overflow-hidden min-h-screen px-4 md:px-14 lg:px-20 xl:px-28 pt-5">
       
       {/* Botões de Filtros */}
-      <div className="relative flex justify-between gap-2">
+      <div className="relative flex justify-between">
 
         {/* Botão de Dificuldades */}
-        <div>
+        <div ref={refDificuldade} onClick={() => toggleDropdownMenu('Dificuldade')}>
           <button className="btnDificuldade py-2 px-4 bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuDificuldade(!showMenuDificuldade)}>
             Dificuldades ▿
           </button>
@@ -240,8 +270,13 @@ import { useRouter } from "next/router";
                 {dificuldades.map((dificuldade) => (
                   <li key={dificuldade} className="bg-gray-50 py-2 px-4 text-left">
                     <label className="inline-flex items-center">
-                      <input type="checkbox" className="form-checkbox h-4 w-4" onChange={() => handleFiltroDificuldade(dificuldade)} checked={dificuldadeSelecionada[dificuldade] || alimentosQueQuer.includes(dificuldade)}/>
-                      <span className="ml-2">{dificuldade}</span>
+                      <input 
+                        type="checkbox" 
+                        className="form-checkbox h-4 w-4" 
+                        onChange={() => handleFiltroDificuldade(dificuldade)} 
+                        checked={dificuldadeSelecionada[dificuldade] || alimentosQueQuer.includes(dificuldade)}
+                      />
+                      <div className="ml-2" onClick={() => handleFiltroDificuldade(dificuldade)}>{dificuldade}</div>
                     </label>
                   </li>
                 ))}
@@ -251,8 +286,8 @@ import { useRouter } from "next/router";
         </div>
 
         {/* Botão de Categorias */}
-        <div>
-          <button className="btnCategoria py-2 px-4 bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuCategoria(!showMenuCategoria)}>
+        <div ref={refCategoria} onClick={() => toggleDropdownMenu('Categoria')}>
+          <button className="btnCategoria py-2 px-4  bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuCategoria(!showMenuCategoria)}>
             Categorias ▿
           </button>
           {showMenuCategoria && (
@@ -261,8 +296,13 @@ import { useRouter } from "next/router";
                 {categorias.map((categoria) => (
                   <li key={categoria} className="bg-gray-50 py-2 px-4 text-left">
                     <label className="inline-flex items-center">
-                      <input type="checkbox" className="form-checkbox h-4 w-4" onChange={() => handleFiltroCategoria(categoria)} checked={categoriaSelecionada[categoria] || alimentosQueQuer.includes(categoria)}/>
-                      <span className="ml-2">{categoria}</span>
+                      <input 
+                        type="checkbox" 
+                        className="form-checkbox h-4 w-4" 
+                        onChange={() => handleFiltroCategoria(categoria)} 
+                        checked={categoriaSelecionada[categoria] || alimentosQueQuer.includes(categoria)}
+                      />
+                      <span className="ml-2" onClick={() => handleFiltroCategoria(categoria)}>{categoria}</span>
                     </label>
                   </li>
                 ))}
@@ -272,9 +312,9 @@ import { useRouter } from "next/router";
         </div>
 
         {/* Botão de Ordenação */}
-        <div>
-          <button className="btnOrdenar py-2 px-4 bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuOrdenar(!showMenuOrdenar)}>
-            Ordenar por: ▿
+        <div ref={refOrdenar} onClick={() => toggleDropdownMenu('Ordenar')}>
+          <button className="btnOrdenar py-2 px-4  bg-verdeClaro text-white text-sm font-semibold rounded-xl hover:bg-verde focus:outline-none focus:bg-verde" onClick={() => setShowMenuOrdenar(!showMenuOrdenar)}>
+            Ordenar por ▿
           </button>
           {showMenuOrdenar && (
             <div className="absolute top-10 right-0 mt-2 bg-white rounded-lg shadow-lg z-40">
@@ -290,9 +330,7 @@ import { useRouter } from "next/router";
             </div>
           )}
         </div>
-
       </div>
-
 
       {/* Barra de pesquisa para incluir alimentos */}
       <div className="flex items-center justify-center mt-4">
@@ -326,20 +364,26 @@ import { useRouter } from "next/router";
       {/* Lista de alimentos e filtros selecionados */}
         <div className="flex mt-2 flex-wrap p-2 rounded-lg">
           {alimentosQueQuer.map((alimento, index) => (
-            <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueQuer(alimento)} />
+            <label key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100" onClick={() => handleRemoverAlimentoQueQuer(alimento)}>
+              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => {}} />
               {alimento}
-            </div>
+            </label>
           ))}
+          {/* Alimentos que não quer */}
           {alimentosQueNaoQuer.map((alimento, index) => (
-            <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => handleRemoverAlimentoQueNaoQuer(alimento)} />
+            <label key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100" onClick={() => handleRemoverAlimentoQueNaoQuer(alimento)}>
+              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => {}} />
               Sem {alimento}
-            </div>
+            </label>
           ))}
+
+          {/* Filtro de dificuldade */}
           {filtroDificuldade.map((filtro, index) => (
-            <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true}
+            <label key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
+              <input 
+                type="checkbox" 
+                className="form-checkbox h-4 w-4 mr-2" 
+                checked={true}
                 onChange={(e) =>
                   e.target.checked
                     ? setFiltroDificuldade([...filtroDificuldade, filtro])
@@ -347,11 +391,16 @@ import { useRouter } from "next/router";
                 }
               />
               {filtro}
-            </div>
+            </label>
           ))}
+
+          {/* Filtro de categoria */}
           {filtroCategoria.map((filtro, index) => (
-            <div key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true}
+            <label key={index} className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
+              <input 
+                type="checkbox" 
+                className="form-checkbox h-4 w-4 mr-2" 
+                checked={true}
                 onChange={(e) =>
                   e.target.checked
                     ? setFiltroCategoria([...filtroCategoria, filtro])
@@ -359,11 +408,13 @@ import { useRouter } from "next/router";
                 }
               />
               {filtro}
-            </div>
+            </label>
           ))}
+
+          {/* Filtro de ordem */}
           {filtroOrdem && (
-            <div className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100">
-              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => setFiltroOrdem(null)} />
+            <div className="flex items-center py-1 px-2 rounded-xl m-1 bg-gray-100" onClick={() => setFiltroOrdem(null)}>
+              <input type="checkbox" className="form-checkbox h-4 w-4 mr-2" checked={true} onChange={() => {}} />
               {filtroOrdem}
             </div>
           )}

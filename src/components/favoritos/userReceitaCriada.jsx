@@ -148,7 +148,7 @@ export default function UserReceitasCriadasPage() {
             <div className="text-center pb-5 text-2xl 2xl:text-4xl">Em Aprovação</div>
           )}
               <div className="flex flex-wrap">
-              {receitasAdmin.map((receita) => (
+              {userData._id === "65e89d257f5aa8c1d93f84bb" && receitasAdmin.map((receita) => (
                 <div key={receita._id} className="w-1/2 md:w-1/3 lg:w-1/4 p-4">
                   <div className="bg-cinzaClaro rounded-2xl h-full flex flex-col justify-between border ">
                     <div onClick={() => handleImagemClick(receita)} className="rounded-t-2xl w-full h-40 object-cover cursor-pointer bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${receita.fotoReceita})` }}>
@@ -164,7 +164,6 @@ export default function UserReceitasCriadasPage() {
                     </p>
                     </div>
                   </div>
-                  <BotaoRemoverReceita isOpen={confirmationOpen} handleConfirm={handleConfirm} handleCancel={handleCancel} />
                 </div>
               ))}
             </div>
