@@ -11,25 +11,25 @@ export default function ReceitaInfo() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const { query } = router
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(null)
 
   const [imagemAtual, setImagemAtual] = useState('/receitainfo/Favoriteborder.svg')
 
   const handleTrocarImagem = async () => {
     if (!userData || !receita) {
-      console.log("Missing user data or recipe data.");
-      return;
+      console.log("Missing user data or recipe data.")
+      return
     }
 
     //muda o coraçao mesmo que n tenha a resposta ok do backend
-    const newImageSrc = imagemAtual === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg';
-    setImagemAtual(newImageSrc);
+    const newImageSrc = imagemAtual === '/receitainfo/Favoriteborder.svg' ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg'
+    setImagemAtual(newImageSrc)
 
     try {
       const payload = {
         idUsuario: userData._id,
         idReceita: receita._id,
-      };
+      }
 
       const response = await fetch('/api/user/like', {
         method: 'POST',
@@ -40,21 +40,21 @@ export default function ReceitaInfo() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to toggle like status');
+        throw new Error('Failed to toggle like status')
       }
 
 
     } catch (error) {
-      console.error('Error toggling like status:', error);
-      setImagemAtual(imagemAtual);
+      console.error('Error toggling like status:', error)
+      setImagemAtual(imagemAtual)
 
     }
-  };
+  }
 
   useEffect(() => {
     if (router.isReady) {
       const tituloReceita = router.query.query
-      fetchInfoReceitas(tituloReceita);
+      fetchInfoReceitas(tituloReceita)
     }
   }, [router.isReady, router.query.query])
 
@@ -69,7 +69,7 @@ export default function ReceitaInfo() {
       if (!response.ok) {
         throw new Error('Failed to fetch favorite recipes')
       }
-      const data = await response.json();
+      const data = await response.json()
       // informacoes da receita, likes sendo array de ids
       setReceita(data)
     } catch (error) {
@@ -80,7 +80,7 @@ export default function ReceitaInfo() {
   useEffect(() => {
     async function fetchData() {
       if (typeof window !== "undefined") {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token")
         if (token) {
           try {
             const response = await fetch("/api/user/verificaToken", {
@@ -88,33 +88,33 @@ export default function ReceitaInfo() {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            });
+            })
             if (response.ok) {
-              const data = await response.json();
+              const data = await response.json()
               console.log(data)
-              setUserData(data);
+              setUserData(data)
             } else {
               // token existente mas incorreto
-              console.error("Token verification failed.");
-              router.push("/foodies/login");
+              console.error("Token verification failed.")
+              router.push("/foodies/login")
             }
           } catch (error) {
-            console.error("Erro ao buscar dados do usuário:", error);
+            console.error("Erro ao buscar dados do usuário:", error)
           }
         } else {
 
         }
       }
     }
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   useEffect(() => {
     if (receita.likes && userData) {
-      const isLiked = receita.likes.includes(userData._id);
-      setImagemAtual(isLiked ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg');
+      const isLiked = receita.likes.includes(userData._id)
+      setImagemAtual(isLiked ? '/receitainfo/Favorite.svg' : '/receitainfo/Favoriteborder.svg')
     }
-  }, [receita, userData]);
+  }, [receita, userData])
 
   const renderPage = () => {
     switch (pagina) {
@@ -128,14 +128,15 @@ export default function ReceitaInfo() {
   }
   // apagar Receita
   const deleteReceita = async (recipeId) => {
+    console.log(recipeId)
     if (!userData || !userData._id || !recipeId) {
-      console.log("Missing user ID or recipe ID.");
-      return;
+      console.log("Missing user ID or recipe ID.")
+      return
     }
 
-    const confirmed = window.confirm("Are you sure you want to delete this recipe?");
+    const confirmed = window.confirm("Are you sure you want to delete this recipe?")
     if (!confirmed) {
-      return;
+      return
     }
     try {
       const response = await fetch(`/api/receitas/apagarReceita`, {
@@ -144,24 +145,24 @@ export default function ReceitaInfo() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ idUsuario: userData._id, idReceita: recipeId }),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error('Erro ao apagar receita.');
+        throw new Error('Erro ao apagar receita.')
       }
       router.push("foodies/favoritos")
 
-      alert("Recipe successfully deleted!");
+      alert("Recipe successfully deleted!")
     } catch (error) {
-      console.error('Erro ao apagar Receita:', error);
+      console.error('Erro ao apagar Receita:', error)
     }
   }
   // apagar Receita
   const aprovarReceita = async (recipeId) => {
     
-    const confirmed = window.confirm("Aprovar receita?");
+    const confirmed = window.confirm("Aprovar receita?")
     if (!confirmed) {
-      return;
+      return
     }
     try {
       const response = await fetch(`/api/user/adminAprovar`, {
@@ -170,17 +171,17 @@ export default function ReceitaInfo() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ idReceita: recipeId }),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error('Erro ao apagar receita.');
+        throw new Error('Erro ao apagar receita.')
       }
       console.log(recipeId)
       router.push("foodies/favoritos")
 
-      alert("Recipe successfully deleted!");
+      alert("Recipe successfully deleted!")
     } catch (error) {
-      console.error('Erro ao apagar Receita:', error);
+      console.error('Erro ao apagar Receita:', error)
     }
   }
 
@@ -194,8 +195,8 @@ export default function ReceitaInfo() {
   }
 
   const handlePageChange = (newPage) => {
-    setPagina(newPage);
-  };
+    setPagina(newPage)
+  }
 
 
   return (
