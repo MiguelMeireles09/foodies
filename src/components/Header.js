@@ -9,7 +9,7 @@ export default function Header() {
   const visiblePaths = ["/foodies/homepage", "/foodies/search", "/foodies/favoritos"];
 
   return (
-    <nav className="bg-white border-b-2 text-black flex justify-between items-center pl-4 md:pl-20 lg:pl-28 xl:pl-40 pr-4 md:pr-20 lg:pr-28 xl:pr-40 sticky top-0 z-50">
+    <nav className="bg-white border-b-2 text-black flex justify-between items-center pl-8 md:pl-20 lg:pl-28 xl:pl-40 pr-4 md:pr-20 lg:pr-28 xl:pr-40 sticky top-0 z-50">
       <Link href="/foodies/homepage">
         <div>
           <Image

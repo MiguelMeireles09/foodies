@@ -94,8 +94,8 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center pb-12">
-      <main className="container max-w-4xl mx-auto p-8 bg-white shadow rounded-lg">
+    <div className="flex justify-center items-center pb-12">
+      <main className="container max-w-4xl mx-auto p-8 bg-white">
         <h2 className="text-2xl font-bold text-center text-verde pb-4">
           Publicar Receita
         </h2>
