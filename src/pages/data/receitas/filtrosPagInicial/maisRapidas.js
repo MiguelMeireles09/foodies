@@ -1,9 +1,9 @@
-const { getMongoCollection } = require("../../mongodb/mongodb");
+const { getMongoCollection } = require("../../mongodb/mongodb")
 
-const collectionName = "receitas";
+const collectionName = "receitas"
 
 async function procurarReceitasMenosDuracao() {
-    const collection = await getMongoCollection(collectionName);
+    const collection = await getMongoCollection(collectionName)
     const result = await collection.aggregate([
         { $sort: { tempoPreparo: 1 } }, 
         { $limit: 10 }, 
@@ -14,8 +14,8 @@ async function procurarReceitasMenosDuracao() {
                 fotoReceita: 1 
             } 
         }
-    ]).toArray();
-    return result;
+    ]).toArray()
+    return result
 }
 
-module.exports = { procurarReceitasMenosDuracao };
+module.exports = { procurarReceitasMenosDuracao }

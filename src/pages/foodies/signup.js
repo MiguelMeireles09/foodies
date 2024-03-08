@@ -1,12 +1,12 @@
-import { useState } from "react";
-import Link from "next/link";
-import { Router, useRouter } from "next/router";
-import 'react-toastify/dist/ReactToastify.css';
-import { toast, ToastContainer } from 'react-toastify';
+import { useState } from "react"
+import Link from "next/link"
+import { Router, useRouter } from "next/router"
+import 'react-toastify/dist/ReactToastify.css'
+import { toast, ToastContainer } from 'react-toastify'
 
 
 export default function SignUp() {
-  const router = useRouter();
+  const router = useRouter()
   const [formData, setFormData] = useState({
     nomeUsuario: "",
     email: "",
@@ -18,11 +18,11 @@ export default function SignUp() {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
+    })
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
 
     try {
@@ -32,15 +32,15 @@ export default function SignUp() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      });
+      })
       if (response.ok) {
         toast.success('Conta criada com sucesso!', { position: "top-right", theme:"colored" })
-        router.push("/foodies/login");
+        router.push("/foodies/login")
       } else {
         toast.error('Erro ao criar Conta!', { position: "top-right", theme:"colored" })
       }
     } catch (error) {
-      console.error("Erro:", error);
+      console.error("Erro:", error)
     }
   }
   
@@ -104,5 +104,5 @@ export default function SignUp() {
         <Link href="/foodies/homepage" className="absolute bottom-0 mb-4 underline underline-offset-2">Fazer mais tarde.</Link>
       </main>
     </div>
-  );
+  )
 }

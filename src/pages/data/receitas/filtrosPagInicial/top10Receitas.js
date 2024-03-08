@@ -1,9 +1,9 @@
-const { getMongoCollection } = require("../../mongodb/mongodb");
+const { getMongoCollection } = require("../../mongodb/mongodb")
 
-const collectionName = "receitas";
+const collectionName = "receitas"
 
 async function procurarReceitasMaisGostos() {
-    const collection = await getMongoCollection(collectionName);
+    const collection = await getMongoCollection(collectionName)
     const result = await collection.aggregate([
         {
             $addFields: {
@@ -19,8 +19,8 @@ async function procurarReceitasMaisGostos() {
                 fotoReceita: 1 
             } 
         }
-    ]).toArray();
-    return result;
+    ]).toArray()
+    return result
 }
 
-module.exports = { procurarReceitasMaisGostos };
+module.exports = { procurarReceitasMaisGostos }

@@ -15,7 +15,7 @@ async function apagarReceitaDataBase(idUsuario, idReceita) {
         console.log("A apagar receita com o ID:", idReceita, "e Id usuário:", idUsuario)
         return result.deletedCount
     } catch (error) {
-        console.error("Error deleting recipe:", error)
+        console.error("Erro apagar receita:", error)
         throw new Error('Falha a apagar receita')
     }
 }

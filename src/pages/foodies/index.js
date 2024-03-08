@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 export default function Home() {
   const [alimentoQueQuer, setAlimentoQueQuer] = useState("");
-  const [receitas, setReceitas] = useState([]); // State for recipe suggestions
+  const [receitas, setReceitas] = useState([]);
   const [erroIncluir, setErroIncluir] = useState("");
   const router = useRouter();
 
@@ -15,7 +15,7 @@ export default function Home() {
         throw new Error("Falha ao buscar receitas");
       }
       const data = await response.json();
-      setReceitas(data); // Correctly set the fetched recipes to the state
+      setReceitas(data);
     } catch (error) {
       console.error("Erro ao buscar receitas:", error);
     }

@@ -1,9 +1,9 @@
-const { getMongoCollection } = require("@/pages/data/mongodb/mongodb");
+const { getMongoCollection } = require("@/pages/data/mongodb/mongodb")
 
-const collectionName = "receitas";
+const collectionName = "receitas"
 
 async function procurarReceitassopa() {
-    const collection = await getMongoCollection(collectionName);
+    const collection = await getMongoCollection(collectionName)
     const result = await collection.aggregate([
         { 
             $match: {

@@ -1,9 +1,9 @@
-const { getMongoCollection } = require("@/pages/data/mongodb/mongodb");
+const { getMongoCollection } = require("@/pages/data/mongodb/mongodb")
 
-const collectionName = "receitas";
+const collectionName = "receitas"
 
 async function procurarReceitassobremesa() {
-    const collection = await getMongoCollection(collectionName);
+    const collection = await getMongoCollection(collectionName)
     const result = await collection.aggregate([
         { 
             $match: {
@@ -24,8 +24,8 @@ async function procurarReceitassobremesa() {
                 fotoReceita: 1 
             } 
         }
-    ]).toArray();
-    return result;
+    ]).toArray()
+    return result
 }
 
 module.exports = { procurarReceitassobremesa }
