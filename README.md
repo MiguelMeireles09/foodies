@@ -21,8 +21,8 @@ O projeto Foodies nasceu da necessidade de aproveitar ao máximo os ingredientes
 
 ## Características de que nos Orgulhamos!
 
- **User Login creates a usertoken that is sent to frontend and that how we get userdata.
- **Users can create/post recipes and they will only appear if admin aproves them.
+- Login de Utilizador: A criação de um token de utilizador que é enviado para o frontend, permitindo assim obter os dados do utilizador.
+- Criação e Publicação de Receitas: Os utilizadores podem criar e publicar receitas, que só serão exibidas após aprovação de um administrador.
 
 
 ## Contribuidores
