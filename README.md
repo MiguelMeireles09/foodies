@@ -28,7 +28,7 @@ Experimentar Aqui <a href=https://www.bytes4foodies.com>www.bytes4foodies.com</a
 ## Contribuidores
 
 - [@Fábio Silva](https://github.com/FabioTorresSilva)
-- [@Miguel Meireiles](https://github.com/MiguelMeireles09)
+- [@Miguel Meireles](https://github.com/MiguelMeireles09)
 - [@Beatriz Carneiro](https://github.com/MariaBeatrizCarneiro)
 - [@Ana Santos](https://github.com/ANCCSANTOS)
 
